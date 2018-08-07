@@ -14,6 +14,8 @@
 		<div class="main">
 			<div class="container">
 				<h2>Changed <%=request.getAttribute("changed") %></h2>
+				<h2>city <%=request.getAttribute("changed1") %></h2>
+				<h2>city <%=request.getAttribute("changed2") %></h2>
 			</div>
 		</div>
 		

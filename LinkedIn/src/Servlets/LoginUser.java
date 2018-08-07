@@ -8,6 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import database.dao.user.UserDAO;
+import database.dao.user.UserDAOImpl;
+import database.entities.User;
+
 
 /**
  * Servlet implementation class LoginUser
@@ -39,13 +45,33 @@ public class LoginUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		
+		UserDAO dao = new UserDAOImpl(true);
+		
 		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/testLogin.jsp");			//page where new info will be displayed on
-		
-		
+
 		String email = request.getParameter("email");
-		//String password = request.getParameter("password");
+		String password = request.getParameter("password");
 		
 		String newEmail= email.replace('a', 'b');
+		
+		
+		
+		List<User> ulist = dao.list();
+		int userCounter=1;
+		if (ulist != null) {
+			for (User user: ulist) {
+				System.err.println(user.getCity());
+				
+				String attr="changed"+userCounter;
+				request.setAttribute(attr, user.getCity());
+				
+				//response.getWriter().println(user);
+				
+				userCounter++;
+				
+			}
+		}
 		
 		request.setAttribute("changed", newEmail);
 		displayPage.forward(request, response);

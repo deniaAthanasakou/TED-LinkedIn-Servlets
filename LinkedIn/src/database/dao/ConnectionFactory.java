@@ -12,16 +12,22 @@ import java.util.Properties;
 
 public abstract class ConnectionFactory {
 	
-		private static String URL;
+		/*private static String URL;
 	    private static String DRIVER;
 	    private static String USERNAME;
-	    private static String PASSWORD;
+	    private static String PASSWORD;*/
+	    
+	    private static final String URL = "jdbc:mysql://localhost:3306/ted";
+	    private static final String DRIVER = "com.mysql.jdbc.Driver";
+	    private static final String USERNAME = "ted";
+	    private static final String PASSWORD = "ted";
+	    
 	    
 	    //Singleton pattern: Connection factory instance is created only once
 	    private static ConnectionFactory instance = null;
 	    
 	    protected ConnectionFactory() {
-	    	Properties properties = new Properties();
+	    	/*Properties properties = new Properties();
 	    	InputStream input = null;
 	    	
 	    	try {
@@ -39,7 +45,7 @@ public abstract class ConnectionFactory {
 	    	}
 	    	catch (Exception ex) {
 	    		ex.printStackTrace();
-	    	}
+	    	}*/
 	    }
 	    
 	    public static synchronized ConnectionFactory getInstance(boolean pool)  {

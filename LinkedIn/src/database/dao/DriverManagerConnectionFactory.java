@@ -17,7 +17,6 @@ public class DriverManagerConnectionFactory extends ConnectionFactory {
 	}
 
 	@Override
-	public
 	Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(url, username, password);
 	}
