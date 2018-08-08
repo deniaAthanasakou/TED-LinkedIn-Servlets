@@ -6,14 +6,14 @@
 		<link rel="stylesheet" href="../css_files/main_css.css">
 		<link rel="stylesheet" href="../css_files/welcome_page.css">
 		
-		<title>TestLogin</title>
+		<title>TestRegister</title>
 	</head>
 	<body>
 		<jsp:include page="./Header.jsp" />
 	
 		<div class="main">
 			<div class="container">
-				<h2>Login: <%=request.getAttribute("login") %></h2>
+				<h2>Register: <%=request.getAttribute("register") %></h2>
 			</div>
 		</div>
 		

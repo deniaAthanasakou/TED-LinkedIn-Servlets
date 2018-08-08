@@ -75,6 +75,7 @@ public class UserDAOImpl implements UserDAO
 	{
 		int ret = -1;
 		//get values from user entity
+		int isAdmin=0;
 		Object[] values = { user.getIsAdmin(), user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(),
 				DAOUtil.toSqlDate(user.getDateOfBirth()), user.getGender(), user.getCity(), user.getCountry() };
 
@@ -82,14 +83,20 @@ public class UserDAOImpl implements UserDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{
+			System.err.println("inside first try");
+			
+			System.out.println(statement);
+			
 			int affectedRows = statement.executeUpdate();
+			System.err.println("after affectedRows");
 			ret = affectedRows;
 			if (ret == 0) {
 				System.err.println("Creating user failed, no rows affected.");
 				return ret;
 			}
-
+			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+				System.err.println("inside second try");
 				if (generatedKeys.next()) {
 					user.setId(generatedKeys.getInt(1));
 					return ret;
@@ -101,7 +108,7 @@ public class UserDAOImpl implements UserDAO
 			}
 		} 
 		catch (SQLException e) {
-			System.err.println("Creating user failed, no generated key obtained.");
+			System.err.println("SQLException: Creating user failed, no generated key obtained.");
 			return ret;
 		}
 	}

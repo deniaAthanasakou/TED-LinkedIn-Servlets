@@ -32,18 +32,20 @@
     <url-pattern>/faces/*</url-pattern>
     <url-pattern>/faces/Servlets/*</url-pattern>
   </servlet-mapping>
-  
-  <!-- My servlets -->
-	 <servlet>
-	  <servlet-name>LoginUser</servlet-name>
-	  <servlet-class>Servlets.LoginUser</servlet-class>
-	  <load-on-startup>1</load-on-startup>
-		</servlet>
-	<servlet-mapping>
-	  <servlet-name>LoginUser</servlet-name>
-	  <url-pattern>/LoginUser/</url-pattern>
-	</servlet-mapping>
-  
-  
-  
+  <servlet>
+    <servlet-name>LoginUser</servlet-name>
+    <servlet-class>Servlets.LoginUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginUser</servlet-name>
+    <url-pattern>/LoginUser/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>RegisterUser</servlet-name>
+    <servlet-class>Servlets.RegisterUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegisterUser</servlet-name>
+    <url-pattern>/RegisterUser/</url-pattern>
+  </servlet-mapping>
 </web-app>

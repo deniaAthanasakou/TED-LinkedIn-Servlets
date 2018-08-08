@@ -12,11 +12,11 @@ import java.util.Properties;
 
 public abstract class ConnectionFactory {
 	
-		/*private static String URL;
+	/*	private static String URL;
 	    private static String DRIVER;
 	    private static String USERNAME;
-	    private static String PASSWORD;*/
-	    
+	    private static String PASSWORD;
+	    */
 	    private static final String URL = "jdbc:mysql://localhost:3306/ted";
 	    private static final String DRIVER = "com.mysql.jdbc.Driver";
 	    private static final String USERNAME = "ted";
@@ -27,17 +27,17 @@ public abstract class ConnectionFactory {
 	    private static ConnectionFactory instance = null;
 	    
 	    protected ConnectionFactory() {
-	    	/*Properties properties = new Properties();
+	    /*	Properties properties = new Properties();
 	    	InputStream input = null;
 	    	
 	    	try {
 	    		input=ConnectionFactory.class.getClassLoader().getResourceAsStream("../config/dbConfig.properties");
 	    		properties.load(input);
 	    		
-	    		this.DRIVER= properties.getProperty("jdbc.driver");
-	    		this.URL= properties.getProperty("jdbc.url");
-	    		this.USERNAME= properties.getProperty("jdbc.username");
-	    		this.PASSWORD= properties.getProperty("jdbc.password");
+	    		ConnectionFactory.DRIVER= properties.getProperty("jdbc.driver");
+	    		ConnectionFactory.URL= properties.getProperty("jdbc.url");
+	    		ConnectionFactory.USERNAME= properties.getProperty("jdbc.username");
+	    		ConnectionFactory.PASSWORD= properties.getProperty("jdbc.password");
 	    		
 	    		input.close();
 	    		input=null;
