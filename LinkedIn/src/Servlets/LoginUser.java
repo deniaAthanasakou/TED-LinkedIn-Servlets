@@ -1,6 +1,8 @@
 package Servlets;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,8 +55,21 @@ public class LoginUser extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		System.err.println(email);
-		System.err.println(password);
+		/*byte[] encryptedPassword=null;
+		
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			encryptedPassword = md.digest();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		
+		//System.err.println(email);
+		//System.err.println(password);
 		
 		List<User> ulist = dao.list();
 		User loggedInUser=null;
