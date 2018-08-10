@@ -1,8 +1,6 @@
 package Servlets;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -85,8 +83,9 @@ public class LoginUser extends HttpServlet {
 		if(loggedInUser!=null) {
 			request.setAttribute("login", "user with id "+loggedInUser.getId());
 		}
-		else {
-			request.setAttribute("login", "user not found");
+		else {	//error message
+			request.setAttribute("loginError", "User doesn't exist.");
+			displayPage = getServletContext().getRequestDispatcher("/WelcomePage.jsp");
 		}
 		
 		displayPage.forward(request, response);

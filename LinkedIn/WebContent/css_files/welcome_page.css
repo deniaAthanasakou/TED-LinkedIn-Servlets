@@ -34,3 +34,9 @@
 #img-upload{
     width: 100%;
 }
+
+
+#uploadedImageDiv{
+	padding:5%;
+	text-align:center;
+}

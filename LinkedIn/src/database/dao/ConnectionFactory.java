@@ -31,7 +31,7 @@ public abstract class ConnectionFactory {
 	    	InputStream input = null;
 	    	
 	    	try {
-	    		input=ConnectionFactory.class.getClassLoader().getResourceAsStream("../config/dbConfig.properties");
+	    		input=ConnectionFactory.class.getResourceAsStream("dbConfig.properties");
 	    		properties.load(input);
 	    		
 	    		ConnectionFactory.DRIVER= properties.getProperty("jdbc.driver");

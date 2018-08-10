@@ -8,6 +8,35 @@
 		<link rel="stylesheet" href="./css_files/welcome_page.css">
 		
 		<title>Welcome Page</title>
+		
+		<script>
+			function readURL(input) {
+		        if (input.files && input.files[0]) {
+		            var reader = new FileReader();
+		
+		            reader.onload = function (e) {
+		                $('#uploadedImage')
+		                    .attr('src', e.target.result)
+		                    .width(150)
+		                    .height(200);
+		            };
+		            reader.readAsDataURL(input.files[0]);
+		        }
+		    }
+		</script>
+		
+		<script>
+			function removeImage() { 
+				document.getElementById("imgInp").value = "";
+				document.getElementById("uploadedImage").src = "";
+				document.getElementById("uploadedImage").style.width = 0;
+				document.getElementById("uploadedImage").style.height = 0;
+			}
+		</script>
+		
+		
+		
+		
 	</head>
 	<body>
 		<jsp:include page="./jsp_files/Header.jsp" />
@@ -26,6 +55,9 @@
 							<div id="signin" class="tab-pane fade in active">
 								<h3>Sign in</h3>
 								<form role="Form" method="POST" action="./LoginUser" accept-charset="UTF-8">
+									<% if ( request.getAttribute( "loginError" ) != null ) { %>
+										<p style="color:red"><%=request.getAttribute( "loginError" )%></p>
+									<% } %>
 									<div class="form-group">
 										<input type="text" name="email" placeholder="Email..." class="form-control" required>
 									</div>
@@ -63,10 +95,14 @@
 								        <div class="input-group">
 								            <span class="input-group-btn">
 								                <span class="btn btn-default btn-file">
-								                    Browse… <input type="file" id="imgInp" name ="imgInp">
+								                    Browse… <input type="file" id="imgInp" name ="imgInp" onchange="readURL(this);"/>
 								                </span>
 								            </span>
 								            <input type="text" class="form-control" readonly>
+								        </div>
+								        <div id="uploadedImageDiv">
+								         	<img id="uploadedImage" />
+								         	<input type="button" value="Remove" onclick="javascript: removeImage();"/>
 								        </div>
 								    </div>
 									<div class="form-group" style="padding-top:20px;">
