@@ -2,12 +2,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
 		<!-- custom -->
 		<link rel="stylesheet" href="./css_files/main_css.css">
 		<link rel="stylesheet" href="./css_files/welcome_page.css">
-		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<title>Welcome Page</title>
+		
 		
 		<script>
 			function readURL(input) {
@@ -34,12 +39,14 @@
 			}
 		</script>
 		
-		
-		
-		
 	</head>
 	<body>
-		<jsp:include page="./jsp_files/Header.jsp" />
+		
+	<div class="header">
+		<div class="logoContainer">
+			<a href="./WelcomePage.jsp" class="logo"><img src="images/logo.png" class="logo"/></a>
+		</div>
+	</div> 
 	
 		<div class="main">
 			<div class="container">

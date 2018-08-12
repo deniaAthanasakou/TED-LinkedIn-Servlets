@@ -1,6 +1,8 @@
 package Servlets;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,7 +50,8 @@ public class LoginUser extends HttpServlet {
 		
 		UserDAO dao = new UserDAOImpl(true);
 		
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/testLogin.jsp");			//page where new info will be displayed on
+		//page where user will go after login
+		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");			
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -83,11 +86,11 @@ public class LoginUser extends HttpServlet {
 		if(loggedInUser!=null) {
 			request.setAttribute("login", "user with id "+loggedInUser.getId());
 		}
-		else {	//error message
-			request.setAttribute("loginError", "User doesn't exist.");
-			displayPage = getServletContext().getRequestDispatcher("/WelcomePage.jsp");
+		else {
+			request.setAttribute("login", "user not found");
 		}
 		
+		//String path = request.getContextPath();
 		displayPage.forward(request, response);
 		
 	}

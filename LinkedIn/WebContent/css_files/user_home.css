@@ -1,0 +1,19 @@
+.home {
+    background-color: gray; /* Add an active/current color */
+}
+
+.main{
+	
+}
+
+#leftdiv{
+	background-color: white;
+	width: 220px;
+	height: 300px;
+	float: left;
+	border: 1px gray solid;
+	border-radius: 3px;
+	box-shadow: 1px black;
+	margin-top: 50px;
+	margin-left: 50px;
+}
