@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.dao.ConnectionFactory;
+import database.dao.DAOUtil;
 import database.entities.User;
 
 public class UserDAOImpl implements UserDAO 
@@ -127,6 +128,7 @@ public class UserDAOImpl implements UserDAO
         user.setGender(resultSet.getInt("gender"));
         user.setCity(resultSet.getString("city"));
         user.setCountry(resultSet.getString("country"));
+        //user.setPosts(resultSet.getArray("posts"));
         return user;
     }
 	

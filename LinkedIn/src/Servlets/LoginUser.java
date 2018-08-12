@@ -23,6 +23,11 @@ import database.entities.User;
 @WebServlet("/LoginUser")
 public class LoginUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String ID_USER_TAG = "id";
+	private static final String NAME_USER_TAG = "name";
+	private static final String SURNAME_USER_TAG = "surname";
+	private static final String IMAGE_USER_TAG = "image";
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,7 +56,7 @@ public class LoginUser extends HttpServlet {
 		UserDAO dao = new UserDAOImpl(true);
 		
 		//page where user will go after login
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");			
+		RequestDispatcher displayPage;	
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -84,13 +89,17 @@ public class LoginUser extends HttpServlet {
 		}
 		
 		if(loggedInUser!=null) {
-			request.setAttribute("login", "user with id "+loggedInUser.getId());
+			request.setAttribute(ID_USER_TAG, loggedInUser.getId());
+			request.setAttribute(NAME_USER_TAG, loggedInUser.getName());
+			request.setAttribute(SURNAME_USER_TAG, loggedInUser.getSurname());
+			request.setAttribute(IMAGE_USER_TAG, loggedInUser.getPhotoURL());
+			displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");		
 		}
 		else {
-			request.setAttribute("login", "user not found");
+			request.setAttribute("loginError", "User doesn't exist.");
+			displayPage = getServletContext().getRequestDispatcher("/WelcomePage.jsp");
 		}
 		
-		//String path = request.getContextPath();
 		displayPage.forward(request, response);
 		
 	}

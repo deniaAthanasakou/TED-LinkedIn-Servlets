@@ -86,10 +86,8 @@ public class RegisterUser extends HttpServlet {
 		}
 		else {		//must insert user to database
 			
-			User newUser = new User(null, null, null, email, 0, 0, name, password, photoURL, surname, telephone);
+			User newUser = new User(null, null, null, email, 0, 0, name, password, photoURL, surname, telephone,null);
 			dao.create(newUser);
-			
-			
 			
 			request.setAttribute("register", "user with email "+newUser.getEmail() );
 		}

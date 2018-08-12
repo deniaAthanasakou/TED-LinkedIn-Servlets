@@ -3,6 +3,7 @@ package database.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -39,12 +40,18 @@ public class User implements Serializable {
 	private String surname;
 
 	private String tel;
+	
+	//bi-directional many-to-one association to Post
+	@OneToMany(mappedBy="user")
+	private List<Post> posts;
 
 	public User() {
 	}
+	
+	
 
-	public User(String city, String country, Date dateOfBirth, String email, int gender, int isAdmin, String name,
-			String password, String photoURL, String surname, String tel) {
+	public User(String city, String country, Date dateOfBirth, String email, int gender, int isAdmin,
+			String name, String password, String photoURL, String surname, String tel, List<Post> posts) {
 		super();
 		this.city = city;
 		this.country = country;
@@ -57,7 +64,10 @@ public class User implements Serializable {
 		this.photoURL = photoURL;
 		this.surname = surname;
 		this.tel = tel;
+		this.posts = posts;
 	}
+
+
 
 	public int getId() {
 		return this.id;
@@ -153,6 +163,28 @@ public class User implements Serializable {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public List<Post> getPosts() {
+		return this.posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public Post addPost(Post post) {
+		getPosts().add(post);
+		post.setUser(this);
+
+		return post;
+	}
+
+	public Post removePost(Post post) {
+		getPosts().remove(post);
+		post.setUser(null);
+
+		return post;
 	}
 
 }
