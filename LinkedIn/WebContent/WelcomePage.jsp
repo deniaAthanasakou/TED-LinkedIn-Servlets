@@ -11,33 +11,10 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<!-- Latest compiled JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script src="./js_files/readURL.js"></script>
+		<script src="./js_files/removeImage.js"></script>
 		<title>Welcome Page</title>
-		
-		
-		<script>
-			function readURL(input) {
-		        if (input.files && input.files[0]) {
-		            var reader = new FileReader();
-		
-		            reader.onload = function (e) {
-		                $('#uploadedImage')
-		                    .attr('src', e.target.result)
-		                    .width(150)
-		                    .height(200);
-		            };
-		            reader.readAsDataURL(input.files[0]);
-		        }
-		    }
-		</script>
-		
-		<script>
-			function removeImage() { 
-				document.getElementById("imgInp").value = "";
-				document.getElementById("uploadedImage").src = "";
-				document.getElementById("uploadedImage").style.width = 0;
-				document.getElementById("uploadedImage").style.height = 0;
-			}
-		</script>
 		
 	</head>
 	<body>
@@ -78,7 +55,8 @@
 							</div>
 							<div id="signup" class="tab-pane fade">
 								<h3>Sign Up</h3>
-								<form role="Form" method="POST" action="./RegisterUser" accept-charset="UTF-8">
+								<!--  -->
+								<form role="Form" method="POST" action="./RegisterUser" accept-charset="UTF-8" enctype="multipart/form-data">
 									<div class="form-group">
 										<input type="text" name="email" placeholder="Email..." class="form-control" required>
 									</div>

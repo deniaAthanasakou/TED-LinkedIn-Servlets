@@ -18,6 +18,7 @@
 	margin-left: 50px;
 	text-align: center;
 	color: black;
+	display:inline-block;
 }
 
 .image_circle{
@@ -131,6 +132,7 @@ textarea:-ms-input-placeholder {
 
 .info_post img{
 	float: left;
+	object-fit: contain;
 }
 
 .info_post h5{
@@ -141,10 +143,25 @@ textarea:-ms-input-placeholder {
 	width:50px;
 	height:50px;
 	margin-left: 20px;
+	margin-right: 20px;
 	border-radius: 50%;
 }
 
 .form_post{
 	margin-top: 50px;
 	clear: both;
+}
+
+.posts{
+	background-color: white;
+	align: center;
+	width: 500px;
+	height: auto;
+	margin-top: 50px;
+	float: right;
+	margin-left: auto;
+	margin-right: 250px;
+	border: 1px solid black;
+	border-radius: 1px;
+	padding: 20px;
 }

@@ -14,7 +14,6 @@ import database.entities.User;
 
 public class UserDAOImpl implements UserDAO 
 {
-	
 	//prepared Statements
 	private static final String SQL_FIND_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE id = ?";
 	private static final String SQL_FIND_BY_EMAIL = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE email = ?";

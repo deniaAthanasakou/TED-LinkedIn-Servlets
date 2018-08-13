@@ -7,6 +7,9 @@
 		<!-- custom -->
 		<link rel="stylesheet" href="../css_files/main_css.css" type="text/css">
 		<link rel="stylesheet" href="../css_files/user_home.css" type="text/css">
+		
+		<script src="../js_files/chooseInputs.js"></script>
+		
 		<title>Home of user</title>
 		
 	</head>
@@ -42,12 +45,31 @@
 						    <textarea id="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50"></textarea>
 					  	</div>
 						
-					  	<button type="button" class="btn btn-secondary"><i class="glyphicon glyphicon-camera"></i> Images</button>
-					  	<button type="button" class="btn btn-secondary"><i class="glyphicon glyphicon-facetime-video"></i> Video</button>
-					  	<button type="button" class="btn btn-secondary"><i class="glyphicon glyphicon-music"></i> Audio</button>
+						<div style="display:inline-block;">
+							<div style="height:0px;width:0px;overflow:hidden;">
+								<input type="file" id="inputImages" accept="image/*" name ="imagesUpload"/>
+							</div>
+					        <button type="button" class="btn btn-secondary" onclick="chooseImagesInput()"><i class="glyphicon glyphicon-camera"></i> Images</button>            
+				        </div>
+				        <div style="display:inline-block;">
+					        <div style="height:0px;width:0px;overflow:hidden">
+								<input type="file" id="inputVideo" accept="video/*" name ="videoUpload"/>
+							</div>           
+					        <button type="button" class="btn btn-secondary" onclick="chooseVideoInput()"><i class="glyphicon glyphicon-facetime-video"></i> Video</button>
+						</div>
+						<div style="display:inline-block;">
+						  	<div style="height:0px;width:0px;overflow:hidden">
+								<input type="file" id="inputAudio" accept="audio/*" name ="audioUpload"/>
+							</div> 
+						  	<button type="button" class="btn btn-secondary" onclick="chooseAudioInput()"><i class="glyphicon glyphicon-music"></i> Audio</button>
+					  	</div>
 					  	<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-ok"></i> Post</button>
 					</form>
 				</div>
+			</div>
+			
+			<div class="posts">
+			
 			</div>
 		</div>
 		

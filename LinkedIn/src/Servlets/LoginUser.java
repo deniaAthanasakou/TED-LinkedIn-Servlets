@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -10,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import JavaFiles.VariousFunctions;
+
 import java.util.List;
 
 import database.dao.user.UserDAO;
@@ -59,6 +63,17 @@ public class LoginUser extends HttpServlet {
 		RequestDispatcher displayPage;	
 
 		String email = request.getParameter("email");
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		//check email
+		Boolean validMail = VariousFunctions.isValidEmailAddress(email);
+		if(!validMail) {
+ 			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Error! Invalid email address was given as input.');");
+			out.println("location='WelcomePage.jsp';");
+			out.println("</script>");
+			return;
+		}
 		String password = request.getParameter("password");
 		
 		/*byte[] encryptedPassword=null;
