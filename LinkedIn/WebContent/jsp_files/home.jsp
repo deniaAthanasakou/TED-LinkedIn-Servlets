@@ -39,26 +39,26 @@
 					<h5><b><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></b></h5>
 				</div>
 				<div class="form_post">
-					<form>
+					<form role="Form" method="POST" action="../PostCreation" accept-charset="UTF-8" enctype="multipart/form-data">
 						<div class="form-group divider">
 						    <textarea id="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50"></textarea>
 					  	</div>
 						
 						<div style="display:inline-block;">
 							<div style="height:0px;width:0px;overflow:hidden;">
-								<input type="file" id="inputImages" accept="image/*" name ="imagesUpload"/>
+								<input type="file" id="inputImages" accept="image/*" name ="imagesUpload" multiple/>
 							</div>
 					        <button type="button" class="btn btn-secondary" onclick="chooseImagesInput()"><i class="glyphicon glyphicon-camera"></i> Images</button>            
 				        </div>
 				        <div style="display:inline-block;">
 					        <div style="height:0px;width:0px;overflow:hidden">
-								<input type="file" id="inputVideo" accept="video/*" name ="videoUpload"/>
+								<input type="file" id="inputVideo" accept="video/*" name ="videoUpload" multiple/>
 							</div>           
 					        <button type="button" class="btn btn-secondary" onclick="chooseVideoInput()"><i class="glyphicon glyphicon-facetime-video"></i> Video</button>
 						</div>
 						<div style="display:inline-block;">
 						  	<div style="height:0px;width:0px;overflow:hidden">
-								<input type="file" id="inputAudio" accept="audio/*" name ="audioUpload"/>
+								<input type="file" id="inputAudio" accept="audio/*" name ="audioUpload" multiple/>
 							</div> 
 						  	<button type="button" class="btn btn-secondary" onclick="chooseAudioInput()"><i class="glyphicon glyphicon-music"></i> Audio</button>
 					  	</div>

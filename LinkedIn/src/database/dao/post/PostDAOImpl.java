@@ -21,7 +21,8 @@ public class PostDAOImpl implements PostDAO
 	private static final String SQL_LIST_ORDER_BY_DATE = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id FROM Post ORDER BY date_posted";
 
 	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?)";
-	
+	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Post";
+
     
     private ConnectionFactory factory;
     
@@ -90,6 +91,27 @@ public class PostDAOImpl implements PostDAO
 			System.err.println("SQLException: Creating user failed, no generated key obtained.");
 			return ret;
 		}
+	}
+	
+	@Override
+	public int count() {
+
+		int size = 0;
+		
+        try (
+            Connection connection = factory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+            	size = resultSet.getInt("COUNT(*)");
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return size;
 	}
 	
 	private static Post map(ResultSet resultSet) throws SQLException {

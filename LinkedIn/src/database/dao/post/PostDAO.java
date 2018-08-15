@@ -9,4 +9,6 @@ public interface PostDAO {
     public List<Post> list();
 
     public int create(Post post);
+    
+    public int count();
 }

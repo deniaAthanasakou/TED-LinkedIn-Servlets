@@ -48,6 +48,14 @@
     <servlet-name>RegisterUser</servlet-name>
     <url-pattern>/RegisterUser/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>PostCreation</servlet-name>
+    <servlet-class>Servlets.PostCreation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostCreation</servlet-name>
+    <url-pattern>/PostCreation/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value>
