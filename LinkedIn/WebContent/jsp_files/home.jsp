@@ -18,7 +18,7 @@
 		
 		<div class="main">
 			<div class="leftdiv">
-				<a href="./jsp_files/profile.jsp">
+				<a href="./profile.jsp">
 					<div class="item_profile">
 						<div>
 							<img class="image_circle" alt="thumbnail" src="<%=request.getAttribute("image")%>" style="width:80px;height:80px">

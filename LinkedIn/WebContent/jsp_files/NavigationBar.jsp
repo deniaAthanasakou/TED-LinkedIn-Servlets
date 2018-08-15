@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="icon-bar">
-  			<a class="home" href="./jsp_files/home.jsp">
+  			<a class="home" href="./home.jsp">
 	  			<div class="item">
 	  				<i class="glyphicon glyphicon-home"></i>
 	  				<p class="caption">Αρχική Σελίδα</p>
@@ -40,7 +40,7 @@
 	  				<p class="caption">Ειδοποιήσεις</p>
 		  		</div>
 	  		</a> 
-			<a class="profile" href="./jsp_files/profile.jsp">
+			<a class="profile" href="./profile.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-user"></i>
 	  				<p class="caption">Προσωπικά Στοιχεία</p>

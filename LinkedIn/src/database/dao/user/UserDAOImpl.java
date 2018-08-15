@@ -83,9 +83,8 @@ public class UserDAOImpl implements UserDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{
-			System.err.println("inside first try");
 			
-			System.out.println(statement);
+			//System.out.println(statement);
 			
 			int affectedRows = statement.executeUpdate();
 			System.err.println("after affectedRows");
@@ -94,7 +93,6 @@ public class UserDAOImpl implements UserDAO
 				System.err.println("Creating user failed, no rows affected.");
 				return ret;
 			}
-			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 				System.err.println("inside second try");
 				if (generatedKeys.next()) {
