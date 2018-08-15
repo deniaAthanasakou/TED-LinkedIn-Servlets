@@ -14,7 +14,7 @@
 	<body>
 	<div class="header">
 		<div class="logoContainer">
-			<a href="../WelcomePage.jsp" class="logo"><img src="../images/logo.png" class="logo"/></a>
+			<a href="./home.jsp" class="logo"><img src="../images/logo.png" class="logo"/></a>
 		</div>
 		
 		<jsp:include page="NavigationBar.jsp"/>

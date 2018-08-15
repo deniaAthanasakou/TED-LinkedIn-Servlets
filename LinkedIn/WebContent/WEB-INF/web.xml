@@ -52,5 +52,16 @@
     <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value>
   </context-param>
-  
+  <context-param>
+    <param-name>LinkedIn.dir</param-name>
+    <param-value>LinkedIn</param-value>
+  </context-param>
+  <context-param>
+    <param-name>users.dir</param-name>
+    <param-value>users</param-value>
+  </context-param>
+  <context-param>
+    <param-name>posts.dir</param-name>
+    <param-value>posts</param-value>
+  </context-param>
 </web-app>

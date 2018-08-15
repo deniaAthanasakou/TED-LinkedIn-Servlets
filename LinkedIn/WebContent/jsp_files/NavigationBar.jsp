@@ -16,7 +16,7 @@
 	  				<p class="caption">Αρχική Σελίδα</p>
 	  			</div>
   			</a>
-			<a class="network" href="./jsp_files/network.jsp">
+			<a class="network" href="./network.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-globe"></i>
 	  				<p class="caption">Δίκτυο</p>

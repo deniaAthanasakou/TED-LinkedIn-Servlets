@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,12 +17,12 @@
 		
 		<div class="main">
 			<div class="leftdiv">
-				<a href="./profile.jsp">
+				<a href="./jsp_files/profile.jsp">
 					<div class="item_profile">
 						<div>
-							<img class="image_circle" alt="thumbnail" src="<%=request.getAttribute("image")%>" style="width:80px;height:80px">
+							<img class="image_circle" alt="thumbnail" src="<%=session.getAttribute("image")%>" style="width:80px;height:80px">
 						</div>
-						<h4><%=request.getAttribute("name")%> <%=request.getAttribute("surname")%></h4>
+						<h4><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></h4>
 					</div>
 				</a>
 				<a href="./jsp_files/network.jsp">
@@ -36,8 +35,8 @@
 			
 			<div class="create_post">
 				<div class="info_post">
-					<img class="image_circle_view" alt="thumbnail" src="<%=request.getAttribute("image")%>">
-					<h5><b><%=request.getAttribute("name")%> <%=request.getAttribute("surname")%></b></h5>
+					<img class="image_circle_view" alt="thumbnail" src="<%=session.getAttribute("image")%>">
+					<h5><b><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></b></h5>
 				</div>
 				<div class="form_post">
 					<form>

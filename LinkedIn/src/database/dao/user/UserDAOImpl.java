@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO
 
 	//private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country) VALUES (?, ?, MD5(?), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	
+	private static final String SQL_COUNT = "SELECT COUNT(*) FROM User";
     
     private ConnectionFactory factory;
     
@@ -83,8 +83,9 @@ public class UserDAOImpl implements UserDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{
+			System.err.println("inside first try");
 			
-			//System.out.println(statement);
+			System.out.println(statement);
 			
 			int affectedRows = statement.executeUpdate();
 			System.err.println("after affectedRows");
@@ -93,6 +94,7 @@ public class UserDAOImpl implements UserDAO
 				System.err.println("Creating user failed, no rows affected.");
 				return ret;
 			}
+			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 				System.err.println("inside second try");
 				if (generatedKeys.next()) {
@@ -110,6 +112,29 @@ public class UserDAOImpl implements UserDAO
 			return ret;
 		}
 	}
+	
+	
+	@Override
+	public int count() {
+
+		int size = 0;
+		
+        try (
+            Connection connection = factory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+            	size = resultSet.getInt("COUNT(*)");
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return size;
+	}
+	
 	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
