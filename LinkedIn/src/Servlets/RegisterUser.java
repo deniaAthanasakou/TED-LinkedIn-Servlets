@@ -43,6 +43,7 @@ public class RegisterUser extends HttpServlet {
          File filesDir = (File) getServletContext().getAttribute("FILES_DIR_FILE_USERS");
          fileFactory.setRepository(filesDir);
          this.uploader = new ServletFileUpload(fileFactory);
+         uploader.setHeaderEncoding("UTF-8");
      }
 
        
@@ -84,7 +85,7 @@ public class RegisterUser extends HttpServlet {
 				FileItem fileItem = fileItemsIterator.next();
 				if (fileItem.isFormField()) {
 	                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-					fields.put(fileItem.getFieldName(), fileItem.getString());
+					fields.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
 	            } else {
 					imageItem = fileItem;
 	            }

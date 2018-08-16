@@ -57,7 +57,7 @@ public class PostDAOImpl implements PostDAO
 		int ret = -1;
 		//get values from user entity
 		int isAdmin=0;
-		Object[] values = { post.getText(), DAOUtil.toSqlDate(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getUser().getId()};
+		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getUser().getId()};
 
 		//connect to DB
 		try (Connection connection = factory.getConnection();

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 public class DAOUtil {
 	public static PreparedStatement prepareStatement(Connection connection, String sql, boolean returnGeneratedKeys,
@@ -25,5 +26,8 @@ public class DAOUtil {
 		return (date != null) ? new Date(date.getTime()) : null;
 	}
 
+	public static Timestamp toSqlTimestamp(java.util.Date date) {
+		return (date != null) ? new Timestamp(date.getTime()) : null;
+	}
 
 }

@@ -39,6 +39,21 @@ public class Post implements Serializable {
 	public Post() {
 	}
 
+	
+
+	public Post(String text, Date datePosted, String pathFiles, byte hasAudio, byte hasImages, byte hasVideos, User user) {
+		super();
+		this.text = text;
+		this.datePosted = datePosted;
+		this.hasAudio = hasAudio;
+		this.hasImages = hasImages;
+		this.hasVideos = hasVideos;
+		this.pathFiles = pathFiles;
+		this.user = user;
+	}
+
+
+
 	public int getId() {
 		return this.id;
 	}
