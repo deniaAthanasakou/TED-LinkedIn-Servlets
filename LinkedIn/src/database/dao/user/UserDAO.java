@@ -12,5 +12,11 @@ public interface UserDAO
     public int create(User user);
     
     public int count();
+    
+    public List<User> searchByName(String name);
+    
+    public List<User> searchBySurname(String surname);
+    
+    public List<User> searchByNameAndSurname(String name, String surname);
 
 }

@@ -3,20 +3,22 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../css_files/navbar.css">
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/navbar.css" type="text/css">
+		
 		<!-- Add icon library -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<title>Navigation Bar</title>
 	</head>
 	<body>
 		<div class="icon-bar">
-  			<a class="home" href="./home.jsp">
+  			<a class="home" href="${pageContext.request.contextPath}/jsp_files/home.jsp">
 	  			<div class="item">
 	  				<i class="glyphicon glyphicon-home"></i>
 	  				<p class="caption">Αρχική Σελίδα</p>
 	  			</div>
   			</a>
-			<a class="network" href="./network.jsp">
+			<a class="network" href="${pageContext.request.contextPath}/jsp_files/network.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-globe"></i>
 	  				<p class="caption">Δίκτυο</p>
@@ -40,7 +42,7 @@
 	  				<p class="caption">Ειδοποιήσεις</p>
 		  		</div>
 	  		</a> 
-			<a class="profile" href="./profile.jsp">
+			<a class="profile" href="${pageContext.request.contextPath}/jsp_files/profile.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-user"></i>
 	  				<p class="caption">Προσωπικά Στοιχεία</p>

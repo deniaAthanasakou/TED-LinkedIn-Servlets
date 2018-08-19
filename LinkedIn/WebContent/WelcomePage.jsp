@@ -3,8 +3,13 @@
 <html>
 	<head>
 		<!-- custom -->
-		<link rel="stylesheet" href="./css_files/main_css.css">
-		<link rel="stylesheet" href="./css_files/welcome_page.css">
+		
+		
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/welcome_page.css" type="text/css">
+		
+		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- jQuery library -->
@@ -12,8 +17,7 @@
 		<!-- Latest compiled JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
-		<script src="./js_files/readURL.js"></script>
-		<script src="./js_files/removeImage.js"></script>
+		<script src="${pageContext.request.contextPath}/js_files/handleImage.js"></script>
 		<title>Welcome Page</title>
 		
 	</head>
@@ -21,7 +25,7 @@
 		
 	<div class="header">
 		<div class="logoContainer">
-			<a href="./WelcomePage.jsp" class="logo"><img src="images/logo.png" class="logo"/></a>
+			<a href="./WelcomePage.jsp" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
 		</div>
 	</div> 
 	
@@ -38,7 +42,7 @@
 						<div class="tab-content">
 							<div id="signin" class="tab-pane fade in active">
 								<h3>Sign in</h3>
-								<form role="Form" method="POST" action="./LoginUser" accept-charset="UTF-8">
+								<form role="Form" method="POST" action="${pageContext.request.contextPath}/LoginUser" accept-charset="UTF-8">
 									<% if ( request.getAttribute( "loginError" ) != null ) { %>
 										<p style="color:red"><%=request.getAttribute( "loginError" )%></p>
 									<% } %>
@@ -56,7 +60,7 @@
 							<div id="signup" class="tab-pane fade">
 								<h3>Sign Up</h3>
 								<!--  -->
-								<form role="Form" method="POST" action="./RegisterUser" accept-charset="UTF-8" enctype="multipart/form-data">
+								<form role="Form" method="POST" action="${pageContext.request.contextPath}/RegisterUser" accept-charset="UTF-8" enctype="multipart/form-data">
 									<div class="form-group">
 										<input type="text" name="email" placeholder="Email..." class="form-control" required>
 									</div>

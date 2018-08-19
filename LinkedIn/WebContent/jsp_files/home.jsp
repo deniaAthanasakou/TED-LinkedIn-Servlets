@@ -4,11 +4,12 @@
 	<head>
 		<meta charset="utf-8">
 		<!-- custom -->
-		<link rel="stylesheet" href="../css_files/main_css.css" type="text/css">
-		<link rel="stylesheet" href="../css_files/user_home.css" type="text/css">
 		
-		<script src="../js_files/chooseInputs.js"></script>
-		<script src="../js_files/enableLoading.js"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_home.css" type="text/css">
+		
+		<script src="${pageContext.request.contextPath}/js_files/chooseInputs.js"></script>
+		<script src="${pageContext.request.contextPath}/js_files/enableLoading.js"></script>
 		
 		<title>Home of user</title>
 		
@@ -18,7 +19,7 @@
 		
 		<div class="main">
 			<div class="leftdiv">
-				<a href="./profile.jsp">
+				<a href="${pageContext.request.contextPath}/jsp_files/profile.jsp">
 					<div class="item_profile">
 						<div>
 							<img class="image_circle" alt="thumbnail" src="<%=session.getAttribute("image")%>" style="width:80px;height:80px">
@@ -26,7 +27,7 @@
 						<h4><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></h4>
 					</div>
 				</a>
-				<a href="./network.jsp">
+				<a href="${pageContext.request.contextPath}/jsp_files/network.jsp">
 					<div class="item_network">
 						<p id="connections_number">47</p>
 						<p>Connections</p>
@@ -41,7 +42,7 @@
 				</div>
 				<div class="loader" id="loader"></div>
 				<div class="form_post" id="form_post">
-					<form role="Form" method="POST" action="../PostCreation" accept-charset="UTF-8" enctype="multipart/form-data" onsubmit="return enableLoading()">
+					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostCreation" accept-charset="UTF-8" enctype="multipart/form-data" onsubmit="return enableLoading()">
 						<div class="form-group divider">
 						    <textarea id="text_post" name="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50"></textarea>
 					  	</div>

@@ -23,7 +23,11 @@ public class UserDAOImpl implements UserDAO
 	//private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country) VALUES (?, ?, MD5(?), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM User";
-    
+	
+	private static final String SQL_FIND_BY_NAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE name = ?";
+	private static final String SQL_FIND_BY_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE surname = ?";
+	private static final String SQL_FIND_BY_NAME_AND_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE name = ? AND surname = ?";
+
     private ConnectionFactory factory;
     
     public UserDAOImpl(boolean pool)
@@ -133,6 +137,72 @@ public class UserDAOImpl implements UserDAO
         }
 
         return size;
+	}
+	
+	@Override
+	public List<User> searchByName(String name) {
+
+		List<User> users = new ArrayList<>();
+        try (
+            Connection connection = factory.getConnection();
+
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME, false, name);
+            ResultSet resultSet = statement.executeQuery();	
+        		
+        ) {
+            while (resultSet.next()) {
+            	users.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return users;
+	}
+	
+	@Override
+	public List<User> searchBySurname(String surname) {
+
+		List<User> users = new ArrayList<>();
+        try (
+            Connection connection = factory.getConnection();
+
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_SURNAME, false, surname);
+            ResultSet resultSet = statement.executeQuery();	
+        		
+        ) {
+            while (resultSet.next()) {
+            	users.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return users;
+	}
+	
+	@Override
+	public List<User> searchByNameAndSurname(String name, String surname) {
+
+		List<User> users = new ArrayList<>();
+        try (
+            Connection connection = factory.getConnection();
+
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME_AND_SURNAME, false, name, surname);
+            ResultSet resultSet = statement.executeQuery();	
+        		
+        ) {
+            while (resultSet.next()) {
+            	users.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return users;
 	}
 	
 	

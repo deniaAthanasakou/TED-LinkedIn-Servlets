@@ -56,6 +56,14 @@
     <servlet-name>PostCreation</servlet-name>
     <url-pattern>/PostCreation/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Network</servlet-name>
+    <servlet-class>Servlets.Network</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Network</servlet-name>
+    <url-pattern>/Network/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value>

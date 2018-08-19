@@ -3,7 +3,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../css_files/main_css.css">
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
+		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- jQuery library -->
@@ -14,7 +16,7 @@
 	<body>
 	<div class="header">
 		<div class="logoContainer">
-			<a href="./home.jsp" class="logo"><img src="../images/logo.png" class="logo"/></a>
+			<a href="${pageContext.request.contextPath}/jsp_files/home.jsp" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
 		</div>
 		
 		<jsp:include page="NavigationBar.jsp"/>

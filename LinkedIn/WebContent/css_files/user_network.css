@@ -3,7 +3,7 @@
 }
 
 
-.row{
+.myRow{
 	height: 200px;
 }
 
@@ -11,60 +11,21 @@
 	padding: 50px;
 	overflow-y: auto;
     overflow-x: auto;
-    border:solid black;
     background-color: rgba(255, 255, 255, 0.85); 
     padding-bottom: 80px;
 }
 
-.row > div{
+.myRow > div{
 	height: 100%;
 }
 
 .profileImage{
 	height:100px;
-	
+	width:80px;
+	border-radius: 50%;
+	border: 1px solid #DCDCDC;
 }
 
-
-#custom-search-input{
-    padding: 3px;
-    border: solid 1px #E4E4E4;
-    border-radius: 6px;
-    background-color: #fff;
-    display: table;
-    margin: 0 auto;
-    width:50%;
-}
-
-#custom-search-input input{
-    border: 0;
-    box-shadow: none;
-}
-
-#custom-search-input button{
-    margin: 2px 0 0 0;
-    background: none;
-    box-shadow: none;
-    border: 0;
-    color: #666666;
-    padding: 0 8px 0 10px;
-    border-left: solid 1px #ccc;
-}
-
-#custom-search-input button:hover{
-    border: 0;
-    box-shadow: none;
-    border-left: solid 1px #ccc;
-}
-
-#custom-search-input .glyphicon-search{
-    font-size: 23px;
-}
-
-.searchContainer{
-	height:100px;
-	text-align:center;	
-}
 
 .myTable{
 	height:100%;
@@ -80,3 +41,11 @@
  td {
     text-align: left;  
 }
+
+.searchContainer{
+	padding-bottom:40px;
+	padding-top:20px;
+	margin: 0 auto;
+	float: none;
+}
+
