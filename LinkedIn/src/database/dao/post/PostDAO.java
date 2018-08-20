@@ -11,4 +11,6 @@ public interface PostDAO {
     public int create(Post post);
     
     public int count();
+    
+    public List<Post> findPosts(Long id);
 }

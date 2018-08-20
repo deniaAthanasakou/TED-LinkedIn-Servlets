@@ -19,8 +19,11 @@ import JavaFiles.VariousFunctions;
 
 import java.util.List;
 
+import database.dao.post.PostDAO;
+import database.dao.post.PostDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.entities.Post;
 import database.entities.User;
 
 
@@ -70,16 +73,7 @@ public class LoginUser extends HttpServlet {
 		//encrypt password
 		password = AESCrypt.encrypt(password);
 		
-		List<User> ulist = dao.list();
-		User loggedInUser=null;
-		if (ulist != null) {
-			for (User user: ulist) {		
-				if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
-					loggedInUser=user;
-					break;
-				}		
-			}
-		}
+		User loggedInUser = dao.matchUserLogin(email,password);
 		
 		if(loggedInUser!=null) {
 			//create new session
@@ -91,7 +85,12 @@ public class LoginUser extends HttpServlet {
 			session.setAttribute("surname",loggedInUser.getSurname());
 			session.setAttribute("image",AESCrypt.decrypt(loggedInUser.getPhotoURL()));
 			//go to home
-			response.sendRedirect(request.getContextPath() + "/jsp_files/home.jsp");
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+			PostDAO postDAO = new PostDAOImpl(true);
+			List<Post> userPosts = postDAO.findPosts(Long.valueOf(loggedInUser.getId()));
+			//get right posts
+			request.setAttribute("posts",userPosts);
+			displayPage.forward(request, response);
 		}
 		else {
 			request.setAttribute("loginError", "User doesn't exist.");

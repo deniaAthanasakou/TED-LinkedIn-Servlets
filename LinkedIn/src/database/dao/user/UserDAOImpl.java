@@ -10,13 +10,14 @@ import java.util.List;
 
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
+import database.entities.Post;
 import database.entities.User;
 
 public class UserDAOImpl implements UserDAO 
 {
 	//prepared Statements
 	private static final String SQL_FIND_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE id = ?";
-	private static final String SQL_FIND_BY_EMAIL = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE email = ?";
+	private static final String SQL_FIND_BY_EMAIL_PASSWORD = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE email = ? AND password = ?";
 	private static final String SQL_LIST_ORDER_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User ORDER BY id";
 	private static final String SQL_LIST_ORDER_BY_EMAIL = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User ORDER BY email";
 
@@ -27,7 +28,7 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_FIND_BY_NAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE name = ?";
 	private static final String SQL_FIND_BY_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE surname = ?";
 	private static final String SQL_FIND_BY_NAME_AND_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country FROM User WHERE name = ? AND surname = ?";
-
+	
     private ConnectionFactory factory;
     
     public UserDAOImpl(boolean pool)
@@ -206,6 +207,28 @@ public class UserDAOImpl implements UserDAO
 	}
 	
 	
+	@Override
+	public User matchUserLogin(String email,String password) {
+		User user = null;
+		
+		try (
+			Connection connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_EMAIL_PASSWORD, false, email,password);
+	        ResultSet resultSet = statement.executeQuery();)
+		{
+	        if (resultSet.next()) 
+	            user = map(resultSet);
+		} 
+		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+     
+        return user;
+	}
+	
+	
+	
+	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
@@ -220,7 +243,6 @@ public class UserDAOImpl implements UserDAO
         user.setGender(resultSet.getInt("gender"));
         user.setCity(resultSet.getString("city"));
         user.setCountry(resultSet.getString("country"));
-        //user.setPosts(resultSet.getArray("posts"));
         return user;
     }
 	

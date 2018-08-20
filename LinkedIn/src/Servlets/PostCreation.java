@@ -188,6 +188,8 @@ public class PostCreation extends HttpServlet {
 			Post newPost = new Post(text,dNow,pathFiles,hasAudio, hasImages, hasVideo, user);
 			dao.create(newPost);
 			
+			//update user's posts
+			//user.addPost(newPost);
 			//go home
 			response.sendRedirect(request.getContextPath() + "/jsp_files/home.jsp");
 		}
