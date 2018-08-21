@@ -1,7 +1,6 @@
 package Servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,6 @@ import JavaFiles.VariousFunctions;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
-
-import JavaFiles.VariousFunctions;
 
 /**
  * Servlet implementation class Network
@@ -51,7 +48,22 @@ public class Network extends HttpServlet {
 		if (action.equalsIgnoreCase("getUsers")){
 			
 			UserDAO dao = new UserDAOImpl(true);
-			request.setAttribute("users", dao.list());	
+			List<User> ulist = dao.list();
+			
+			for(User user: ulist) {		//isws polu xronovoro
+				String imagePathDecr="";
+				String photoUrl = user.getPhotoURL();
+				if(photoUrl==null) {		//na to allaksw
+					imagePathDecr="../images/default-user.png";
+				}
+				else {
+					imagePathDecr= AESCrypt.decrypt(user.getPhotoURL());
+				}
+
+				user.setPhotoURL(imagePathDecr);
+			}
+			
+			request.setAttribute("users", ulist);	
             
         } else {
         	System.out.println("Error in network.");

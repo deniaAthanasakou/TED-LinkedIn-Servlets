@@ -1,0 +1,96 @@
+
+
+.messaging {
+    background-color: gray; /* Add an active/current color for nav bar */
+}
+
+
+.myContainer{
+	padding: 50px;
+	overflow-y: auto;
+    overflow-x: auto;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding-bottom: 20px;
+    margin: 50px;
+    height:100vh;
+}
+
+.profileImage{
+	height:80px;
+	border-radius: 50%;
+	border: 1px solid #DCDCDC;
+}
+
+.messageList{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messageListItem{
+  display:inline-block;
+  clear: both;
+  padding: 20px;
+  border-radius: 30px;
+  margin-bottom: 2px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.him{
+  background: #cccccc;
+  float: left;
+}
+
+.me{
+  float: right;
+  background: #0084ff;
+  color: #fff;
+}
+
+.me + .him{
+  border-bottom-left-radius: 5px;
+}margin-top:70px
+
+.him + .me{
+  border-bottom-right-radius: 5px;
+}margin-top:70px
+
+.me + .me{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.him + .him{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.him:last-of-type {
+  border-bottom-left-radius: 30px;
+}
+
+.me:last-of-type {
+  border-bottom-right-radius: 30px;
+}
+
+.send{
+	margin-top: 50px;
+}
+
+.otherPeopleMessages{
+
+}
+
+p{
+	color: #808080;
+}
+
+
+
+
+
+
+
+
+
+

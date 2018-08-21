@@ -7,7 +7,7 @@
     max-width: 600px;
     border-radius: 10px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     height: 400px;
 }
 

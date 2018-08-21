@@ -1,14 +1,11 @@
 package Servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,14 +55,19 @@ public class LoginUser extends HttpServlet {
 		UserDAO dao = new UserDAOImpl(true);
 		String email = request.getParameter("email");
 		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		//check email
 		Boolean validMail = VariousFunctions.isValidEmailAddress(email);
 		if(!validMail) {
- 			out.println("<script type=\"text/javascript\">");
+ 			/*out.println("<script type=\"text/javascript\">");
 			out.println("alert('Error! Invalid email address was given as input.');");
 			out.println("window.history.back()");
-			out.println("</script>");
+			out.println("</script>");*/
+			
+			request.setAttribute("loginError", "Invalid email address was given as input.");
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WelcomePage.jsp");
+			displayPage.forward(request, response);
+			
 			return;
 		}
 		String password = request.getParameter("password");

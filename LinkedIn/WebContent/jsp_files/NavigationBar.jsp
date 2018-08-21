@@ -30,7 +30,7 @@
 	  				<p class="caption">Αγγελίες</p>
 		  		</div>
 	  		</a>
-			<a class="messaging">
+			<a class="messaging" href="${pageContext.request.contextPath}/jsp_files/Messaging.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-envelope"></i>
 	  				<p class="caption">Συζητήσεις</p>

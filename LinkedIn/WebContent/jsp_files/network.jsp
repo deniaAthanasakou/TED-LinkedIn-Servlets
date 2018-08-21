@@ -84,11 +84,11 @@
 						</c:if>
 						
 						<!-- create column -->
-						<a href="${pageContext.request.contextPath}/jsp_files/UserNetworkInfo.jsp">
+						<a href="${pageContext.request.contextPath}/jsp_files/Messaging.jsp">
 				    		<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" >
 							    <table class="myTable">
 							    	<tr>
-								    	<td rowspan="3"><img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg"></td>
+								    	<td rowspan="3"><img  class="img-circle profileImage" src="<c:out value="${user.photoURL}" />"></td>
 								    	<td><c:out value="${user.name}" /> <c:out value="${user.surname}" /></td>
 								    </tr>
 								    <tr>
