@@ -29,7 +29,6 @@
 	border-radius: 50%;
 	border: 2px solid white;
 	box-shadow: 0 0 3px black;
-	object-fit: contain;
 }
 
 .item_profile{

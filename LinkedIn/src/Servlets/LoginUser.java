@@ -85,7 +85,7 @@ public class LoginUser extends HttpServlet {
 			session.setAttribute("id",String.valueOf(loggedInUser.getId()));
 			session.setAttribute("name",loggedInUser.getName());
 			session.setAttribute("surname",loggedInUser.getSurname());
-			session.setAttribute("image",AESCrypt.decrypt(loggedInUser.getPhotoURL()));
+			session.setAttribute("image",loggedInUser.getPhotoURL());
 			//go to home
 			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 			PostDAO postDAO = new PostDAOImpl(true);

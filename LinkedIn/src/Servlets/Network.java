@@ -49,20 +49,6 @@ public class Network extends HttpServlet {
 			
 			UserDAO dao = new UserDAOImpl(true);
 			List<User> ulist = dao.list();
-			
-			for(User user: ulist) {		//isws polu xronovoro
-				String imagePathDecr="";
-				String photoUrl = user.getPhotoURL();
-				if(photoUrl==null) {		//na to allaksw
-					imagePathDecr="../images/default-user.png";
-				}
-				else {
-					imagePathDecr= AESCrypt.decrypt(user.getPhotoURL());
-				}
-
-				user.setPhotoURL(imagePathDecr);
-			}
-			
 			request.setAttribute("users", ulist);	
             
         } else {

@@ -20,10 +20,11 @@
 }
 
 .profileImage{
-	height:100px;
+	height:80px;
 	width:80px;
 	border-radius: 50%;
 	border: 1px solid #DCDCDC;
+	object-fit: contain;
 }
 
 

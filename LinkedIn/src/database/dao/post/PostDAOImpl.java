@@ -16,10 +16,10 @@ import database.entities.User;
 public class PostDAOImpl implements PostDAO 
 {
 	//prepared Statements
-	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id FROM Post";
-	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id FROM Post";
+	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Post";
-	private static final String SQL_FIND_POSTS = "SELECT id,text, date_posted, path_files, hasAudio, hasImages, hasVideos FROM Post WHERE user_id = ? ORDER BY date_posted";
+	private static final String SQL_FIND_POSTS = "SELECT id,text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes FROM Post WHERE user_id = ? ORDER BY date_posted";
 
     
     private ConnectionFactory factory;
@@ -55,7 +55,7 @@ public class PostDAOImpl implements PostDAO
 		int ret = -1;
 		//get values from user entity
 		int isAdmin=0;
-		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getUser().getId()};
+		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getLikes(), post.getUser().getId()};
 
 		//connect to DB
 		try (Connection connection = factory.getConnection();
@@ -141,6 +141,7 @@ public class PostDAOImpl implements PostDAO
         post.setHasAudio(resultSet.getByte("hasAudio"));
         post.setHasImages(resultSet.getByte("hasImages"));
         post.setHasVideos(resultSet.getByte("hasVideos"));
+        post.setLikes(resultSet.getInt("likes"));
 	    return post;
 	}
 }

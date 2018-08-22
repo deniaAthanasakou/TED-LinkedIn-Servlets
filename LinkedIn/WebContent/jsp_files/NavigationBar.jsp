@@ -54,6 +54,14 @@
 	  				<p class="caption">Ρυθμίσεις</p>
 		  		</div>
 	  		</a>
+	  		<a class="logout" onclick="document.getElementById('logoutFrom').submit()">
+		  		<div class="item">
+	  				<i class="glyphicon glyphicon-log-out"></i>
+	  				<p class="caption">Αποσύνδεση</p>
+			  	</div>
+		  	</a>
+	  		<form id="logoutFrom" action="${pageContext.request.contextPath}/Logout" method="post">	
+		  	</form>
 		</div>
 	</body>
 </html>

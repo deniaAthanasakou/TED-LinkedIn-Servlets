@@ -107,7 +107,6 @@ public class RegisterUser extends HttpServlet {
 		String name = (String) fields.get("name");
 		String surname = (String) fields.get("surname");
 		String telephone =(String) fields.get("telephone");
-		System.out.println("email: " + email);
 		
 		if(telephone!=null) {
 			if(telephone.equals("")) {
@@ -166,28 +165,34 @@ public class RegisterUser extends HttpServlet {
 			return;
 		}
 		else {		//must insert user to database
+			String photoURL = null;
+			byte hasImage;
+			//create folder
 			int nextUser = dao.count() + 1;
-			String fileName = imageItem.getName();
-			if (fileName != null) {
-				fileName = FilenameUtils.getName(fileName);
-			} 
-			//save image
 			File idFolder = new File(request.getServletContext().getAttribute("FILES_DIR_USERS") + File.separator + nextUser);
 	    	if(!idFolder.exists()) idFolder.mkdirs();
-			File file = new File(idFolder + File.separator + fileName);
-			try {
-				imageItem.write(file);
-			} catch (Exception e) {
-				e.printStackTrace();
+	    	//save image
+			if(!imageItem.getName().equals("") && imageItem.getName() != null) {
+				String fileName = imageItem.getName();
+				if (fileName != null) {
+					fileName = FilenameUtils.getName(fileName);
+				} 
+				File file = new File(idFolder + File.separator + fileName);
+				try {
+					imageItem.write(file);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				photoURL = file.getAbsolutePath();
+				hasImage = 1;
+			}else {
+				photoURL = request.getContextPath() + "/images/default-user.png";
+				hasImage = 0;
 			}
-			String photoURL = file.getAbsolutePath();
 			
 			//encrypt password
 			password = AESCrypt.encrypt(password);
-			//encrypt photoUrl
-			photoURL = AESCrypt.encrypt(photoURL);
-			
-			User newUser = new User(null, null, null, email, 0, 0, name, password, photoURL, surname, telephone,null);
+			User newUser = new User(null, null, null, email, 0, 0, name, password, photoURL, surname, telephone,hasImage,null);
 			dao.create(newUser);
 			
 			//create new session
@@ -197,7 +202,7 @@ public class RegisterUser extends HttpServlet {
 			session.setAttribute("id",String.valueOf(newUser.getId()));
 			session.setAttribute("name",newUser.getName());
 			session.setAttribute("surname",newUser.getSurname());
-			session.setAttribute("image",AESCrypt.decrypt(newUser.getPhotoURL()));
+			session.setAttribute("image",newUser.getPhotoURL());
 			//go to home
 			response.sendRedirect(request.getContextPath() + "/jsp_files/home.jsp");
 		}

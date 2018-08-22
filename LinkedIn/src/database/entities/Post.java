@@ -27,6 +27,8 @@ public class Post implements Serializable {
 
 	private byte hasVideos;
 
+	private int likes;
+
 	@Column(name="path_files")
 	private String pathFiles;
 
@@ -38,10 +40,8 @@ public class Post implements Serializable {
 
 	public Post() {
 	}
-
 	
-
-	public Post(String text, Date datePosted, String pathFiles, byte hasAudio, byte hasImages, byte hasVideos, User user) {
+	public Post(String text, Date datePosted, String pathFiles, byte hasAudio, byte hasImages, byte hasVideos, int likes, User user) {
 		super();
 		this.text = text;
 		this.datePosted = datePosted;
@@ -50,9 +50,8 @@ public class Post implements Serializable {
 		this.hasVideos = hasVideos;
 		this.pathFiles = pathFiles;
 		this.user = user;
+		this.likes = likes;
 	}
-
-
 
 	public int getId() {
 		return this.id;
@@ -92,6 +91,14 @@ public class Post implements Serializable {
 
 	public void setHasVideos(byte hasVideos) {
 		this.hasVideos = hasVideos;
+	}
+
+	public int getLikes() {
+		return this.likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	public String getPathFiles() {

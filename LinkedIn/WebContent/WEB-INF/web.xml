@@ -64,6 +64,14 @@
     <servlet-name>Network</servlet-name>
     <url-pattern>/Network/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>Servlets.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/Logout/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value>

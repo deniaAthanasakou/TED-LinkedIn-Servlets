@@ -29,6 +29,8 @@ public class User implements Serializable {
 
 	private int gender;
 
+	private byte hasImage;
+
 	private int isAdmin;
 
 	private String name;
@@ -40,7 +42,7 @@ public class User implements Serializable {
 	private String surname;
 
 	private String tel;
-	
+
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
 	private List<Post> posts;
@@ -48,10 +50,8 @@ public class User implements Serializable {
 	public User() {
 	}
 	
-	
-
 	public User(String city, String country, Date dateOfBirth, String email, int gender, int isAdmin,
-			String name, String password, String photoURL, String surname, String tel, List<Post> posts) {
+			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts) {
 		super();
 		this.city = city;
 		this.country = country;
@@ -64,10 +64,9 @@ public class User implements Serializable {
 		this.photoURL = photoURL;
 		this.surname = surname;
 		this.tel = tel;
+		this.hasImage = hasImage;
 		this.posts = posts;
 	}
-
-
 
 	public int getId() {
 		return this.id;
@@ -115,6 +114,14 @@ public class User implements Serializable {
 
 	public void setGender(int gender) {
 		this.gender = gender;
+	}
+
+	public byte getHasImage() {
+		return this.hasImage;
+	}
+
+	public void setHasImage(byte hasImage) {
+		this.hasImage = hasImage;
 	}
 
 	public int getIsAdmin() {
