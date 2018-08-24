@@ -81,7 +81,7 @@ a:visited{
 .create_post{
 	background-color: white;
 	align: center;
-	width: 500px;
+	width: 550px;
 	height: auto;
 	margin-top: 50px;
 	float: right;
@@ -152,17 +152,14 @@ textarea:-ms-input-placeholder {
 }
 
 .posts{
-	background-color: white;
 	align: center;
-	width: 500px;
+	width: 550px;
 	height: auto;
-	margin-top: 50px;
 	float: right;
-	margin-left: auto;
+	margin-left: 100px;
 	margin-right: 250px;
-	border: 1px solid black;
-	border-radius: 1px;
-	padding: 20px;
+	display: inline-block;
+	padding-bottom:100px;
 }
 
 .loader {

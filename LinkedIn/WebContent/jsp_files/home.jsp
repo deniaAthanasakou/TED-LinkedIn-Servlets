@@ -5,7 +5,6 @@
 	<head>
 		<meta charset="utf-8">
 		<!-- custom -->
-		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_home.css" type="text/css">
 		
@@ -72,10 +71,9 @@
 			</div>
 			
 			<div class="posts">
-				<c:forEach items="${posts}" var="post" varStatus="loop"> 
-					<jsp:include page="PostItem.jsp">
-				        <jsp:param name="post" value="${post}"/>
-				    </jsp:include>
+				<c:forEach items="${posts}" var="post"> 
+					<c:set var="post" value="${post}" scope="request"/>
+					<c:import url="PostItem.jsp"/>
 				</c:forEach>
 			</div>
 		</div>
