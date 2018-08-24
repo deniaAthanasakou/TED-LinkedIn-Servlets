@@ -34,8 +34,8 @@
 	margin: 0px auto;
     float: none;
     margin-top:10%;
-    border:none;
     border: 2px solid #DCDCDC;
+    table-layout: fixed;
     
 }
 
@@ -48,5 +48,16 @@
 	padding-top:20px;
 	margin: 0 auto;
 	float: none;
+}
+
+
+a .deco-none {
+    color:#000000;
+    text-decoration: none;
+
+}
+
+.nameSurname{
+	font-size: 18px;
 }
 

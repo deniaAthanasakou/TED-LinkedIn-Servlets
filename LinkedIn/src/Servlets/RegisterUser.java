@@ -21,12 +21,14 @@ import org.apache.commons.io.FilenameUtils;
 import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.entities.Post;
 import database.entities.User;
 
 /**
@@ -190,9 +192,12 @@ public class RegisterUser extends HttpServlet {
 				hasImage = 0;
 			}
 			
+			byte isAdmin=0;
 			//encrypt password
 			password = AESCrypt.encrypt(password);
-			User newUser = new User(null, null, null, email, 0, 0, name, password, photoURL, surname, telephone,hasImage,null);
+			User newUser = new User(null, null, null, email, 0, isAdmin, name, password, photoURL, surname, telephone,hasImage,null);
+
+			
 			dao.create(newUser);
 			
 			//create new session

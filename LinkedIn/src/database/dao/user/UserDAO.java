@@ -21,4 +21,10 @@ public interface UserDAO
         
     public User matchUserLogin(String email,String password);
     
+    public List<User> getConnections(int user_id);
+    
+    public List<User> listWithConnectedField(int user_id);
+    
+    public int connectToUser(int user_id1, int user_id2);
+    
 }

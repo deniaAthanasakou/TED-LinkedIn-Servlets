@@ -33,6 +33,8 @@ public class User implements Serializable {
 
 	private int isAdmin;
 
+	private byte isConnected;
+
 	private String name;
 
 	private String password;
@@ -47,10 +49,27 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Post> posts;
 
+	//bi-directional many-to-many association to User
+	@ManyToMany
+	@JoinTable(
+		name="connection"
+		, joinColumns={
+			@JoinColumn(name="connectedUser_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="user_id")
+			}
+		)
+	private List<User> users1;
+
+	//bi-directional many-to-many association to User
+	@ManyToMany(mappedBy="users1")
+	private List<User> users2;
+
 	public User() {
 	}
 	
-	public User(String city, String country, Date dateOfBirth, String email, int gender, int isAdmin,
+	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
 			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts) {
 		super();
 		this.city = city;
@@ -132,6 +151,14 @@ public class User implements Serializable {
 		this.isAdmin = isAdmin;
 	}
 
+	public byte getIsConnected() {
+		return this.isConnected;
+	}
+
+	public void setIsConnected(byte isConnected) {
+		this.isConnected = isConnected;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -192,6 +219,22 @@ public class User implements Serializable {
 		post.setUser(null);
 
 		return post;
+	}
+
+	public List<User> getUsers1() {
+		return this.users1;
+	}
+
+	public void setUsers1(List<User> users1) {
+		this.users1 = users1;
+	}
+
+	public List<User> getUsers2() {
+		return this.users2;
+	}
+
+	public void setUsers2(List<User> users2) {
+		this.users2 = users2;
 	}
 
 }
