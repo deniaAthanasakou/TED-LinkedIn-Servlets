@@ -45,6 +45,10 @@ public class User implements Serializable {
 
 	private String tel;
 
+	//bi-directional many-to-one association to Comment
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments;
+
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
 	private List<Post> posts;
@@ -214,6 +218,28 @@ public class User implements Serializable {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public List<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Comment addComment(Comment comment) {
+		getComments().add(comment);
+		comment.setUser(this);
+
+		return comment;
+	}
+
+	public Comment removeComment(Comment comment) {
+		getComments().remove(comment);
+		comment.setUser(null);
+
+		return comment;
 	}
 
 	public List<Post> getPosts() {
