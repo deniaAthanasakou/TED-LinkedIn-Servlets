@@ -72,6 +72,22 @@
     <servlet-name>Logout</servlet-name>
     <url-pattern>/Logout/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Messaging</servlet-name>
+    <servlet-class>Servlets.Messaging</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Messaging</servlet-name>
+    <url-pattern>/Messaging/</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>Settings</servlet-name>
+    <servlet-class>Servlets.Settings</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Settings</servlet-name>
+    <url-pattern>/Settings/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>
     <param-value>tmpfiles</param-value>

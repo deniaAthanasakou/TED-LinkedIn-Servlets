@@ -25,7 +25,7 @@
 		
 	<div class="header">
 		<div class="logoContainer">
-			<a href="./WelcomePage.jsp" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
+			<a href="${pageContext.request.contextPath}/WelcomePage.jsp" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
 		</div>
 	</div> 
 	

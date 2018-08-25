@@ -31,6 +31,8 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_UPDATE_USERS_CONNECTED_FIELD = "UPDATE User, connection SET isConnected='1' WHERE connection.user_id=? AND user.id=connection.connectedUser_id";
 	private static final String SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD = "UPDATE User SET isConnected='0'";
 	private static final String SQL_INSERT_INTO_CONNECTION = "INSERT INTO connection (user_id, connectedUser_id) VALUES (?, ?)";
+	
+	private static final String SQL_UPDATE_EMAIL_PASSWORD = "UPDATE User SET email = ?, password = ? WHERE id = ?";
 
 	
 	
@@ -307,6 +309,30 @@ public class UserDAOImpl implements UserDAO
 		return ret;
 		
 		
+	}
+	
+	@Override
+	public int updateSettings(int user_id, String email, String password) {
+		int affectedRows=0;
+		try (Connection	connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_EMAIL_PASSWORD, false, email, password, user_id);)
+		
+		{
+	 		affectedRows = statement.executeUpdate();
+			if (affectedRows == 0) {
+				System.err.println("Updating user failed, no rows affected.");
+				return affectedRows;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println("SQLException: Updating user failed.");
+			e.printStackTrace();
+			return affectedRows;
+		}
+		
+		return affectedRows;
+ 		
 	}
 	
 	

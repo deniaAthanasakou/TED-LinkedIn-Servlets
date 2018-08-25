@@ -1,5 +1,4 @@
 
-
 .messaging {
     background-color: gray; /* Add an active/current color for nav bar */
 }
@@ -10,7 +9,7 @@
 	overflow-y: auto;
     overflow-x: auto;
     background-color: rgba(255, 255, 255, 0.85); 
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     margin: 50px;
     height:100vh;
 }
@@ -50,11 +49,11 @@
 
 .me + .him{
   border-bottom-left-radius: 5px;
-}margin-top:70px
+}
 
 .him + .me{
   border-bottom-right-radius: 5px;
-}margin-top:70px
+}
 
 .me + .me{
   border-top-right-radius: 5px;
@@ -66,16 +65,18 @@
   border-bottom-left-radius: 5px;
 }
 
-.him:last-of-type {
-  border-bottom-left-radius: 30px;
-}
 
 .me:last-of-type {
   border-bottom-right-radius: 30px;
 }
 
+.him:last-of-type {
+  border-bottom-left-radius: 30px;
+}
+
 .send{
 	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 .otherPeopleMessages{
@@ -86,6 +87,11 @@ p{
 	color: #808080;
 }
 
+
+.chatbody{
+	border:1px solid #cccccc;
+	border-radius:30px;
+}
 
 
 

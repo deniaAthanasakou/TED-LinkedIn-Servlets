@@ -48,7 +48,7 @@
 	  				<p class="caption">Προσωπικά Στοιχεία</p>
 		  		</div>
 	  		</a> 
-			<a class="settings">
+			<a class="settings" href="${pageContext.request.contextPath}/jsp_files/Settings.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-cog"></i>
 	  				<p class="caption">Ρυθμίσεις</p>

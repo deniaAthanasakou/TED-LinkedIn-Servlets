@@ -20,6 +20,10 @@
 	
 		<jsp:include page="Header.jsp" /> 
 		
+		<% if ( request.getAttribute( "redirect" ) == null ) { %>
+			<jsp:forward page="/Messaging?action=getMessages" />
+		<% } %>
+		
 		<div class="main">
 			<div class="container">
 				<div class="myContainer">
@@ -102,25 +106,30 @@
 				          <div class="row chatbody">
 				    
 				            <ul class="messageList col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								 <li class="him messageListItem">By Other User</li>
-								 <li class="me messageListItem">By this User, first message</li>
-								 <li class="me messageListItem">By this User, second message</li>
-								 <li class="me messageListItem">By this User, third message</li>
-								 <li class="me messageListItem">By this User, fourth message</li>
-								 <li class="him messageListItem">By Other User, second message</li>
-								 <li class="him messageListItem">By Other User, third message</li>
-								 <li class="him messageListItem">By Other User, fourth message</li>
+								 
+								 <c:forEach items="${messages}" var="message">
+								 	<c:choose>
+								 		<c:when test="${message.from_user==sessionScope.id}">
+							    			<li class="me messageListItem"><c:out value="${message.text}"/></li>
+							    		</c:when>
+							    		<c:otherwise>
+							    			<li class="him messageListItem"><c:out value="${message.text}"/></li>
+							    		</c:otherwise>
+							    	</c:choose>
+								 </c:forEach>
 							</ul>
 				    
 				          </div>
 				
 				          <div class="row send">
-				            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-				              <input type="text" placeholder="Message..." class="form-control" />
-				            </div>
-				            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				              <button class="btn btn-info btn-block">Send</button>
-				            </div>
+				          	<form action="${pageContext.request.contextPath}/Messaging" method="POST">
+					            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+					              <input type="text" placeholder="Message..." class="form-control" />
+					            </div>
+					            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					              <button class="btn btn-info btn-block">Send</button>
+					            </div>
+				            </form>
 				          </div>
 				
 				        </div>

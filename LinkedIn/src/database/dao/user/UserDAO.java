@@ -27,4 +27,6 @@ public interface UserDAO
     
     public int connectToUser(int user_id1, int user_id2);
     
+    public int updateSettings(int user_id, String email, String password);
+    
 }

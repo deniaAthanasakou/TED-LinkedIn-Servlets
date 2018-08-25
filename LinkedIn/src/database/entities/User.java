@@ -66,6 +66,23 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy="users1")
 	private List<User> users2;
 
+	//bi-directional many-to-many association to User
+	@ManyToMany
+	@JoinTable(
+		name="conversation"
+		, joinColumns={
+			@JoinColumn(name="user_id2")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="user_id1")
+			}
+		)
+	private List<User> users3;
+
+	//bi-directional many-to-many association to User
+	@ManyToMany(mappedBy="users3")
+	private List<User> users4;
+
 	public User() {
 	}
 	
@@ -235,6 +252,22 @@ public class User implements Serializable {
 
 	public void setUsers2(List<User> users2) {
 		this.users2 = users2;
+	}
+
+	public List<User> getUsers3() {
+		return this.users3;
+	}
+
+	public void setUsers3(List<User> users3) {
+		this.users3 = users3;
+	}
+
+	public List<User> getUsers4() {
+		return this.users4;
+	}
+
+	public void setUsers4(List<User> users4) {
+		this.users4 = users4;
 	}
 
 }

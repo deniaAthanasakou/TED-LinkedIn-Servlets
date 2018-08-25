@@ -40,7 +40,7 @@ public class Post implements Serializable {
 
 	public Post() {
 	}
-	
+
 	public Post(String text, Date datePosted, String pathFiles, byte hasAudio, byte hasImages, byte hasVideos, int likes, User user) {
 		super();
 		this.text = text;
@@ -52,7 +52,7 @@ public class Post implements Serializable {
 		this.user = user;
 		this.likes = likes;
 	}
-
+	
 	public int getId() {
 		return this.id;
 	}
