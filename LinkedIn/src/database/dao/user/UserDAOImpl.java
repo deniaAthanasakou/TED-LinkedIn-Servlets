@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO
     }
 
 	@Override
-	public User find(Long id) {
+	public User find(int id) {
 		User user = null;
 		
 		try (

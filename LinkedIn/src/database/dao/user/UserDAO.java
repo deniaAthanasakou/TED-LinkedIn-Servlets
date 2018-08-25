@@ -5,7 +5,7 @@ import database.entities.User;
 
 public interface UserDAO 
 {
-	public User find(Long id);
+	public User find(int id);
 
     public List<User> list();
 

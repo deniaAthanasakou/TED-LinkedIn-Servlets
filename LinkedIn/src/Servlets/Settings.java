@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.entities.User;
 
 /**
  * Servlet implementation class Settings
@@ -33,6 +36,31 @@ public class Settings extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		//return credentials
+		System.out.println("again in get");
+		
+		String displayPage="/jsp_files/Settings.jsp";
+		request.setAttribute("redirect", "StopLoop");	
+		
+			
+		UserDAO dao = new UserDAOImpl(true);
+		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+		
+		User user = dao.find(user_id);
+		user.setPassword(AESCrypt.decrypt(user.getPassword()));
+		
+		System.out.println(user.getPassword()+"!!");
+		
+		request.setAttribute("user", user);
+		
+		if(user==null) {
+			request.setAttribute("inputError", "Oups! Something went wrong.");
+		}
+        
+		 RequestDispatcher view = request.getRequestDispatcher(displayPage);
+	     view.forward(request, response);
+		
 	}
 
 	/**
@@ -42,7 +70,7 @@ public class Settings extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Settings.jsp");
-		
+		request.setAttribute("redirect", "StopLoop");	
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -57,18 +85,22 @@ public class Settings extends HttpServlet {
 		if(!validMail) {
 
 			request.setAttribute("inputError", "Invalid email address was given as input.");
-			displayPage.forward(request, response);
+			doGet(request, response);
 			return;
 		}
 		
 		//check passwords
 		if(!password2.equals(password)) {
 			request.setAttribute("inputError", "Different passwords were given as input.");
-			displayPage.forward(request, response);
+			doGet(request, response);
 			return;
 		}
 		
 		//must update database
+		
+		//encrypt password
+		password = AESCrypt.encrypt(password);
+		
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		UserDAO dao = new UserDAOImpl(true);
 		int result = dao.updateSettings(user_id, email, password);
@@ -80,7 +112,7 @@ public class Settings extends HttpServlet {
 			request.setAttribute("correctUpdate", "done");
 		}
 		
-		displayPage.forward(request, response);
+		doGet(request, response);
 		
 		
 		
