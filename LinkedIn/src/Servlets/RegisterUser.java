@@ -48,13 +48,11 @@ public class RegisterUser extends HttpServlet {
          uploader.setHeaderEncoding("UTF-8");
      }
 
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public RegisterUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -71,7 +69,6 @@ public class RegisterUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		UserDAO dao = new UserDAOImpl(true);
-		
 		FileItem imageItem = null;
 		Hashtable<String, String> fields = new Hashtable<String, String>();
 		

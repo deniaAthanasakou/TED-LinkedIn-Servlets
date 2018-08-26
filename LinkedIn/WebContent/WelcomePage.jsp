@@ -3,13 +3,8 @@
 <html>
 	<head>
 		<!-- custom -->
-		
-		
-		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/welcome_page.css" type="text/css">
-		
-		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- jQuery library -->
@@ -63,7 +58,6 @@
 							</div>
 							<div id="signup" class="tab-pane fade">
 								<h3>Sign Up</h3>
-								<!--  -->
 								<form role="Form" method="POST" action="${pageContext.request.contextPath}/RegisterUser" accept-charset="UTF-8" enctype="multipart/form-data">
 									<div class="form-group">
 										<input type="text" name="email" placeholder="Email..." class="form-control" required>

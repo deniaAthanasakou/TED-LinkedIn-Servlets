@@ -36,14 +36,12 @@ public class LoginUser extends HttpServlet {
      */
     public LoginUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.sendRedirect(request.getHeader("WelcomePage.jsp"));
 	}
@@ -55,19 +53,12 @@ public class LoginUser extends HttpServlet {
 		UserDAO dao = new UserDAOImpl(true);
 		String email = request.getParameter("email");
 		response.setContentType("text/html;charset=UTF-8");
-		//PrintWriter out = response.getWriter();
 		//check email
 		Boolean validMail = VariousFunctions.isValidEmailAddress(email);
 		if(!validMail) {
- 			/*out.println("<script type=\"text/javascript\">");
-			out.println("alert('Error! Invalid email address was given as input.');");
-			out.println("window.history.back()");
-			out.println("</script>");*/
-			
 			request.setAttribute("loginError", "Invalid email address was given as input.");
 			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WelcomePage.jsp");
 			displayPage.forward(request, response);
-			
 			return;
 		}
 		String password = request.getParameter("password");
@@ -86,12 +77,17 @@ public class LoginUser extends HttpServlet {
 			session.setAttribute("name",loggedInUser.getName());
 			session.setAttribute("surname",loggedInUser.getSurname());
 			session.setAttribute("image",loggedInUser.getPhotoURL());
-			//go to home
-			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
-			PostDAO postDAO = new PostDAOImpl(true);
-			List<Post> userPosts = postDAO.findPosts(Long.valueOf(loggedInUser.getId()));
-			//get right posts
-			request.setAttribute("posts",userPosts);
+			//go to home or admin page
+			RequestDispatcher displayPage;
+			if(loggedInUser.getIsAdmin()==1) {
+				displayPage = getServletContext().getRequestDispatcher("/jsp_files/admin_page.jsp");
+			}else {
+				displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				PostDAO postDAO = new PostDAOImpl(true);
+				List<Post> userPosts = postDAO.findPosts(Long.valueOf(loggedInUser.getId()));
+				//get right posts
+				request.setAttribute("posts",userPosts);
+			} 
 			displayPage.forward(request, response);
 		}
 		else {

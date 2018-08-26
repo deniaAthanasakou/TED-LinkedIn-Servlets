@@ -14,7 +14,6 @@ import database.dao.ConnectionFactory;
 public class HandleDB implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
     	//drop,create database and insert
-		//drop tables
 		String s = new String();
         StringBuffer sb = new StringBuffer();
         String relativeWebPath = "/sql";

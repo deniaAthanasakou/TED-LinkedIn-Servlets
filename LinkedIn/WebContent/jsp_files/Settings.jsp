@@ -17,9 +17,7 @@
 	<jsp:include page="Header.jsp" /> 
 	
 	<div class="main">
-			<div class="container">
-			
-				
+			<div class="container">				
 				<div class="settingsBox">
 					<h3>Αλλάξτε το email και τον κωδικό πρόσβασης σας</h3>
 					<br><br>
@@ -42,13 +40,16 @@
 						<%} %>
 					
 						<div class="form-group">
-							<input type="text" name="email" placeholder="Email..." class="form-control" value="${user.email}" required>
+							<label for="emailInput">Email address</label>
+							<input type="text" name="email" id="emailInput" placeholder="Email..." class="form-control" value="${user.email}" required>
 						</div>
 						<div class="form-group">
-							<input type="password" name="password" placeholder="Password..." class="form-control" value="${user.password}" required>
+							<label for="passwordInput">Password</label>
+							<input type="password" name="password" id="passwordInput" placeholder="Password..." class="form-control" value="${user.password}" required>
 						</div>
 						<div class="form-group">
-							<input type="password" name="password2" placeholder="Verify password..." class="form-control" value="${user.password}" required>
+							<label for="passwordVerInput">Password Verification</label>
+							<input type="password" name="password2" id="passwordVerInput" placeholder="Verify password..." class="form-control" value="${user.password}" required>
 						</div>
 						
 						<div class="form-group row buttons">
@@ -65,15 +66,8 @@
 						</div>
 						
 					</form>
-				</div>
-			
-			
-				
-				
-			
-			
-			</div>
-			
+				</div>		
+			</div>	
 		</div>
 	
 	<jsp:include page="Footer.jsp" /> 
