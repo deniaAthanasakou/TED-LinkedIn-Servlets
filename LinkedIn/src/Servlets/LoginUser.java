@@ -74,6 +74,7 @@ public class LoginUser extends HttpServlet {
 			HttpSession session = request.getSession();
 			//set values
 			session.setAttribute("id",String.valueOf(loggedInUser.getId()));
+			session.setAttribute("email",loggedInUser.getEmail());
 			session.setAttribute("name",loggedInUser.getName());
 			session.setAttribute("surname",loggedInUser.getSurname());
 			session.setAttribute("image",loggedInUser.getPhotoURL());

@@ -68,9 +68,7 @@ public class Settings extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Settings.jsp");
-		request.setAttribute("redirect", "StopLoop");	
+				request.setAttribute("redirect", "StopLoop");	
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");

@@ -34,8 +34,8 @@
 							</div>
 						<%}
 						if (request.getAttribute("correctUpdate") != null){%>
-							<div class="alert ">
-								Your email and password have been updated correctly!
+							<div class="alert alert-success">
+								Your email and password have been updated!
 							</div>
 						<%} %>
 					
@@ -54,7 +54,7 @@
 						
 						<div class="form-group row buttons">
 							 <div class="col-xs-4 col-md-4 col-lg-4 col-sm-4">
-							 	<input type="reset" class="btn-sm btn cancel" value="Cancel" onclick="window.location.href='${pageContext.request.contextPath}/Settings';">
+							 	<input type="reset" class="btn cancel" value="Cancel" onclick="window.location.href='${pageContext.request.contextPath}/Settings';">
 							</div>
 							
 							<div class="col-xs-4 col-md-4 col-lg-4 col-sm-4"></div>

@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -15,16 +16,16 @@ import database.dao.user.UserDAOImpl;
 import database.entities.User;
 
 /**
- * Servlet implementation class Messaging
+ * Servlet implementation class Profile
  */
-@WebServlet("/Messaging")
-public class Messaging extends HttpServlet {
+@WebServlet("/Profile")
+public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Messaging() {
+    public Profile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,30 +35,23 @@ public class Messaging extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("in profile get");
 		
-		//show last conversation
-		
-		System.out.println("again in get");
-		
-		String displayPage="/jsp_files/Messaging.jsp";
+		String displayPage="/jsp_files/profile.jsp";
 		request.setAttribute("redirect", "StopLoop");	
-		
 			
 		UserDAO dao = new UserDAOImpl(true);
-		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
-		List<User> ulist = dao.getConnections(user_id);
-		System.out.println("id is "+ user_id);
-		request.setAttribute("users", ulist);
 		
-		if(ulist==null || ulist.size()==0) {
-			request.setAttribute("getUsers", "noFriends");
-		}
-		else {
-			request.setAttribute("getUsers", "friends");
-		}
-        
-		 RequestDispatcher view = request.getRequestDispatcher(displayPage);
-	     view.forward(request, response);
+		
+		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+		User user=dao.getUserProfile(user_id);
+		
+		request.setAttribute("user", user);
+
+    
+		RequestDispatcher view = request.getRequestDispatcher(displayPage);
+	    view.forward(request, response);
+		
 		
 	}
 
@@ -66,7 +60,41 @@ public class Messaging extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		System.out.println("in profile post");
+		
+		
+		 String displayPage="/jsp_files/edit_profile.jsp";
+		 UserDAO dao = new UserDAOImpl(true);
+		
+		
+		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+		User user=dao.getUserProfile(user_id);
+		
+		request.setAttribute("user", user);
+		
+		int day=1;
+		int month=1;
+		int year=2018;
+		
+		if(user.getDateOfBirth()!=null) {
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(user.getDateOfBirth());
+			
+			day=cal.get(Calendar.DAY_OF_MONTH);
+			month=cal.get(Calendar.MONTH)+1;		//zero based
+			year=cal.get(Calendar.YEAR);
+			
+			 
+		}
+		
+		request.setAttribute("day", day);
+		request.setAttribute("month",month );
+		request.setAttribute("year", year);
+		
+		RequestDispatcher view = request.getRequestDispatcher(displayPage);
+	    view.forward(request, response);
+		
 	}
 
 }

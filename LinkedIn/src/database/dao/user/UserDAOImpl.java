@@ -19,13 +19,15 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_FIND_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE id = ?";
 	private static final String SQL_FIND_BY_EMAIL_PASSWORD = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE email = ? AND password = ?";
 	private static final String SQL_LIST_ORDER_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User ORDER BY id";
+	private static final String SQL_LIST_ORDER_BY_NAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User ORDER BY name, surname";
+
 	private static final String SQL_LIST_ORDER_BY_EMAIL = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User ORDER BY email";
-	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM User";
 	private static final String SQL_FIND_BY_NAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE name = ?";
 	private static final String SQL_FIND_BY_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE surname = ?";
 	private static final String SQL_FIND_BY_NAME_AND_SURNAME = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE name = ? AND surname = ?";
-	private static final String SQL_GET_CONNECTIONS_OF_USER = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM connection, User WHERE user_id = ? AND connectedUser_id = User.id";
+	private static final String SQL_GET_CONNECTIONS_OF_USER = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM connection, User WHERE user_id = ? AND connectedUser_id = User.id ORDER BY name, surname";
 	private static final String SQL_GET_USERS_EXCEPT_ONE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE id != ?";
 	
 	private static final String SQL_UPDATE_USERS_CONNECTED_FIELD = "UPDATE User, connection SET isConnected='1' WHERE connection.user_id=? AND user.id=connection.connectedUser_id";
@@ -34,6 +36,8 @@ public class UserDAOImpl implements UserDAO
 	
 	private static final String SQL_UPDATE_EMAIL_PASSWORD = "UPDATE User SET email = ?, password = ? WHERE id = ?";
 
+	private static final String SQL_FIND_BY_ID_PROFILE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry FROM User WHERE id = ?";
+	private static final String SQL_UPDATE_USER = "UPDATE User SET name=?, surname=?, tel=?, photoURL=?, dateOfBirth=?, gender=?, city=?, country=?, hasImage=?, prof_exp=?, education=?, skills=?, privateTelephone=?, privateEmail=?, privateGender=?, privateDateOfBirth=?, privateProfExp=?, privateSkills=?, privateEducation=?, privateCity=?, privateCountry=? WHERE id=?";
 	
 	
 	
@@ -86,12 +90,14 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public int create(User user) 
 	{
+		System.out.println("in create");
 		int ret = -1;
 		//get values from user entity
 		int isAdmin=0;
 		Object[] values = { user.getIsAdmin(), user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(),
-				DAOUtil.toSqlDate(user.getDateOfBirth()), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage() };
-
+				DAOUtil.toSqlDate(user.getDateOfBirth()), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry()  };
+//	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+		
 		//connect to DB
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
@@ -270,7 +276,7 @@ public class UserDAOImpl implements UserDAO
 			
 			statement.executeUpdate();		//isConnected=1
 			
-        	PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_LIST_ORDER_BY_ID, false);
+        	PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_LIST_ORDER_BY_NAME, false);
             ResultSet resultSet = statement2.executeQuery();	
             while (resultSet.next()) {
             	users.add(map(resultSet));
@@ -335,6 +341,47 @@ public class UserDAOImpl implements UserDAO
  		
 	}
 	
+	@Override
+	public User getUserProfile(int id) {
+		User user = null;
+		
+		try (
+			Connection connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID_PROFILE, false, id);
+	        ResultSet resultSet = statement.executeQuery();)
+		{
+	        if (resultSet.next()) 
+	            user = mapEverything(resultSet);
+		} 
+		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+     
+        return user;
+	}
+	
+	@Override
+	public int updateUser(User user, int user_id) {
+		int affectedRows=0;
+		try (Connection	connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USER, false,  user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(), user.getDateOfBirth(), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry(), user_id);)
+		
+		{
+	 		affectedRows = statement.executeUpdate();
+			if (affectedRows == 0) {
+				System.err.println("Updating user failed, no rows affected.");
+				return affectedRows;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println("SQLException: Updating user failed.");
+			e.printStackTrace();
+			return affectedRows;
+		}
+		
+		return affectedRows;
+	}
 	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -352,6 +399,38 @@ public class UserDAOImpl implements UserDAO
         user.setCountry(resultSet.getString("country"));
         user.setHasImage(resultSet.getByte("hasImage"));
         user.setIsConnected(resultSet.getByte("isConnected"));
+        return user;
+    }
+	
+	private static User mapEverything(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setIsAdmin(resultSet.getInt("isAdmin"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setTel(resultSet.getString("tel"));
+        user.setPhotoURL(resultSet.getString("photoURL"));
+        user.setDateOfBirth(resultSet.getDate("dateOfBirth"));
+        user.setGender(resultSet.getInt("gender"));
+        user.setCity(resultSet.getString("city"));
+        user.setCountry(resultSet.getString("country"));
+        user.setHasImage(resultSet.getByte("hasImage"));
+        user.setIsConnected(resultSet.getByte("isConnected"));
+        user.setProfExp(resultSet.getString("prof_exp"));
+        user.setEducation(resultSet.getString("education"));
+        user.setSkills(resultSet.getString("skills"));
+        
+        user.setPrivateCity(resultSet.getByte("privateCity"));
+        user.setPrivateCountry(resultSet.getByte("privateCountry"));
+        user.setPrivateEmail(resultSet.getByte("privateEmail"));
+        user.setPrivateTelephone(resultSet.getByte("privateTelephone"));
+        user.setPrivateGender(resultSet.getByte("privateGender"));
+        user.setPrivateDateOfBirth(resultSet.getByte("privateDateOfBirth"));
+        user.setPrivateProfExp(resultSet.getByte("privateProfExp"));
+        user.setPrivateEducation(resultSet.getByte("privateEducation"));
+        user.setPrivateSkills(resultSet.getByte("privateSkills"));
         return user;
     }
 	

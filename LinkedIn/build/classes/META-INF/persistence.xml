@@ -3,11 +3,15 @@
 	<persistence-unit name="LinkedIn" transaction-type="RESOURCE_LOCAL">
 		<class>database.entities.Post</class>
 		<class>database.entities.User</class>
+		<class>database.entities.Comment</class>
+		<class>database.entities.Conversation</class>
+		<class>database.entities.ConversationPK</class>
+		<class>database.entities.Message</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ted"/>
 			<property name="javax.persistence.jdbc.user" value="ted"/>
 			<property name="javax.persistence.jdbc.password" value="ted"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-		</properties>
+		</properties> 
 	</persistence-unit>
 </persistence>

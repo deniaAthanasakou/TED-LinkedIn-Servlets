@@ -12,7 +12,7 @@
 
 		<script src="${pageContext.request.contextPath}/js_files/handleImage.js"></script>
 
-		<title>Profile</title>
+		<title>User's profile</title>
 		
 		
 	</head>

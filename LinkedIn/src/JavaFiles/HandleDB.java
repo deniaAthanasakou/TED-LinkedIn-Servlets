@@ -14,7 +14,7 @@ import database.dao.ConnectionFactory;
 public class HandleDB implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
     	//drop,create database and insert
-		String s = new String();
+		/*String s = new String();
         StringBuffer sb = new StringBuffer();
         String relativeWebPath = "/sql";
         String absoluteDiskPath = servletContextEvent.getServletContext().getRealPath(relativeWebPath);
@@ -45,7 +45,7 @@ public class HandleDB implements ServletContextListener{
         }
         catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
     }
 
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {

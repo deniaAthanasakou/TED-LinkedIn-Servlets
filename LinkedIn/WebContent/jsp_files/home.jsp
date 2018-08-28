@@ -11,7 +11,7 @@
 		<script src="${pageContext.request.contextPath}/js_files/chooseInputs.js"></script>
 		<script src="${pageContext.request.contextPath}/js_files/enableLoading.js"></script>
 		
-		<title>Home of user</title>
+		<title>Home page</title>
 		
 	</head>
 	<body>

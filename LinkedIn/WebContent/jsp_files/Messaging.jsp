@@ -7,8 +7,6 @@
 	<head>
 		<meta charset="utf-8">
 			<!-- custom -->
-			<!--<link rel="stylesheet" href="../css_files/main_css.css" type="text/css">
-			<link rel="stylesheet" href="../css_files/user_network.css" type="text/css">-->
 			
 			<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/messaging.css" type="text/css">
 			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
@@ -45,7 +43,7 @@
 						            </div>
 						          </div>
 				            	<br>
-				                <p>Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+				                <p class="lastMsg" >Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
 				                
 				            </li>
 				            <li class="list-group-item">
@@ -61,7 +59,7 @@
 						            </div>
 						          </div>
 						        <br>
-				                <p>Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
 				                
 				            </li>
 				            <li class="list-group-item">
@@ -77,7 +75,7 @@
 						            </div>
 						          </div>
 						        <br>
-				                <p>Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
 				                
 				            </li> 
 				            
@@ -94,7 +92,7 @@
 						            </div>
 						          </div>
 						        <br>
-				                <p>Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
 				                
 				            </li>
 				          </ul>

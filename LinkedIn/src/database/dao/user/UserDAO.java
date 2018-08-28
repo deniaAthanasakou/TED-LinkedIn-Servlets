@@ -29,4 +29,8 @@ public interface UserDAO
     
     public int updateSettings(int user_id, String email, String password);
     
+    public User getUserProfile(int id);
+    
+    public int updateUser(User user, int user_id);
+    
 }

@@ -25,9 +25,11 @@ public class User implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
+	private String education;
+
 	private String email;
 
-	private int gender;
+	private int gender;			//1=male 2=female 0=undefined
 
 	private byte hasImage;
 
@@ -41,13 +43,32 @@ public class User implements Serializable {
 
 	private String photoURL;
 
+	private byte privateCity;
+
+	private byte privateCountry;
+
+	private byte privateDateOfBirth;
+
+	private byte privateEducation;
+
+	private byte privateEmail;
+
+	private byte privateGender;
+
+	private byte privateProfExp;
+
+	private byte privateSkills;
+
+	private byte privateTelephone;
+
+	@Column(name="prof_exp")
+	private String profExp;
+
+	private String skills;
+
 	private String surname;
 
 	private String tel;
-
-	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="user")
-	private List<Comment> comments;
 
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
@@ -87,11 +108,16 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy="users3")
 	private List<User> users4;
 
+	//bi-directional many-to-one association to Comment
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments;
+
 	public User() {
 	}
-	
+
 	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
-			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts) {
+			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts, String profExp, String skills, String education,
+			byte privateCity, byte privateCountry, byte privateDateOfBirth, byte privateEducation, byte privateEmail, byte privateGender, byte privateSkills, byte privateProfExp, byte privateTelephone) {
 		super();
 		this.city = city;
 		this.country = country;
@@ -105,9 +131,21 @@ public class User implements Serializable {
 		this.surname = surname;
 		this.tel = tel;
 		this.hasImage = hasImage;
+		this.skills = skills;
+		this.education = education;
+		this.privateCity = privateCity;
+		this.privateCountry = privateCountry;
+		this.privateDateOfBirth = privateDateOfBirth;
+		this.privateEducation = privateEducation;
+		this.privateEmail = privateEmail;
+		this.privateGender = privateGender;
+		this.privateSkills = privateSkills;
+		this.privateProfExp = privateProfExp;
+		this.privateTelephone = privateTelephone;
+		this.profExp = profExp;
 		this.posts = posts;
 	}
-
+	
 	public int getId() {
 		return this.id;
 	}
@@ -138,6 +176,14 @@ public class User implements Serializable {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getEducation() {
+		return this.education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
 	}
 
 	public String getEmail() {
@@ -204,6 +250,94 @@ public class User implements Serializable {
 		this.photoURL = photoURL;
 	}
 
+	public byte getPrivateCity() {
+		return this.privateCity;
+	}
+
+	public void setPrivateCity(byte privateCity) {
+		this.privateCity = privateCity;
+	}
+
+	public byte getPrivateCountry() {
+		return this.privateCountry;
+	}
+
+	public void setPrivateCountry(byte privateCountry) {
+		this.privateCountry = privateCountry;
+	}
+
+	public byte getPrivateDateOfBirth() {
+		return this.privateDateOfBirth;
+	}
+
+	public void setPrivateDateOfBirth(byte privateDateOfBirth) {
+		this.privateDateOfBirth = privateDateOfBirth;
+	}
+
+	public byte getPrivateEducation() {
+		return this.privateEducation;
+	}
+
+	public void setPrivateEducation(byte privateEducation) {
+		this.privateEducation = privateEducation;
+	}
+
+	public byte getPrivateEmail() {
+		return this.privateEmail;
+	}
+
+	public void setPrivateEmail(byte privateEmail) {
+		this.privateEmail = privateEmail;
+	}
+
+	public byte getPrivateGender() {
+		return this.privateGender;
+	}
+
+	public void setPrivateGender(byte privateGender) {
+		this.privateGender = privateGender;
+	}
+
+	public byte getPrivateProfExp() {
+		return this.privateProfExp;
+	}
+
+	public void setPrivateProfExp(byte privateProfExp) {
+		this.privateProfExp = privateProfExp;
+	}
+
+	public byte getPrivateSkills() {
+		return this.privateSkills;
+	}
+
+	public void setPrivateSkills(byte privateSkills) {
+		this.privateSkills = privateSkills;
+	}
+
+	public byte getPrivateTelephone() {
+		return this.privateTelephone;
+	}
+
+	public void setPrivateTelephone(byte privateTelephone) {
+		this.privateTelephone = privateTelephone;
+	}
+
+	public String getProfExp() {
+		return this.profExp;
+	}
+
+	public void setProfExp(String profExp) {
+		this.profExp = profExp;
+	}
+
+	public String getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(String skills) {
+		this.skills = skills;
+	}
+
 	public String getSurname() {
 		return this.surname;
 	}
@@ -218,28 +352,6 @@ public class User implements Serializable {
 
 	public void setTel(String tel) {
 		this.tel = tel;
-	}
-
-	public List<Comment> getComments() {
-		return this.comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public Comment addComment(Comment comment) {
-		getComments().add(comment);
-		comment.setUser(this);
-
-		return comment;
-	}
-
-	public Comment removeComment(Comment comment) {
-		getComments().remove(comment);
-		comment.setUser(null);
-
-		return comment;
 	}
 
 	public List<Post> getPosts() {
@@ -294,6 +406,28 @@ public class User implements Serializable {
 
 	public void setUsers4(List<User> users4) {
 		this.users4 = users4;
+	}
+
+	public List<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Comment addComment(Comment comment) {
+		getComments().add(comment);
+		comment.setUser(this);
+
+		return comment;
+	}
+
+	public Comment removeComment(Comment comment) {
+		getComments().remove(comment);
+		comment.setUser(null);
+
+		return comment;
 	}
 
 }

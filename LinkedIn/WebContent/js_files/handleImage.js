@@ -5,7 +5,7 @@ function readURL(input) {
         reader.onload = function (e) {
             $('#uploadedImage')
                 .attr('src', e.target.result)
-                .width(150)
+                .width(200)
                 .height(200);
         };
         reader.readAsDataURL(input.files[0]);
@@ -16,5 +16,15 @@ function removeImage() {
 	document.getElementById("imgInp").value = "";
 	document.getElementById("uploadedImage").src = "";
 	document.getElementById("uploadedImage").style.width = 0;
+	document.getElementById("uploadedImage").style.height = 0;	
+}
+
+function removeImageEdit() { 
+	document.getElementById("imgInp").value = "";
+	document.getElementById("uploadedImage").src = "";
+	document.getElementById("uploadedImage").style.width = 0;
 	document.getElementById("uploadedImage").style.height = 0;
+	
+	document.getElementById("removedImage").value="removed";
+	
 }
