@@ -79,17 +79,17 @@
 									</div>
 								    <div class="form-group">
 								        <label> Upload Image</label>
-								        <div class="input-group">
+								        <div class="input-group browse">
 								            <span class="input-group-btn">
 								                <span class="btn btn-default btn-file">
 								                    Browse… <input type="file" id="imgInp" name ="imgInp" onchange="readURL(this);"/>
 								                </span>
 								            </span>
-								            <input type="text" class="form-control" readonly>
+								            
 								        </div>
 								        <div id="uploadedImageDiv">
 								         	<img id="uploadedImage" />
-								         	<input type="button" value="Remove" onclick="javascript: removeImage();"/>
+								         	<input type="button" value="Remove" onclick="javascript: removeImage();" class="remove"/>
 								        </div>
 								    </div>
 									<div class="form-group" style="padding-top:20px;">

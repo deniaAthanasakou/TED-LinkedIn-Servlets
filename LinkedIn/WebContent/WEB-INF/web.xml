@@ -80,13 +80,53 @@
     <servlet-name>Messaging</servlet-name>
     <url-pattern>/Messaging/</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>Settings</servlet-name>
     <servlet-class>Servlets.Settings</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Settings</servlet-name>
     <url-pattern>/Settings/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Profile</servlet-name>
+    <servlet-class>Servlets.Profile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Profile</servlet-name>
+    <url-pattern>/Profile/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EditProfile</servlet-name>
+    <servlet-class>Servlets.EditProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditProfile</servlet-name>
+    <url-pattern>/EditProfile/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PublicProfile</servlet-name>
+    <servlet-class>Servlets.PublicProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublicProfile</servlet-name>
+    <url-pattern>/PublicProfile/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PrivateProfile</servlet-name>
+    <servlet-class>Servlets.PrivateProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrivateProfile</servlet-name>
+    <url-pattern>/PrivateProfile/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PublicNetwork</servlet-name>
+    <servlet-class>Servlets.PublicNetwork</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublicNetwork</servlet-name>
+    <url-pattern>/PublicNetwork/</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>

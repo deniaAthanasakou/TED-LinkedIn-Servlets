@@ -35,13 +35,13 @@ public class Post implements Serializable {
 
 	private String text;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
-
 	//bi-directional many-to-one association to Comment
 	@OneToMany(mappedBy="post")
 	private List<Comment> comments;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
 	public Post() {
 	}
@@ -57,6 +57,7 @@ public class Post implements Serializable {
 		this.user = user;
 		this.likes = likes;
 	}
+
 
 	public int getId() {
 		return this.id;
@@ -122,14 +123,6 @@ public class Post implements Serializable {
 		this.text = text;
 	}
 
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public List<Comment> getComments() {
 		return this.comments;
 	}
@@ -150,6 +143,14 @@ public class Post implements Serializable {
 		comment.setPost(null);
 
 		return comment;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

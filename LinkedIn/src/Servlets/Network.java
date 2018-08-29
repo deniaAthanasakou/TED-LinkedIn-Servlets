@@ -115,8 +115,8 @@ public class Network extends HttpServlet {
 		
 		if(splitStr.length==1) {
 			System.out.println("one item");
-			List<User> users1= dao.searchByName(splitStr[0]);
-			List<User> users2= dao.searchBySurname(splitStr[0]);
+			List<User> users1= dao.searchByName(splitStr[0],Integer.valueOf((String) request.getSession().getAttribute("id")));
+			List<User> users2= dao.searchBySurname(splitStr[0],Integer.valueOf((String) request.getSession().getAttribute("id")));
 			users = new ArrayList<>();
 			users.addAll(users1);
 			users.addAll(users2);
@@ -125,8 +125,8 @@ public class Network extends HttpServlet {
 			
 			System.out.println("two items");
 			
-			List<User> users1= dao.searchByNameAndSurname(splitStr[0], splitStr[1]);
-			List<User> users2= dao.searchByNameAndSurname(splitStr[1], splitStr[0]);
+			List<User> users1= dao.searchByNameAndSurname(splitStr[0], splitStr[1],Integer.valueOf((String) request.getSession().getAttribute("id")));
+			List<User> users2= dao.searchByNameAndSurname(splitStr[1], splitStr[0],Integer.valueOf((String) request.getSession().getAttribute("id")));
 			users = new ArrayList<>();
 			users.addAll(users1);
 			users.addAll(users2);

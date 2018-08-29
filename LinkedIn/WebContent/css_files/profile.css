@@ -1,6 +1,4 @@
-.profile {
-    background-color: gray; /* Add an active/current color for nav bar */
-}
+
 
 
 .container{
@@ -113,6 +111,20 @@
 	border-radius: 5px;
 }
 
+.chat{
+	float:right;
+	margin-bottom:30px;
+}
+
+.chat-button{
+	width: 130px;
+}
+
+.networkDiv{
+	float: left;
+	margin-bottom:30px;
+	font-size: large;
+}
 
 
 

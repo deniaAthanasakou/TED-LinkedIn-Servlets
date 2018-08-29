@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profile.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">
 			
 		<link href="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.css" rel="stylesheet" />
 		<script src="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.js"></script>				
@@ -211,6 +212,24 @@
 					    </tbody>
 					 </table>
 					 <div class="info">
+					 	<div class="row">
+							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
+								  <label for="workPos">Εισάγετε πληροφορίες σχετικές με την επαγγελματική θέση σας:</label>
+								  <c:choose>
+							    		<c:when test="${empty  user.workPos}"><textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..."></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..."><c:out value="${user.workPos}"/></textarea></c:otherwise>
+							     </c:choose>
+							</div>
+						 </div>
+						 <div class="row">
+							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
+								  <label for="workPos">Εισάγετε πληροφορίες σχετικές με τον φορέα απασχόλησής σας:</label>
+								  <c:choose>
+							    		<c:when test="${empty  user.institution}"><textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..."></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..."><c:out value="${user.institution}"/></textarea></c:otherwise>
+							     </c:choose>
+							</div>
+						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
 								  <label for="education">Εισάγετε πληροφορίες σχετικές με την επαγγελματική εμπειρία σας:</label>
@@ -293,6 +312,22 @@
 					    		<c:otherwise><input type="checkbox" value="pr_city" name="pr_city"></c:otherwise>
 					     </c:choose>
 						  Πόλη/Περιοχή κατοικίας</label>
+						</div>
+						<div class="checkbox">
+						  <label>
+						   <c:choose>
+					    		<c:when test="${user.privateWorkPos==1}"> <input type="checkbox" value="pr_workPos" name="pr_workPos" checked></c:when>
+					    		<c:otherwise><input type="checkbox" value="pr_workPos" name="pr_workPos"></c:otherwise>
+					     </c:choose>
+						  Επαγγελματική Θέση</label>
+						</div>
+						<div class="checkbox">
+						  <label>
+						   <c:choose>
+					    		<c:when test="${user.privateInstitution==1}"> <input type="checkbox" value="pr_institution" name="pr_institution" checked></c:when>
+					    		<c:otherwise><input type="checkbox" value="pr_institution" name="pr_institution"></c:otherwise>
+					     </c:choose>
+						  Φορέας Απασχόλησης</label>
 						</div>
 						<div class="checkbox">
 						  <label>

@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profile.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">
 			
 		<link href="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.css" rel="stylesheet" />
 		<script src="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.js"></script>				
@@ -93,6 +94,24 @@
 					 <div class="info">
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+							  <label>Επαγγελματική θέση:</label>
+							  <c:choose>
+					    		<c:when test="${empty  user.workPos}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:otherwise><p><c:out value="${user.workPos}"/></p></c:otherwise>
+					    	 </c:choose>
+							</div>
+						 </div>
+						 <div class="row">
+							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+							  <label>Φορέας απασχόλησης:</label>
+							  <c:choose>
+					    		<c:when test="${empty  user.institution}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:otherwise><p><c:out value="${user.institution}"/></p></c:otherwise>
+					    	 </c:choose>
+							</div>
+						 </div>
+						 <div class="row">
+							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
 							  <label>Επαγγελματική εμπειρία:</label>
 							  <c:choose>
 					    		<c:when test="${empty  user.profExp}"><em>Δεν έχει οριστεί.</em></c:when>
@@ -154,6 +173,16 @@
 				    	<c:choose>
 				    		<c:when test="${user.privateCity==1}"><p><span class="glyphicon glyphicon-remove"></span> Πόλη/Περιοχή κατοικίας</p></c:when>
 				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Πόλη/Περιοχή κατοικίας</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateWorkPos==1}"><p><span class="glyphicon glyphicon-remove"></span> Επαγγελματική Θέση</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Επαγγελματική Θέση</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateInstitution==1}"><p><span class="glyphicon glyphicon-remove"></span> Φορέας απασχόλησης</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Φορέας απασχόλησης</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>

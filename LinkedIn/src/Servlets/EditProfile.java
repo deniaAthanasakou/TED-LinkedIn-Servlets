@@ -149,6 +149,8 @@ public class EditProfile extends HttpServlet {
 		String profExp=(String) fields.get("work");
 		String education=(String) fields.get("education");
 		String skills=(String) fields.get("skills");
+		String workPos=(String) fields.get("workPos");
+		String institution=(String) fields.get("institution");
 		
 		String removedImage=(String) fields.get("removedImage");
 		
@@ -179,52 +181,16 @@ public class EditProfile extends HttpServlet {
 		byte pr_skills=0;
 		if((String) fields.get("pr_skills")!=null)
 			pr_skills=1;
+		byte pr_workPos=0;
+		if((String) fields.get("pr_workPos")!=null)
+			pr_workPos=1;
+		byte pr_institution=0;
+		if((String) fields.get("pr_institution")!=null)
+			pr_institution=1;
 		
 		
 		
-		
-	/*	String name = request.getParameter("name");
-		String surname = request.getParameter("surname");
-		String telephone = request.getParameter("telephone");
-		int day=Integer.parseInt(request.getParameter("day"));
-		int month=Integer.parseInt(request.getParameter("month"));
-		int year=Integer.parseInt(request.getParameter("year"));
-		String gender=request.getParameter("gender");
-		String country=request.getParameter("country");
-		String city=request.getParameter("city");
-		String profExp=request.getParameter("work");
-		String education=request.getParameter("education");
-		String skills=request.getParameter("skills");
-		
-		//get private fields
-		byte pr_email=0;
-		if(request.getParameter("pr_email")!=null)
-			pr_email=1;
-		byte pr_tel=0;
-		if(request.getParameter("pr_telephone")!=null)
-			pr_tel=1;
-		byte pr_dateOfBirth=0;
-		if(request.getParameter("pr_dateOfBirth")!=null)
-			pr_dateOfBirth=1;
-		byte pr_gender=0;
-		if(request.getParameter("pr_gender")!=null)
-			pr_gender=1;
-		byte pr_country=0;
-		if(request.getParameter("pr_country")!=null)
-			pr_country=1;
-		byte pr_city=0;
-		if(request.getParameter("pr_city")!=null)
-			pr_city=1;
-		byte pr_profExp=0;
-		if(request.getParameter("pr_profExp")!=null)
-			pr_profExp=1;
-		byte pr_education=0;
-		if(request.getParameter("pr_education")!=null)
-			pr_education=1;
-		byte pr_skills=0;
-		if(request.getParameter("pr_skills")!=null)
-			pr_skills=1;
-		*/
+	
 		System.out.println(name+" "+surname+" "+telephone+" "+gender+" "+ day+ " "+ month+ " "+ year+ " "+country+" "+city+" "+profExp+" "+education+" "+skills+"!"+pr_email+"!");
 
 		VariousFunctions vf = new VariousFunctions();   
@@ -272,6 +238,12 @@ public class EditProfile extends HttpServlet {
 		}
 		if(vf.isBlank(skills)) {
 			skills=null;
+		}
+		if(vf.isBlank(workPos)) {
+			workPos=null;
+		}
+		if(vf.isBlank(institution)) {
+			institution=null;
 		}
 		
 		Date dateOfBirth = new DateTime(year, month, day, 0, 0).toDate();
@@ -324,7 +296,7 @@ public class EditProfile extends HttpServlet {
 		
 		
 		byte isAdmin=0;
-		User updatedUser = new User(city, country, dateOfBirth, "", genderNum, isAdmin, name, "", photoURL, surname, telephone, hasImage, null, profExp, skills, education, pr_city,pr_country,pr_dateOfBirth,pr_education,pr_email,pr_gender,pr_skills,pr_profExp,pr_tel);
+		User updatedUser = new User(city, country, dateOfBirth, "", genderNum, isAdmin, name, "", photoURL, surname, telephone, hasImage, null, profExp, skills, education, workPos, institution, pr_city,pr_country,pr_dateOfBirth,pr_education,pr_email,pr_gender,pr_skills,pr_profExp,pr_tel, pr_workPos, pr_institution);
 		
 		int result = dao.updateUser(updatedUser, user_id);
 		if(result==0) {

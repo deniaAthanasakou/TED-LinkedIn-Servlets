@@ -1,0 +1,174 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- custom -->
+		<!--<link rel="stylesheet" href="../css_files/main_css.css" type="text/css">
+		<link rel="stylesheet" href="../css_files/user_network.css" type="text/css">-->
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_network.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/networkNavBar.css" type="text/css">
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>User's Network</title>
+	</head>
+	<body>
+	
+	
+		<c:set var="user_id" value="${param.id}" />
+		<% if ( request.getAttribute( "redirect" ) == null) { %>
+			<jsp:forward page="/PublicNetwork">
+				<jsp:param name="id" value="${user_id}" ></jsp:param>
+			</jsp:forward>
+		<% } %>
+		
+	
+		<jsp:include page="Header.jsp" /> 
+		
+		<div class="main">
+			<div class="container">
+				
+				<div class="myContainerPublicNetwork">
+
+					<h2 style="font-family:sansserif;font-weight: bold;">Συνδεδεμένοι επαγγελματίες</h2>
+	  
+					    <c:forEach items="${users}" var="user">
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+
+									<c:choose>
+											<c:when test="${user.id!=sessionScope.id}">
+												<c:if test="${user.isConnected eq 0}">
+										    		<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}" style="text-decoration:none;">
+										    	</c:if>
+										    	<c:if test="${user.isConnected eq 1}">
+										    		<a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${user.id}" style="text-decoration:none;">
+										    	</c:if>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath}/jsp_files/profile.jsp" style="text-decoration:none;">
+											</c:otherwise>
+										</c:choose>	
+									
+									
+									
+										<table class="myTable">
+									    	<tr>
+									    		<td rowspan="3"><img  class="img-circle profileImage" src="<c:out value="${user.photoURL}" />"></td>
+									    		<td class="nameSurname"><c:out value="${user.name}" /> <c:out value="${user.surname}" /></td>
+									    		
+									    		<c:choose>
+													<c:when test="${user.id!=sessionScope.id}">
+														<c:if test="${user.isConnected eq 0}">
+												    		<td rowspan="2">
+												    			<form action="${pageContext.request.contextPath}/Network" method="POST">
+												    				<input type="hidden" name="userId" value="${user.id}" />
+																    <input class="btn btn-primary" type="submit" name="connect" value="Σύνδεση" />
+																</form>
+															</td>
+												    	</c:if>
+												    	<c:if test="${user.isConnected eq 1}">
+												    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Συνδεδεμένοι</button></td>
+												    	</c:if>
+													</c:when>
+													<c:otherwise>
+														<td></td>
+													</c:otherwise>
+												</c:choose>	
+									    		
+									    		
+										    </tr>
+										     <c:choose>
+													<c:when test="${user.id!=sessionScope.id}">
+														<c:if test="${user.isConnected==0}">
+															<tr>
+																<c:choose>
+														    		<c:when test="${user.privateWorkPos eq 1}"><td class="deco-none">Επαγγελματική Θέση: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+														    		<c:otherwise>
+														    			<td class="deco-none">
+																    		<c:choose>
+																	    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
+																	    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+																	    	</c:choose>
+																		</td>
+														    		</c:otherwise>
+														    	</c:choose>
+													    	</tr>
+													    	
+													    	<tr>
+																<c:choose>
+														    		<c:when test="${user.privateInstitution eq 1}"><td class="deco-none">Φορέας Απασχόλησης: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+														    		<c:otherwise>
+														    			<td class="deco-none">
+																    		<c:choose>
+																	    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
+																	    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+																	    	</c:choose>
+																		</td>
+														    		</c:otherwise>
+														    	</c:choose>
+													    	</tr>
+												    	</c:if>
+												    	<c:if test="${user.isConnected==1}">
+												    		 <tr>
+														    	<td class="deco-none">
+														    		<c:choose>
+															    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
+															    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+															    	</c:choose>
+																</td>
+														    </tr>
+														    <tr>
+														    	<td class="deco-none">
+														    		<c:choose>
+															    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
+															    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+															    	</c:choose>
+																</td>
+														    	
+														    </tr>
+													    </c:if>
+													</c:when>
+													<c:otherwise>
+														    <tr>
+														    	<td class="deco-none">
+														    		<c:choose>
+															    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
+															    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+															    	</c:choose>
+																</td>
+														    </tr>
+														    <tr>
+														    	<td class="deco-none">
+														    		<c:choose>
+															    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
+															    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+															    	</c:choose>
+																</td>
+														    	
+														    </tr>
+													</c:otherwise>
+												</c:choose>	
+									
+									    </table> 
+									</a>
+								
+								</div>
+							</div>
+							
+						  </c:forEach>
+	
+				
+				</div> <!-- myContainer -->
+				
+		    </div> <!-- container -->
+		</div>	<!-- main -->
+		
+		
+		<jsp:include page="Footer.jsp" /> 
+	
+	</body>
+</html>

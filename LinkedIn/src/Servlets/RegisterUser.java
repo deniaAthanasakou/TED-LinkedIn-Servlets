@@ -211,7 +211,7 @@ public class RegisterUser extends HttpServlet {
 			byte zeroByte=0;
 			//encrypt password
 			password = AESCrypt.encrypt(password);
-			User newUser = new User(null, null, null, email, 0, zeroByte, name, password, photoURL, surname, telephone,hasImage,null, null, null, null, zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte);
+			User newUser = new User(null, null, null, email, 0, zeroByte, name, password, photoURL, surname, telephone,hasImage,null, null, null, null,null,null, zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte,zeroByte);
 
 			System.out.println("before creation");
 			dao.create(newUser);
