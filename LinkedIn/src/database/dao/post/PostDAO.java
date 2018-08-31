@@ -13,4 +13,6 @@ public interface PostDAO {
     public int count();
     
     public List<Post> findPosts(Long id);
+    
+    public void increaseLikes(Long id);
 }

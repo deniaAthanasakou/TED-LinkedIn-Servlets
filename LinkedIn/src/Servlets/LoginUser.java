@@ -42,8 +42,7 @@ public class LoginUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.sendRedirect(request.getHeader("WelcomePage.jsp"));
+		
 	}
 
 	/**
@@ -84,10 +83,6 @@ public class LoginUser extends HttpServlet {
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/admin_page.jsp");
 			}else {
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
-				PostDAO postDAO = new PostDAOImpl(true);
-				List<Post> userPosts = postDAO.findPosts(Long.valueOf(loggedInUser.getId()));
-				//get right posts
-				request.setAttribute("posts",userPosts);
 			} 
 			displayPage.forward(request, response);
 		}

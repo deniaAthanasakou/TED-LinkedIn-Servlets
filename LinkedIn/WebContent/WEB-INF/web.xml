@@ -48,13 +48,21 @@
     <servlet-name>RegisterUser</servlet-name>
     <url-pattern>/RegisterUser/</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>PostCreation</servlet-name>
-    <servlet-class>Servlets.PostCreation</servlet-class>
+ <servlet>
+    <servlet-name>PostHandle</servlet-name>
+    <servlet-class>Servlets.PostHandle</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PostCreation</servlet-name>
-    <url-pattern>/PostCreation/</url-pattern>
+    <servlet-name>PostHandle</servlet-name>
+    <url-pattern>/PostHandle/</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>CommentCreation</servlet-name>
+    <servlet-class>Servlets.CommentCreation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentCreation</servlet-name>
+    <url-pattern>/CommentCreation/</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Network</servlet-name>

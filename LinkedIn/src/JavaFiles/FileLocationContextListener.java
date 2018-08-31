@@ -28,7 +28,7 @@ public class FileLocationContextListener implements ServletContextListener {
     	String fullPostsPath = rootPath + File.separator + relativePathTemp +  File.separator + relativePathRoot + File.separator + relativePathPosts;
     	File filePosts = new File(fullPostsPath);
     	if(!filePosts.exists()) filePosts.mkdirs();
-    	System.out.println("File Directory created to be used for storing files of users: " + fullPostsPath);
+    	System.out.println("File Directory created to be used for storing files of posts: " + fullPostsPath);
     	ctx.setAttribute("FILES_DIR_FILE_POSTS", filePosts);
     	ctx.setAttribute("FILES_DIR_POSTS", fullPostsPath);
     }

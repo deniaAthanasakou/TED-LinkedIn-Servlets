@@ -9,9 +9,7 @@ import java.util.List;
 
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
-import database.dao.user.UserDAO;
 import database.entities.Post;
-import database.entities.User;
 
 public class PostDAOImpl implements PostDAO 
 {
@@ -19,8 +17,8 @@ public class PostDAOImpl implements PostDAO
 	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id FROM Post";
 	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Post";
-	private static final String SQL_FIND_POSTS = "SELECT id,text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes FROM Post WHERE user_id = ? ORDER BY date_posted";
-
+	private static final String SQL_FIND_POSTS = "SELECT id,text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes FROM Post WHERE user_id = ? ORDER BY date_posted DESC";
+	private static final String SQL_UPDATE_LIKES = "UPDATE Post SET likes = likes + 1 WHERE id = ?";
     
     private ConnectionFactory factory;
     
@@ -53,40 +51,33 @@ public class PostDAOImpl implements PostDAO
 	public int create(Post post) 
 	{
 		int ret = -1;
-		//get values from user entity
-		int isAdmin=0;
+		//get values from post entity
 		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getLikes(), post.getUser().getId()};
 
 		//connect to DB
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
-		{
-			System.err.println("inside first try");
-			
+		{			
 			System.out.println(statement);
-			
 			int affectedRows = statement.executeUpdate();
-			System.err.println("after affectedRows");
 			ret = affectedRows;
 			if (ret == 0) {
-				System.err.println("Creating user failed, no rows affected.");
+				System.err.println("Creating post failed, no rows affected.");
 				return ret;
 			}
-			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-				System.err.println("inside second try");
 				if (generatedKeys.next()) {
 					post.setId(generatedKeys.getInt(1));
 					return ret;
 				} 
 				else {
-					System.err.println("Creating user failed, no generated key obtained.");
+					System.err.println("Creating post failed, no generated key obtained.");
 					return -1;
 				}
 			}
 		} 
 		catch (SQLException e) {
-			System.err.println("SQLException: Creating user failed, no generated key obtained.");
+			System.err.println("SQLException: Creating post failed, no generated key obtained.");
 			return ret;
 		}
 	}
@@ -132,11 +123,29 @@ public class PostDAOImpl implements PostDAO
         return posts;
 	}
 	
+	@Override
+	public void increaseLikes(Long id) {
+        try (
+            Connection connection = factory.getConnection();
+        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_LIKES, false, id);
+        ) {
+        	int rowsChanged = statement.executeUpdate();
+        	if(rowsChanged==0) {
+        		System.err.println("Update did not happen.");
+        	}
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+	}
+	
+	
+	
 	private static Post map(ResultSet resultSet) throws SQLException {
         Post post = new Post();
         post.setId(resultSet.getInt("id"));
         post.setText(resultSet.getString("text"));
-        post.setDatePosted(resultSet.getDate("date_posted"));
+        post.setDatePosted(new java.util.Date(resultSet.getTimestamp("date_posted").getTime()));
         post.setPathFiles(resultSet.getString("path_files"));
         post.setHasAudio(resultSet.getByte("hasAudio"));
         post.setHasImages(resultSet.getByte("hasImages"));
