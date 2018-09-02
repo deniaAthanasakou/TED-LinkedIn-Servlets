@@ -33,7 +33,7 @@
 				</a>
 				<a href="${pageContext.request.contextPath}/jsp_files/network.jsp">
 					<div class="item_network">
-						<p id="connections_number">47</p>
+						<p id="connections_number">${requestScope.noConnections}</p>
 						<p>Connections</p>
 					</div>
 				</a>

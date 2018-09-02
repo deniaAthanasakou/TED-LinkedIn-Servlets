@@ -35,4 +35,6 @@ public interface UserDAO
     
     public List<User> existingListWithConnectedField(int user_id, List<User> users);
     
+    public int countConnections(long user_id);
+    
 }

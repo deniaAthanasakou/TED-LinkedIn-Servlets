@@ -17,7 +17,45 @@ public class PostDAOImpl implements PostDAO
 	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id FROM Post";
 	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Post";
-	private static final String SQL_FIND_POSTS = "SELECT id,text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes FROM Post WHERE user_id = ? ORDER BY date_posted DESC";
+	private static final String SQL_FIND_POSTS = "SELECT * FROM Post WHERE Post.user_id IN(\r\n" + 
+			"	#for user_id\r\n" + 
+			"	SELECT connection.user_id FROM connection WHERE connection.connectedUser_id in(\r\n" + 
+			"		SELECT connection.user_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	) \r\n" + 
+			"	UNION \r\n" + 
+			"	SELECT connection.user_id FROM connection WHERE connection.user_id in(\r\n" + 
+			"		SELECT connection.user_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	)\r\n" + 
+			"    UNION\r\n" + 
+			"    SELECT connection.connectedUser_id FROM connection WHERE connection.user_id in(\r\n" + 
+			"		SELECT connection.user_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	)\r\n" + 
+			"    UNION \r\n" + 
+			"    SELECT connection.connectedUser_id FROM connection WHERE connection.connectedUser_id in(\r\n" + 
+			"		SELECT connection.user_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	) \r\n" + 
+			"    #for connectedUser_id\r\n" + 
+			"    UNION\r\n" + 
+			"    SELECT connection.user_id FROM connection WHERE connection.connectedUser_id in(\r\n" + 
+			"		SELECT connection.connectedUser_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	) \r\n" + 
+			"	UNION \r\n" + 
+			"	SELECT connection.user_id FROM connection WHERE connection.user_id in(\r\n" + 
+			"		SELECT connection.connectedUser_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	)\r\n" + 
+			"    UNION\r\n" + 
+			"    SELECT connection.connectedUser_id FROM connection WHERE connection.user_id in(\r\n" + 
+			"		SELECT connection.connectedUser_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	)\r\n" + 
+			"    UNION \r\n" + 
+			"    SELECT connection.connectedUser_id FROM connection WHERE connection.connectedUser_id in(\r\n" + 
+			"		SELECT connection.connectedUser_id FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)\r\n" + 
+			"	)\r\n" + 
+			"    UNION \r\n" + 
+			"    SELECT Post.user_id FROM Post WHERE Post.user_id = ?\r\n" + 
+			")";
+	
+	
 	private static final String SQL_UPDATE_LIKES = "UPDATE Post SET likes = likes + 1 WHERE id = ?";
     
     private ConnectionFactory factory;

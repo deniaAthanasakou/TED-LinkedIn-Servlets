@@ -42,9 +42,6 @@ public class Post implements Serializable {
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	private User user;
-
-	public Post() {
-	}
 	
 	public Post(String text, Date datePosted, String pathFiles, byte hasAudio, byte hasImages, byte hasVideos, int likes, User user) {
 		super();
@@ -58,6 +55,8 @@ public class Post implements Serializable {
 		this.likes = likes;
 	}
 
+	public Post() {
+	}
 
 	public int getId() {
 		return this.id;

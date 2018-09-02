@@ -119,10 +119,7 @@ public class User implements Serializable {
 	//bi-directional many-to-many association to User
 	@ManyToMany(mappedBy="users3")
 	private List<User> users4;
-
-	public User() {
-	}
-
+	
 	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
 			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts, String profExp, String skills, String education, String workPos, String institution,
 			byte privateCity, byte privateCountry, byte privateDateOfBirth, byte privateEducation, byte privateEmail, byte privateGender, byte privateSkills, byte privateProfExp, byte privateTelephone, byte privateWorkPos, byte privateInstitution) {
@@ -157,7 +154,10 @@ public class User implements Serializable {
 		this.privateInstitution = privateInstitution;
 		this.posts = posts;
 	}
-	
+
+	public User() {
+	}
+
 	public int getId() {
 		return this.id;
 	}

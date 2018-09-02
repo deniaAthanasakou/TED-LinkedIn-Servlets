@@ -60,7 +60,8 @@ public class PostHandle extends HttpServlet {
 			if(request.getParameter("action").equals("getPosts")) {
 				PostDAO dao = new PostDAOImpl(true);
 				HttpSession session = request.getSession();
-				List<Post> userPosts = dao.findPosts(Long.valueOf((String) session.getAttribute("id")));
+				long userId = Long.valueOf((String) session.getAttribute("id"));
+				List<Post> userPosts = dao.findPosts(userId);
 				//get right posts
 				request.setAttribute("posts",userPosts);
 				request.setAttribute("redirectPosts", "StopLoopPosts");
@@ -84,6 +85,11 @@ public class PostHandle extends HttpServlet {
 						VariousFunctions.setFilePathsFromFolders(folderPath,post);
 					}
 				}	
+				//get no of connections
+				UserDAO userDao = new UserDAOImpl(true);
+				int noConnections = userDao.countConnections(userId);
+				System.out.println("con: " + noConnections);
+				request.setAttribute("noConnections", noConnections);
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
@@ -97,7 +103,8 @@ public class PostHandle extends HttpServlet {
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getPosts")) {
 				HttpSession session = request.getSession();
-				List<Post> userPosts = dao.findPosts(Long.valueOf((String) session.getAttribute("id")));
+				long userId = Long.valueOf((String) session.getAttribute("id"));
+				List<Post> userPosts = dao.findPosts(userId);
 				//get right posts
 				request.setAttribute("posts",userPosts);
 				request.setAttribute("redirectPosts", "StopLoopPosts");
@@ -121,6 +128,11 @@ public class PostHandle extends HttpServlet {
 						VariousFunctions.setFilePathsFromFolders(folderPath,post);
 					}
 				}	
+				//get no of connections
+				UserDAO userDao = new UserDAOImpl(true);
+				int noConnections = userDao.countConnections(userId);
+				System.out.println("con: " + noConnections);
+				request.setAttribute("noConnections", noConnections);
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
