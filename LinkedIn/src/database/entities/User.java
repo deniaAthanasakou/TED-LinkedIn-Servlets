@@ -84,7 +84,20 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
-	private List<Post> posts;
+	private List<Post> posts1;
+
+	//bi-directional many-to-many association to Post
+	@ManyToMany
+	@JoinTable(
+		name="like"
+		, joinColumns={
+			@JoinColumn(name="user_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="post_id")
+			}
+		)
+	private List<Post> posts2;
 
 	//bi-directional many-to-many association to User
 	@ManyToMany
@@ -152,7 +165,7 @@ public class User implements Serializable {
 		this.institution = institution;
 		this.privateWorkPos = privateWorkPos;
 		this.privateInstitution = privateInstitution;
-		this.posts = posts;
+		this.posts1 = posts;
 	}
 
 	public User() {
@@ -420,26 +433,34 @@ public class User implements Serializable {
 		return comment;
 	}
 
-	public List<Post> getPosts() {
-		return this.posts;
+	public List<Post> getPosts1() {
+		return this.posts1;
 	}
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
+	public void setPosts1(List<Post> posts1) {
+		this.posts1 = posts1;
 	}
 
-	public Post addPost(Post post) {
-		getPosts().add(post);
-		post.setUser(this);
+	public Post addPosts1(Post posts1) {
+		getPosts1().add(posts1);
+		posts1.setUser(this);
 
-		return post;
+		return posts1;
 	}
 
-	public Post removePost(Post post) {
-		getPosts().remove(post);
-		post.setUser(null);
+	public Post removePosts1(Post posts1) {
+		getPosts1().remove(posts1);
+		posts1.setUser(null);
 
-		return post;
+		return posts1;
+	}
+
+	public List<Post> getPosts2() {
+		return this.posts2;
+	}
+
+	public void setPosts2(List<Post> posts2) {
+		this.posts2 = posts2;
 	}
 
 	public List<User> getUsers1() {
