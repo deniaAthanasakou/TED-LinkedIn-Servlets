@@ -228,5 +228,17 @@ public class Post implements Serializable {
 
 	public void setListAudiosNames(List<String> listAudiosNames) {
 		this.listAudiosNames = listAudiosNames;
+	}	
+	
+	@Transient
+	private int liked;
+
+	public int getLiked() {
+		return liked;
 	}
+
+	public void setLiked(int liked) {
+		this.liked = liked;
+	}
+	
 }

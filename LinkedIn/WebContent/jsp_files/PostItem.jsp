@@ -15,8 +15,8 @@
 	<body>
 		<div class="post">
 			<div class="info_post" id="info_post">
-				<img class="image_circle_view" alt="thumbnail" src="<%=session.getAttribute("image")%>">
-				<h5><b><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></b></h5>
+				<img class="image_circle_view" alt="thumbnail" src="${post.user.photoURL}">
+				<h5><b>${post.user.name} ${post.user.surname}</b></h5>
 				<p style="color:#999999;">${requestScope.post.dateInterval}</p>
 			</div>
 			<!-- text post -->
@@ -121,11 +121,21 @@
 				<p class="post_text">${post.noComments} Comments</p>
 			</div>
 			<div class="button_actions">
-				<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle?action=increaseLikes" accept-charset="UTF-8">
-				    <button id="giveLike" class="btn btn-default"  type="submit"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>   
-				    <input type="hidden" name="post_id" value="${post.id}" />         
-					<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(${post.id})"><i class="glyphicon glyphicon-comment"></i> Comment</button>
-				</form>
+				<c:if test="${post.liked == '0'}">
+					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle?action=insertLike" accept-charset="UTF-8">
+					    <button id="giveLike" class="btn btn-default"  type="submit"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>   
+					    <input type="hidden" name="post_id" value="${post.id}" />         
+						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(${post.id})"><i class="glyphicon glyphicon-comment"></i> Comment</button>
+					</form>
+				</c:if>
+				<c:if test="${post.liked == '1'}">
+					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle?action=deleteLike" accept-charset="UTF-8">
+					    <button id="returnLike" class="btn btn-default active"  type="submit"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>   
+					    <input type="hidden" name="post_id" value="${post.id}" />         
+						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(${post.id})"><i class="glyphicon glyphicon-comment"></i> Comment</button>
+					</form>
+				</c:if>
+				
 			</div>
 			
 		
