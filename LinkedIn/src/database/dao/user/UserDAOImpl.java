@@ -41,8 +41,7 @@ public class UserDAOImpl implements UserDAO
 	
 	private static final String SQL_ARE_USERS_CONNECTED = "SELECT 1 FROM connection WHERE (connection.user_id=? AND connection.connectedUser_id=?) OR (connection.connectedUser_id=? AND connection.user_id=?)";
 	private static final String SQL_COUNT_CONNECTIONS = "SELECT COUNT(*) FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)";
-	
-	
+		
     private ConnectionFactory factory;
     
     public UserDAOImpl(boolean pool)

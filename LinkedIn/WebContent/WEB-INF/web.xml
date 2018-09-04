@@ -48,7 +48,7 @@
     <servlet-name>RegisterUser</servlet-name>
     <url-pattern>/RegisterUser/</url-pattern>
   </servlet-mapping>
- <servlet>
+  <servlet>
     <servlet-name>PostHandle</servlet-name>
     <servlet-class>Servlets.PostHandle</servlet-class>
   </servlet>
@@ -56,7 +56,7 @@
     <servlet-name>PostHandle</servlet-name>
     <url-pattern>/PostHandle/</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>CommentCreation</servlet-name>
     <servlet-class>Servlets.CommentCreation</servlet-class>
   </servlet>
@@ -135,6 +135,14 @@
   <servlet-mapping>
     <servlet-name>PublicNetwork</servlet-name>
     <url-pattern>/PublicNetwork/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ListUsers</servlet-name>
+    <servlet-class>Servlets.ListUsers</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListUsers</servlet-name>
+    <url-pattern>/ListUsers/</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>tempfile.dir</param-name>

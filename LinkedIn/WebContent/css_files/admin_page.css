@@ -1,0 +1,39 @@
+.home,.jobs,.messaging,.notifications,.profile,.network,.settings{
+	display: none;
+}
+
+#titleList{
+	font-family:sansserif;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.list_users{
+	width: 600px;
+	height: auto;
+	margin-bottom:100px;
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: white;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+.image_circle{
+	border-radius: 50%;
+	border: 2px solid white;
+	box-shadow: 0 0 3px black;
+}
+
+table td {
+  vertical-align: middle !important;
+}
+
+.action_checkboxes{
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
