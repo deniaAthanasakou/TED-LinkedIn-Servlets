@@ -42,17 +42,13 @@ public class Profile extends HttpServlet {
 			
 		UserDAO dao = new UserDAOImpl(true);
 		
-		
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
-		User user=dao.getUserProfile(user_id);
 		
+		
+		User user=dao.getUserProfile(user_id);
 		request.setAttribute("user", user);
-
-    
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
 	    view.forward(request, response);
-		
-		
 	}
 
 	/**
@@ -63,14 +59,20 @@ public class Profile extends HttpServlet {
 		
 		System.out.println("in profile post");
 		
+		UserDAO dao = new UserDAOImpl(true);
+		String displayPage = null;
 		
-		 String displayPage="/jsp_files/edit_profile.jsp";
-		 UserDAO dao = new UserDAOImpl(true);
+		String fromAdminId = request.getParameter("fromAdmin");
+		int user_id = 0;
+		if(fromAdminId == null) {
+			user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+			displayPage="/jsp_files/edit_profile.jsp";
+		}else {
+			user_id=Integer.valueOf((String) fromAdminId);
+			displayPage="/jsp_files/edit_profile_admin.jsp";
+		}
 		
-		
-		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		User user=dao.getUserProfile(user_id);
-		
 		request.setAttribute("user", user);
 		
 		int day=1;
@@ -93,7 +95,7 @@ public class Profile extends HttpServlet {
 		request.setAttribute("year", year);
 		
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
-	    view.forward(request, response);
+		view.forward(request, response);
 		
 	}
 

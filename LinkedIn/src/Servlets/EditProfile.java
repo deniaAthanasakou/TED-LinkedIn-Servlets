@@ -63,15 +63,20 @@ public class EditProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		//cancel was clicked
-		
-		 String displayPage="/jsp_files/edit_profile.jsp";
-		 System.out.println("in doGet");
-		 UserDAO dao = new UserDAOImpl(true);
-		
-		
-		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+		String fromAdminId = (String) request.getAttribute("fromAdmin");
+		String displayPage = null;
+		int user_id = 0;
+		if(fromAdminId == null) {
+			displayPage="/jsp_files/edit_profile.jsp";
+			user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
+		}else {
+			displayPage="/jsp_files/edit_profile_admin.jsp";
+			user_id=Integer.valueOf((String) fromAdminId);
+		}
+		System.out.println("in doGet");
+		UserDAO dao = new UserDAOImpl(true);
+				
 		User user=dao.getUserProfile(user_id);
-		
 		request.setAttribute("user", user);
 		
 		int day=1;
@@ -256,7 +261,14 @@ public class EditProfile extends HttpServlet {
 		String photoURL = null;
 		byte hasImage;
 		//create folder
-		int user_id = Integer.valueOf((String) request.getSession().getAttribute("id"));
+		String fromAdminId = request.getParameter("fromAdmin");
+		int user_id = 0;
+		if(fromAdminId == null) {
+			user_id = Integer.valueOf((String) request.getSession().getAttribute("id"));
+		}else {
+			user_id = Integer.valueOf((String) fromAdminId);
+			request.setAttribute("fromAdmin", fromAdminId);
+		}
 		File idFolder = new File(request.getServletContext().getAttribute("FILES_DIR_USERS") + File.separator + user_id);
     	idFolder.mkdirs();
     	
@@ -282,7 +294,11 @@ public class EditProfile extends HttpServlet {
 		}else {
 			
 			if(removedImage==null || removedImage.equals("")) {		//keep same image
-				photoURL =(String) request.getSession().getAttribute("image");
+				if(fromAdminId == null) {
+					photoURL =(String) request.getSession().getAttribute("image");
+				}else {
+					photoURL =(String) dao.find(user_id).getPhotoURL();
+				}
 
 				hasImage = 1;
 			}
@@ -303,16 +319,16 @@ public class EditProfile extends HttpServlet {
 			request.setAttribute("editError", "Oups! Something went wrong.");
 		}
 		else {
-			request.setAttribute("correctUpdate", "done");
-			
-			//get session
-			HttpSession session = request.getSession();
-			//update values
-			session.setAttribute("name",updatedUser.getName());
-			session.setAttribute("surname",updatedUser.getSurname());
-			session.setAttribute("image",updatedUser.getPhotoURL());
-			
-			
+			if(fromAdminId == null) {
+				request.setAttribute("correctUpdate", "done");
+				
+				//get session
+				HttpSession session = request.getSession();
+				//update values
+				session.setAttribute("name",updatedUser.getName());
+				session.setAttribute("surname",updatedUser.getSurname());
+				session.setAttribute("image",updatedUser.getPhotoURL());
+			}
 		}
  
 		doGet(request, response);
