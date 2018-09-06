@@ -36,7 +36,7 @@
 	  				<p class="caption">Συζητήσεις</p>
 		  		</div>
 	  		</a>
-			<a class="notifications">
+			<a class="notifications" href="${pageContext.request.contextPath}/jsp_files/notifications.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-bell"></i>
 	  				<p class="caption">Ειδοποιήσεις</p>

@@ -133,7 +133,16 @@
 										<c:choose>
 											<c:when test="${user.id!=sessionScope.id}">
 												<c:if test="${user.isConnected==0}">
-										    		<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}" style="text-decoration:none;">
+													<c:choose>
+														<c:when test="${user.isPending==1}">
+															<c:set var="pending" value="yes" />
+															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+														</c:when>
+														<c:otherwise>
+															<c:set var="pending" value="no" />
+															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+														</c:otherwise>
+													</c:choose>
 										    	</c:if>
 										    	<c:if test="${user.isConnected==1}">
 										    		<a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${user.id}" style="text-decoration:none;">
@@ -155,12 +164,26 @@
 										    		<c:choose>
 														<c:when test="${user.id!=sessionScope.id}">
 															<c:if test="${user.isConnected==0}">
-													    		<td rowspan="2">
-													    			<form action="${pageContext.request.contextPath}/Network" method="POST">
-													    				<input type="hidden" name="userId" value="${user.id}" />
-																	    <input class="btn btn-primary" type="submit" name="connect" value="Σύνδεση" />
-																	</form>
-																</td>
+																<c:choose>
+																	<c:when test="${user.isPending==1}">
+															    		<c:choose>
+																			<c:when test="${user.sentConnectionRequest==1}"> <!-- the other user sent the request -->
+																	    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Απόρριψη αιτήματος</button></td>
+																			</c:when>
+																			<c:otherwise>
+																	    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Το αίτημα έχει ήδη σταλεί</button></td>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:when>
+																	<c:otherwise>
+																		<td rowspan="2">
+															    			<form action="${pageContext.request.contextPath}/Network" method="POST">
+															    				<input type="hidden" name="userId" value="${user.id}" />
+																			    <input class="btn btn-primary" type="submit" name="connect" value="Σύνδεση" />
+																			</form>
+																		</td>
+																	</c:otherwise>
+																</c:choose>
 													    	</c:if>
 													    	<c:if test="${user.isConnected==1}">
 													    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Συνδεδεμένοι</button></td>
@@ -261,12 +284,6 @@
 						
 					</c:choose>
 					
-						
-					
-						
-
-				    	
-				
 				
 				</div> <!-- myContainer -->
 				

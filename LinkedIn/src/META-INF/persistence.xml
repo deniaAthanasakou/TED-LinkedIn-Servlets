@@ -7,6 +7,8 @@
 		<class>database.entities.Conversation</class>
 		<class>database.entities.ConversationPK</class>
 		<class>database.entities.Message</class>
+		<class>database.entities.Connection</class>
+		<class>database.entities.ConnectionPK</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ted"/>
 			<property name="javax.persistence.jdbc.user" value="ted"/>

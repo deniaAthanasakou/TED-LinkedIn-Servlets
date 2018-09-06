@@ -86,4 +86,5 @@ public class Comment implements Serializable {
 		this.dateInterval = dateInterval;
 	}
 
+
 }

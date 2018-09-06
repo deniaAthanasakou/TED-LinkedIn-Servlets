@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.crypto.tls.ConnectionEnd;
+
 import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
+import database.dao.connection.ConnectionDAOImpl;
+import database.dao.connection.ConnectionDAO;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
@@ -45,7 +49,7 @@ public class Network extends HttpServlet {
 		request.setAttribute("redirect", "StopLoop");	
 		
 			
-		UserDAO dao = new UserDAOImpl(true);
+		ConnectionDAO dao = new ConnectionDAOImpl(true);
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		List<User> ulist = dao.getConnections(user_id);
 		System.out.println("id is "+ user_id);
@@ -72,7 +76,7 @@ public class Network extends HttpServlet {
 		//show search results
 		
 		System.out.println(" in post");
-		UserDAO dao = new UserDAOImpl(true);
+		ConnectionDAO dao = new ConnectionDAOImpl(true);
 		
 		if (request.getParameter("connect") != null) {
 			int user_id1=Integer.valueOf((String) request.getSession().getAttribute("id"));
@@ -98,7 +102,7 @@ public class Network extends HttpServlet {
 		if(vf.isBlank(search)) {
 
 			request.setAttribute("getUsers", "usersFromSearch");
-			request.setAttribute("users", dao.listWithConnectedField(Integer.valueOf((String) request.getSession().getAttribute("id"))));	
+			request.setAttribute("users", dao.listWithConnectedPendingField(Integer.valueOf((String) request.getSession().getAttribute("id"))));	//getAllUsers with connected or pending field
 			
 			RequestDispatcher view = request.getRequestDispatcher(displayPage);
 		    view.forward(request, response);

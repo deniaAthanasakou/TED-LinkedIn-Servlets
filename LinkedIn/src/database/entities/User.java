@@ -39,6 +39,8 @@ public class User implements Serializable {
 
 	private byte isConnected;
 
+	private byte isPending;
+
 	private String name;
 
 	private String password;
@@ -70,6 +72,8 @@ public class User implements Serializable {
 	@Column(name="prof_exp")
 	private String profExp;
 
+	private byte sentConnectionRequest;
+
 	private String skills;
 
 	private String surname;
@@ -81,6 +85,14 @@ public class User implements Serializable {
 	//bi-directional many-to-one association to Comment
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
+
+	//bi-directional many-to-one association to Connection
+	@OneToMany(mappedBy="user1")
+	private List<Connection> connections1;
+
+	//bi-directional many-to-one association to Connection
+	@OneToMany(mappedBy="user2")
+	private List<Connection> connections2;
 
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
@@ -132,6 +144,9 @@ public class User implements Serializable {
 	//bi-directional many-to-many association to User
 	@ManyToMany(mappedBy="users3")
 	private List<User> users4;
+
+	public User() {
+	}
 	
 	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
 			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts, String profExp, String skills, String education, String workPos, String institution,
@@ -168,8 +183,6 @@ public class User implements Serializable {
 		this.posts1 = posts;
 	}
 
-	public User() {
-	}
 
 	public int getId() {
 		return this.id;
@@ -257,6 +270,14 @@ public class User implements Serializable {
 
 	public void setIsConnected(byte isConnected) {
 		this.isConnected = isConnected;
+	}
+
+	public byte getIsPending() {
+		return this.isPending;
+	}
+
+	public void setIsPending(byte isPending) {
+		this.isPending = isPending;
 	}
 
 	public String getName() {
@@ -379,6 +400,14 @@ public class User implements Serializable {
 		this.profExp = profExp;
 	}
 
+	public byte getSentConnectionRequest() {
+		return this.sentConnectionRequest;
+	}
+
+	public void setSentConnectionRequest(byte sentConnectionRequest) {
+		this.sentConnectionRequest = sentConnectionRequest;
+	}
+
 	public String getSkills() {
 		return this.skills;
 	}
@@ -431,6 +460,50 @@ public class User implements Serializable {
 		comment.setUser(null);
 
 		return comment;
+	}
+
+	public List<Connection> getConnections1() {
+		return this.connections1;
+	}
+
+	public void setConnections1(List<Connection> connections1) {
+		this.connections1 = connections1;
+	}
+
+	public Connection addConnections1(Connection connections1) {
+		getConnections1().add(connections1);
+		connections1.setUser1(this);
+
+		return connections1;
+	}
+
+	public Connection removeConnections1(Connection connections1) {
+		getConnections1().remove(connections1);
+		connections1.setUser1(null);
+
+		return connections1;
+	}
+
+	public List<Connection> getConnections2() {
+		return this.connections2;
+	}
+
+	public void setConnections2(List<Connection> connections2) {
+		this.connections2 = connections2;
+	}
+
+	public Connection addConnections2(Connection connections2) {
+		getConnections2().add(connections2);
+		connections2.setUser2(this);
+
+		return connections2;
+	}
+
+	public Connection removeConnections2(Connection connections2) {
+		getConnections2().remove(connections2);
+		connections2.setUser2(null);
+
+		return connections2;
 	}
 
 	public List<Post> getPosts1() {

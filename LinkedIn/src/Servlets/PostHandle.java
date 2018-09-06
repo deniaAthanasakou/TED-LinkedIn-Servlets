@@ -26,6 +26,8 @@ import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
 import database.dao.comment.CommentDAO;
 import database.dao.comment.CommentDAOImpl;
+import database.dao.connection.ConnectionDAO;
+import database.dao.connection.ConnectionDAOImpl;
 import database.dao.post.PostDAO;
 import database.dao.post.PostDAOImpl;
 import database.dao.user.UserDAO;
@@ -90,8 +92,8 @@ public class PostHandle extends HttpServlet {
 					post.setLiked(dao.checkLiked(userId, Long.valueOf(post.getId())));
 				}	
 				//get no of connections
-				UserDAO userDao = new UserDAOImpl(true);
-				int noConnections = userDao.countConnections(userId);
+				ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
+				int noConnections = cnxDao.countConnections(userId);
 				request.setAttribute("noConnections", noConnections);
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
@@ -150,8 +152,8 @@ public class PostHandle extends HttpServlet {
 					post.setLiked(dao.checkLiked(userId, Long.valueOf(post.getId())));
 				}	
 				//get no of connections
-				UserDAO userDao = new UserDAOImpl(true);
-				int noConnections = userDao.countConnections(userId);
+				ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
+				int noConnections = cnxDao.countConnections(userId);
 				request.setAttribute("noConnections", noConnections);
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");

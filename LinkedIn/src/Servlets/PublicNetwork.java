@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.dao.connection.ConnectionDAO;
+import database.dao.connection.ConnectionDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
@@ -41,7 +43,7 @@ public class PublicNetwork extends HttpServlet {
 		request.setAttribute("redirect", "StopLoop");	
 		
 			
-		UserDAO dao = new UserDAOImpl(true);
+		ConnectionDAO dao = new ConnectionDAOImpl(true);
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
 		List<User> ulist = dao.getConnections(user_id);
 		

@@ -16,31 +16,17 @@ import database.entities.User;
 public class UserDAOImpl implements UserDAO 
 {
 	//prepared Statements
-	private static final String SQL_FIND_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE id = ?";
-	private static final String SQL_FIND_BY_EMAIL_PASSWORD = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User WHERE email = ? AND password = ?";
-	private static final String SQL_LIST_ORDER_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User ORDER BY id";
-	private static final String SQL_LIST_ORDER_BY_NAME = "SELECT * FROM User ORDER BY name, surname";
-
-	private static final String SQL_LIST_ORDER_BY_EMAIL = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected FROM User ORDER BY email";
+	private static final String SQL_FIND_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest FROM User WHERE id = ?";
+	private static final String SQL_FIND_BY_EMAIL_PASSWORD = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest FROM User WHERE email = ? AND password = ?";
+	private static final String SQL_LIST_ORDER_BY_ID = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest FROM User ORDER BY id";
 	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?,?,?,? )";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM User";
-	private static final String SQL_FIND_BY_NAME = "SELECT * FROM User WHERE name = ? ORDER BY surname";
-	private static final String SQL_FIND_BY_SURNAME = "SELECT * FROM User WHERE surname = ? ORDER BY name";
-	private static final String SQL_FIND_BY_NAME_AND_SURNAME = "SELECT * FROM User WHERE name = ? AND surname = ? ORDER BY name, surname";
-	private static final String SQL_GET_CONNECTIONS_OF_USER = "SELECT * FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id) ORDER BY name, surname";
-	private static final String SQL_GET_USERS_EXCEPT_ONE = "SELECT * FROM User WHERE id != ?";
-	
-	private static final String SQL_UPDATE_USERS_CONNECTED_FIELD = "UPDATE User, connection SET isConnected='1' WHERE (connection.user_id=? AND user.id=connection.connectedUser_id) OR (connection.connectedUser_id=? AND user.id=connection.user_id)";
-	private static final String SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD = "UPDATE User SET isConnected='0'";
-	private static final String SQL_INSERT_INTO_CONNECTION = "INSERT INTO connection (user_id, connectedUser_id) VALUES (?, ?)";
-	
 	private static final String SQL_UPDATE_EMAIL_PASSWORD = "UPDATE User SET email = ?, password = ? WHERE id = ?";
 
-	private static final String SQL_FIND_BY_ID_PROFILE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User WHERE id = ?";
+	private static final String SQL_FIND_BY_ID_PROFILE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User WHERE id = ?";
 	private static final String SQL_UPDATE_USER = "UPDATE User SET name=?, surname=?, tel=?, photoURL=?, dateOfBirth=?, gender=?, city=?, country=?, hasImage=?, prof_exp=?, education=?, skills=?, privateTelephone=?, privateEmail=?, privateGender=?, privateDateOfBirth=?, privateProfExp=?, privateSkills=?, privateEducation=?, privateCity=?, privateCountry=?, workPos=?, institution=?, privateWorkPos=?, privateInstitution=? WHERE id=?";
 	
-	private static final String SQL_ARE_USERS_CONNECTED = "SELECT 1 FROM connection WHERE (connection.user_id=? AND connection.connectedUser_id=?) OR (connection.connectedUser_id=? AND connection.user_id=?)";
-	private static final String SQL_COUNT_CONNECTIONS = "SELECT COUNT(*) FROM connection, User WHERE (user_id = ? AND connectedUser_id = User.id) OR (connectedUser_id = ? AND user_id = User.id)";
+
 		
     private ConnectionFactory factory;
     
@@ -154,93 +140,7 @@ public class UserDAOImpl implements UserDAO
         return size;
 	}
 	
-	@Override
-	public List<User> searchByName(String name, int user_id) {
 
-		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-        		
-    		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-    		PreparedStatement statement3 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD);	
-
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME, false, name);
-           
-        		
-        ) {
-        	statement2.executeUpdate();		//isConnected=1
-        	 ResultSet resultSet = statement.executeQuery();	
-        	
-            while (resultSet.next()) {
-            	users.add(mapEverything(resultSet));
-            }
-            statement3.executeUpdate();		//isConnected=0
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return users;
-	}
-	
-	@Override
-	public List<User> searchBySurname(String surname, int user_id) {
-
-		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-        		
-    		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-    		PreparedStatement statement3 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD);	
-
-
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_SURNAME, false, surname);
-           
-        		
-        ) {
-        	statement2.executeUpdate();		//isConnected=1
-       	 	ResultSet resultSet = statement.executeQuery();	
-       	
-           while (resultSet.next()) {
-           	users.add(mapEverything(resultSet));
-           }
-           statement3.executeUpdate();		//isConnected=0
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return users;
-	}
-	
-	@Override
-	public List<User> searchByNameAndSurname(String name, String surname, int user_id) {
-
-		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-
-    		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-    		PreparedStatement statement3 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD);		
-        		
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME_AND_SURNAME, false, name, surname);
-           
-        		
-        ) {
-        	statement2.executeUpdate();		//isConnected=1
-       	 	ResultSet resultSet = statement.executeQuery();	
-       	
-           while (resultSet.next()) {
-           	users.add(mapEverything(resultSet));
-           }
-           statement3.executeUpdate();		//isConnected=0
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return users;
-	}
 	
 	
 	@Override
@@ -262,82 +162,7 @@ public class UserDAOImpl implements UserDAO
         return user;
 	}
 	
-	@Override
-	public List<User> getConnections(int user_id){
-		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
 
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_GET_CONNECTIONS_OF_USER, false, user_id, user_id);
-            ResultSet resultSet = statement.executeQuery();	
-        		
-        ) {
-            while (resultSet.next()) {
-            	users.add(mapEverything(resultSet));
-            }
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return users;
-	}
-	
-	@Override
-	public List<User> listWithConnectedField(int user_id){
-		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-        		PreparedStatement statement3 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_FIELD);)
-		{
-			System.err.println("inside first try");
-			
-			System.out.println(statement);
-			
-			statement.executeUpdate();		//isConnected=1
-			
-        	PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_LIST_ORDER_BY_NAME, false);
-            ResultSet resultSet = statement2.executeQuery();	
-            while (resultSet.next()) {
-            	users.add(mapEverything(resultSet));
-            }
-            statement3.executeUpdate();		//isConnected=0
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return users;
-	}
-	
-	@Override
-	public int connectToUser(int user_id1, int user_id2) {
-		int ret=0;
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT_INTO_CONNECTION, true, user_id1, user_id2);) 
-		{
-			System.out.println(statement);
-			
-			int affectedRows = statement.executeUpdate();
-			ret = affectedRows;
-			if (ret == 0) {
-				System.err.println("Creating user failed, no rows affected.");
-				return ret;
-			}
-			System.err.println("before second try");
-			
-		} 
-		catch (SQLException e) {
-			System.err.println("SQLException: Creating user failed.");
-			return ret;
-		}
-		
-		return ret;
-		
-		
-	}
 	
 	@Override
 	public int updateSettings(int user_id, String email, String password) {
@@ -405,55 +230,7 @@ public class UserDAOImpl implements UserDAO
 		return affectedRows;
 	}
 	
-	@Override
-	public List<User> existingListWithConnectedField(int user_id, List<User> users){
-		byte isConnected=1;
-		try {
-			Connection connection = factory.getConnection();
-			
-			for (User user:users){
-				
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_ARE_USERS_CONNECTED, false,  user_id, user.getId(), user_id, user.getId());
-				ResultSet resultSet = statement.executeQuery();
-				
-				if (resultSet.next() ) {		//found connection
-					user.setIsConnected(isConnected);
-				}
-			}
 
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-			
-		
-
-        return users;
-	}
-	
-	@Override
-	public int countConnections(long user_id) {
-
-		int size = 0;
-		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_COUNT_CONNECTIONS, false, user_id, user_id);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
-            while (resultSet.next()) {
-            	size = resultSet.getInt("COUNT(*)");
-            }
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-
-        return size;
-	}
 	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -471,6 +248,8 @@ public class UserDAOImpl implements UserDAO
         user.setCountry(resultSet.getString("country"));
         user.setHasImage(resultSet.getByte("hasImage"));
         user.setIsConnected(resultSet.getByte("isConnected"));
+        user.setIsPending(resultSet.getByte("isPending"));
+        user.setSentConnectionRequest(resultSet.getByte("sentConnectionRequest"));
         return user;
     }
 	
@@ -495,6 +274,8 @@ public class UserDAOImpl implements UserDAO
         user.setSkills(resultSet.getString("skills"));
         user.setWorkPos(resultSet.getString("workPos"));
         user.setInstitution(resultSet.getString("institution"));
+        user.setIsPending(resultSet.getByte("isPending"));
+        user.setSentConnectionRequest(resultSet.getByte("sentConnectionRequest"));
         
         user.setPrivateCity(resultSet.getByte("privateCity"));
         user.setPrivateCountry(resultSet.getByte("privateCountry"));
