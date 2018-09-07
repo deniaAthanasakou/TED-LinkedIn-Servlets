@@ -24,7 +24,7 @@
 	  				<p class="caption">Δίκτυο</p>
 		  		</div>
 	  		</a> 
-			<a class="jobs">
+			<a class="jobs" href="${pageContext.request.contextPath}/jsp_files/jobs.jsp">
 				<div class="item">
 	  				<i class="glyphicon glyphicon-briefcase"></i>
 	  				<p class="caption">Αγγελίες</p>

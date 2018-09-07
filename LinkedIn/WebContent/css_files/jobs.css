@@ -1,0 +1,111 @@
+.createJob{
+	background-color: white;
+	height: 70px;
+	border: 1px gray solid;
+	border-radius: 3px;
+	box-shadow: 0 0 1px black;
+	text-align: center;
+	color: black;
+	width:830px;
+	min-width: 300px;
+  	margin-top: 50px;
+  	margin-left: auto;
+  	margin-right: auto;
+}
+	
+	
+.applied_stats{
+	display: inline-block;
+	floar: left;
+	height: 100%;
+	width: auto;
+	margin-left: 10px;
+	position: absolute;
+	line-height: 70px;
+}
+
+.applied_stats p, h4{
+	display: inline;
+	font-size: 20px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.newJob{
+	float: right;
+	display: inline-block;
+	line-height: 70px;
+	height: 100%;
+	width: auto;
+	margin-right: 10px;
+}
+
+.newJob h4{
+	margin-right: 10px;
+}
+
+.displayJobs{
+	background-color: white;
+	height: auto;
+	border: 1px gray solid;
+	border-radius: 3px;
+	box-shadow: 0 0 1px black;
+	text-align: center;
+	color: black;
+	width: 830px;
+	min-width: 300px;
+  	margin-top: 50px;
+  	margin-left: auto;
+  	margin-right: auto;
+}
+
+.jobsLabel{
+	width: auto;
+	text-decoration: underline;
+	margin: 10px;
+	float: left;
+}
+
+.jobsSection{
+	padding: 10px;
+	clear: all;
+}
+	
+.jobItem{
+	width: 250px;
+	height: 250px;
+	border: 1px #ccc solid;
+	border-radius: 3px;
+	transition: box-shadow .3s;
+}
+
+.jobItem:hover{
+	box-shadow: 0 0 11px rgba(33,33,33,.2);
+	cursor: pointer;
+}
+
+.jobItem img{
+	width: 80px;
+	height: 80px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	box-radius: 3px;
+}
+
+.jobItem h4{
+	font-weight:normal;
+}
+
+.jobItem h5{
+	color: #939393;	
+}
+
+.jobItem p{
+	color: #939393;	
+	float: bottom;
+}
+
+.noPadding {
+	padding: 0 !important;
+}
