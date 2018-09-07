@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_FIND_BY_ID_PROFILE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User WHERE id = ?";
 	private static final String SQL_UPDATE_USER = "UPDATE User SET name=?, surname=?, tel=?, photoURL=?, dateOfBirth=?, gender=?, city=?, country=?, hasImage=?, prof_exp=?, education=?, skills=?, privateTelephone=?, privateEmail=?, privateGender=?, privateDateOfBirth=?, privateProfExp=?, privateSkills=?, privateEducation=?, privateCity=?, privateCountry=?, workPos=?, institution=?, privateWorkPos=?, privateInstitution=? WHERE id=?";
 	
-
+	private static final String SQL_SELECTED_USERS = "SELECT * FROM User WHERE id IN ("; 
 		
     private ConnectionFactory factory;
     
@@ -228,6 +228,36 @@ public class UserDAOImpl implements UserDAO
 		}
 		
 		return affectedRows;
+	}
+	
+	@Override
+	public List<User> getSelectedUsers(String[] ids){
+		//build statement
+		StringBuilder builder = new StringBuilder();
+
+		for( int i = 0 ; i < ids.length; i++ ) {
+		    builder.append("?,");
+		}
+		builder.setCharAt( builder.length() -1, ')');
+		String stmt = SQL_SELECTED_USERS + builder.toString();
+		System.out.println(stmt);
+		
+		List<User> users = new ArrayList<>();
+
+        try (
+            Connection connection = factory.getConnection();
+            PreparedStatement statement = DAOUtil.prepareStatement(connection, stmt, false, ids);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+                users.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return users;
 	}
 	
 

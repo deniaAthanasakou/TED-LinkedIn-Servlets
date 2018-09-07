@@ -1,6 +1,7 @@
 package JavaFiles;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -8,7 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import database.entities.Post;
+import database.entities.User;
 
 public class VariousFunctions {
 	
@@ -108,6 +113,12 @@ public class VariousFunctions {
 	            }
 	        }
 	    }
+	}
+	
+	public static String generateXML(List<User> users) throws IOException {
+	    XmlMapper xmlMapper = new XmlMapper();
+	    xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+	    return xmlMapper.writeValueAsString(users);
 	}
 
 }

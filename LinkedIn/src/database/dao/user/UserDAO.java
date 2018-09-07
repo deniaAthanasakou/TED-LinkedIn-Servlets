@@ -21,5 +21,5 @@ public interface UserDAO
     
     public int updateUser(User user, int user_id);
 
-        
+    public List<User> getSelectedUsers(String[] ids);
 }
