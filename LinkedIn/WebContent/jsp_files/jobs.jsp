@@ -24,6 +24,15 @@
 			</div>
 			
 			<div class="displayJobs">
+				<!-- from my applications -->
+				<div class="jobsLabel">
+					<h4>Οι αγγελίες μου</h4>
+				</div>
+				
+				<div class="jobsSection">
+				
+				</div>
+			
 				<!-- from connections -->
 				<div class="jobsLabel">
 					<h4>Από τις συνδέσεις</h4>
@@ -33,8 +42,8 @@
 					<div class="container-fluid noPadding">
 						<div class="row">
 							<div class="col-md-4">
-								<div class="jobItem" onclick="location.href='';">
-									<img src="${pageContext.request.contextPath}/images/default-user.png">
+								<div class="jobItem" onclick="location.href='${pageContext.request.contextPath}/jsp_files/jobItem.jsp';">
+									<img src="${pageContext.request.contextPath}/images/company-name.png">
 									<h3>JobTitle</h3>
 									<h4>JobIndustry</h4>
 									<h5>JobLocation</h5>
@@ -43,7 +52,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="jobItem">
-									<img src="${pageContext.request.contextPath}/images/default-user.png">
+									<img src="${pageContext.request.contextPath}/images/company-name.png">
 									<h3>JobTitle</h3>
 									<h4>JobIndustry</h4>
 									<h5>JobLocation</h5>
@@ -52,7 +61,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="jobItem">
-									<img src="${pageContext.request.contextPath}/images/default-user.png">
+									<img src="${pageContext.request.contextPath}/images/company-name.png">
 									<h3>JobTitle</h3>
 									<h4>JobIndustry</h4>
 									<h5>JobLocation</h5>

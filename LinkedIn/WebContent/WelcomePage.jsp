@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<!-- custom -->
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.ico"> 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/welcome_page.css" type="text/css">
 		<!-- Latest compiled and minified CSS -->

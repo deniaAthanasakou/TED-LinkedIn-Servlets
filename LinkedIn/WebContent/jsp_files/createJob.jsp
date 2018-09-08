@@ -5,7 +5,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/createJob.css" type="text/css">
-		<script src="${pageContext.request.contextPath}/js_files/limitSelect.js"></script>
 		<title>Create job</title>
 	</head>
 	<body>
