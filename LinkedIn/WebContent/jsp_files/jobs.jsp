@@ -19,7 +19,7 @@
 				</div>
 				<div class="newJob">
 					<h4 style="color:#939393;">Ψάχνεις για ταλέντο;</h4>
-					<button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Δημιουργία Αγγελίας</button>
+					<a href="${pageContext.request.contextPath}/jsp_files/createJob.jsp"><button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Δημιουργία Αγγελίας</button></a>
 				</div>
 			</div>
 			
@@ -33,7 +33,7 @@
 					<div class="container-fluid noPadding">
 						<div class="row">
 							<div class="col-md-4">
-								<div class="jobItem">
+								<div class="jobItem" onclick="location.href='';">
 									<img src="${pageContext.request.contextPath}/images/default-user.png">
 									<h3>JobTitle</h3>
 									<h4>JobIndustry</h4>
