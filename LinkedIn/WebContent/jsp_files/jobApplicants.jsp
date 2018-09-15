@@ -15,9 +15,9 @@
 			<h2>Αιτήσεις Εργασίας</h2>
 		
 			<div class="applicant">
-				<div class="row">
+				<div class="row equal">
 					<div class="col-md-3">
-						<img src="${pageContext.request.contextPath}/images/default-user.png">
+						<img src="${pageContext.request.contextPath}/images/default-user.png" width="80px" height="80px" style="border-radius:50%;">
 					</div>
 					<div class="col-md-4">
 						<h3>Name</h3>

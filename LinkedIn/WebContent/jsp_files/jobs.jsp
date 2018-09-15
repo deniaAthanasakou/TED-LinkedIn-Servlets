@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,6 +9,9 @@
 		<title>Jobs</title>
 	</head>
 	<body>
+		<% if ( request.getAttribute( "redirectJobs" ) == null ) { %>
+			<jsp:forward page="/JobHandle?action=getJobs" />
+		<% } %>
 	
 		<jsp:include page="Header.jsp" /> 
 		
@@ -30,7 +34,21 @@
 				</div>
 				
 				<div class="jobsSection">
-				
+					<c:forEach items="${jobs}" var="job">
+						<c:if test="${job.id.userId == sessionScope.id}">
+							<div class="jobItem">
+								<form method="post" id="mine${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
+									<div onclick="document.getElementById('mine${job.id.jobId}').submit();">
+										<img src="${pageContext.request.contextPath}/images/company-name.png">
+										<h3>${job.title}</h3>
+										<h4>${job.company}</h4>
+										<h5>${job.location}</h5>
+										<p>${job.dateInterval}</p>
+									</div>
+								</form>
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
 			
 				<!-- from connections -->
@@ -39,37 +57,19 @@
 				</div>
 				
 				<div class="jobsSection">
-					<div class="container-fluid noPadding">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="jobItem" onclick="location.href='${pageContext.request.contextPath}/jsp_files/jobItem.jsp';">
+					<c:forEach items="${jobs}" var="job">
+						<div class="jobItem">
+							<form method="post" id="conn${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
+								<div onclick="document.getElementById('conn${job.id.jobId}').submit();">
 									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>JobTitle</h3>
-									<h4>JobIndustry</h4>
-									<h5>JobLocation</h5>
-									<p>Date posted</p>
+									<h3>${job.title}</h3>
+									<h4>${job.company}</h4>
+									<h5>${job.location}</h5>
+									<p>${job.dateInterval}</p>
 								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="jobItem">
-									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>JobTitle</h3>
-									<h4>JobIndustry</h4>
-									<h5>JobLocation</h5>
-									<p>Date posted</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="jobItem">
-									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>JobTitle</h3>
-									<h4>JobIndustry</h4>
-									<h5>JobLocation</h5>
-									<p>Date posted</p>
-								</div>
-							</div>
+							</form>
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 				
 				<!-- from skills -->
@@ -78,7 +78,19 @@
 				</div>
 				
 				<div class="jobsSection">
-				
+					<c:forEach items="${jobs}" var="job">
+						<div class="jobItem">
+							<form method="post" id="skills${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
+								<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
+									<img src="${pageContext.request.contextPath}/images/company-name.png">
+									<h3>${job.title}</h3>
+									<h4>${job.company}</h4>
+									<h5>${job.location}</h5>
+									<p>${job.dateInterval}</p>
+								</div>
+							</form>
+						</div>
+					</c:forEach>
 				</div>
 				
 				<!-- from network -->
@@ -87,10 +99,22 @@
 				</div>
 				
 				<div class="jobsSection">
-				
+					<c:forEach items="${jobs}" var="job">
+						<div class="jobItem">
+							<form method="post" id="data${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
+								<div onclick="document.getElementById('data${job.id.jobId}').submit();">
+									<img src="${pageContext.request.contextPath}/images/company-name.png">
+									<h3>${job.title}</h3>
+									<h4>${job.company}</h4>
+									<h5>${job.location}</h5>
+									<p>${job.dateInterval}</p>
+								</div>
+							</form>
+						</div>
+					</c:forEach>
 				</div>
-			</div>
 			
+			</div>
 		</div>
 		
 		<jsp:include page="Footer.jsp"/>

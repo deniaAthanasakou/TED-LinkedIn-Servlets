@@ -160,6 +160,22 @@
     <servlet-name>AdminPage</servlet-name>
     <url-pattern>/AdminPage/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>JobHandle</servlet-name>
+    <servlet-class>Servlets.JobHandle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JobHandle</servlet-name>
+    <url-pattern>/JobHandle/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>JobApplicationHandle</servlet-name>
+    <servlet-class>Servlets.JobApplicationHandle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JobApplicationHandle</servlet-name>
+    <url-pattern>/JobApplicationHandle/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>users.dir</param-name>
     <param-value>users</param-value>

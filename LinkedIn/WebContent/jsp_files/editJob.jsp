@@ -5,7 +5,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/createJob.css" type="text/css">
-		<title>Create job</title>
+		<title>Edit job</title>
+		
+		<script src="${pageContext.request.contextPath}/js_files/setSelected.js"></script>
 	</head>
 	<body>
 	
@@ -13,7 +15,7 @@
 		
 		<div class="main">
 			<div class="createJobInfo">
-				<form method="post" action="${pageContext.request.contextPath}/JobHandle" accept-charset="utf-8">
+				<form method="post" action="${pageContext.request.contextPath}/JobHandle?action=editJob&jobId=${job.id.jobId}" accept-charset="utf-8">
 					<div class="infoLabel">
 						<h3>Κύρια Χαρακτηριστικά Αγγελίας</h3>
 					</div>
@@ -23,19 +25,19 @@
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobTitle">Τίτλος Αγγελίας</label>
-								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Τίτλος Αγγελίας" maxlength="60" required>
+								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Τίτλος Αγγελίας" value="${job.title}" maxlength="60" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobIndustry">Εταιρεία</label>
-								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Εταιρεία" maxlength="45" required>
+								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Εταιρεία" value="${job.company}" maxlength="45" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobLocation">Τοποθεσία</label>
-								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Τοποθεσία" maxlength="200" required>
+								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Τοποθεσία" maxlength="200" value="${job.location}" required>
 								</div>
 							</div>
 						</div>
@@ -281,7 +283,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="jobDescription">Περιγραφή εργασίας*</label>
-									<textarea class="form-control" rows="3" name="jobDescription" id="jobDescription" maxlength="10000" required></textarea>
+									<textarea class="form-control" rows="3" name="jobDescription" id="jobDescription" maxlength="10000" required>${job.description}</textarea>
 								</div>
 							</div>
 						</div>
@@ -301,7 +303,7 @@
 										</div>
 									</c:if>
 								    <label for="skills">Δεξιότητες(Χωρίστε τις δεξιότητες με κόμμα, επιλέξτε μέχρι 10)*</label>
-								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Δεξιότητες..." maxlength="1000" required></textarea>
+								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Δεξιότητες..." maxlength="1000" required>${job.skills}</textarea>
 								</div>
 							</div>
 						</div>
@@ -318,13 +320,13 @@
 							<div class="col-md-6">
 								<div class="form-group">	
 									<label for="fromYears">Εμπειρία από έτη*</label>
-									<input type="number" class="form-control" id="fromYears" name="fromYears" value="0" min="0" max="50" required>
+									<input type="number" class="form-control" id="fromYears" name="fromYears" value="${job.experienceFrom}" min="0" max="50" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">	
 									<label for="toYears">Μέχρι*</label>
-									<input type="number" class="form-control" id="toYears" name="toYears" value="3" min="0" max="50" required>
+									<input type="number" class="form-control" id="toYears" name="toYears" value="${job.experienceTo}" min="0" max="50" required>
 								</div>
 							</div>
 						</div>
@@ -362,7 +364,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="dailyMoney">Ημερήσια πληρωμή σε EUR*</label>
-									<input type="number" step=0.01 class="form-control" id="dailyMoney" name="dailyMoney" value="7" min="0" required>
+									<input type="number" step=0.01 class="form-control" id="dailyMoney" name="dailyMoney" value="${job.dailySalary}" min="0" required>
 								</div>
 							</div>
 						</div>
@@ -372,12 +374,19 @@
 						<button type="button" class="btn btn-danger" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/jobs.jsp'"><i class="glyphicon glyphicon-remove"></i> Ακύρωση</button>
 						<button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Καθαρισμός</button>
 					</div>
-					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Ολοκλήρωση</button>
+					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Ολοκλήρωση Επεξεργασίας</button>
 				</form>
 			</div>
 		</div>
 		
 		<jsp:include page="Footer.jsp"/>
-
+		
+		<script type='text/javascript'>
+			setSelectedEducationLevel("${job.educationLevel}");
+			setSelectedJobFunctions("${job.jobFunction}");
+			setSelectedJobCompanyTypes("${job.jobCompanyType}");
+			setSelectedJobType("${job.jobType}");
+			setSelectedExperience("${job.experience}");
+		</script>
 	</body>
 </html>
