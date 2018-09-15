@@ -27,7 +27,10 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_UPDATE_USER = "UPDATE User SET name=?, surname=?, tel=?, photoURL=?, dateOfBirth=?, gender=?, city=?, country=?, hasImage=?, prof_exp=?, education=?, skills=?, privateTelephone=?, privateEmail=?, privateGender=?, privateDateOfBirth=?, privateProfExp=?, privateSkills=?, privateEducation=?, privateCity=?, privateCountry=?, workPos=?, institution=?, privateWorkPos=?, privateInstitution=? WHERE id=?";
 	
 	private static final String SQL_SELECTED_USERS = "SELECT * FROM User WHERE id IN ("; 
-		
+	
+	private static final String SQL_GET_LIKES = "SELECT User.id, Post.id, name, surname, photoURL from User, Post, ted.like WHERE (post.user_id=? AND user.id=ted.like.user_id AND user.id!=post.user_id AND ted.like.post_id=post.id) ORDER BY ted.like.date_liked DESC";
+
+	
     private ConnectionFactory factory;
     
     public UserDAOImpl(boolean pool)
@@ -260,7 +263,25 @@ public class UserDAOImpl implements UserDAO
         return users;
 	}
 	
+	@Override
+	public List<User> getLikesAndComments(int user_id){
+		List<User> users = new ArrayList<>();
+		System.out.println("before sql get likes");
+        try (
+            Connection connection = factory.getConnection();
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES, false, user_id);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+                users.add(mapForNotifications(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
 
+        return users;
+	}
 	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -318,8 +339,22 @@ public class UserDAOImpl implements UserDAO
         user.setPrivateSkills(resultSet.getByte("privateSkills"));
         user.setPrivateWorkPos(resultSet.getByte("privateWorkPos"));
         user.setPrivateInstitution(resultSet.getByte("privateInstitution"));
+        
         return user;
     }
+	
+	private static User mapForNotifications(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("user.id"));
+        user.setPostId(resultSet.getInt("post.id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setPhotoURL(resultSet.getString("photoURL"));
+       
+        return user;
+    }
+	
+	
 	
 
 }

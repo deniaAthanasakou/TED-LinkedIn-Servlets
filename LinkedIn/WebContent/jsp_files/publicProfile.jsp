@@ -20,8 +20,9 @@
 		
 	</head>
 	<body>
+
 		<c:set var="user_id" value="${param.id}" />
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+		<% if ( request.getAttribute( "redirect" ) == null || request.getAttribute( "redirect" ).equals("null")) { %>
 			<jsp:forward page="/PublicProfile">
 				<jsp:param name="id" value="${user_id}" ></jsp:param>
 			</jsp:forward>
@@ -32,9 +33,19 @@
 		<div class="main">
 			<div class="container">					
 				<div class="chat">
+					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+						<input type="hidden" name="id" value="${user.id}">
+						<input type="hidden" name="pending" value="${user.isPending}">
+					    <input type="submit" name="rejectButton" value="Διαγραφή αιτήματος" class="btn btn-primary deleteFriend btn-lg reject-button"/>
+					</form>
 					<button onclick="location.href='${pageContext.request.contextPath}/jsp_files/Messaging.jsp?id=${user_id}'" type="button" class="btn btn-primary btn-lg chat-button">Συζήτηση</button>
 				</div>
 				
+				<%if (request.getAttribute("msg") != null){%>
+					<div class="alert alert-success">
+						<%=request.getAttribute("msg")%>
+					</div>
+				<%} %>
 				
 				<div class="networkDiv">
 					<a href="${pageContext.request.contextPath}/jsp_files/publicNetwork.jsp?id=${user_id}">Δίκτυο<i class="material-icons">people</i></a>

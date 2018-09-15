@@ -39,6 +39,10 @@ public class Post implements Serializable {
 	@OneToMany(mappedBy="post")
 	private List<Comment> comments;
 
+	//bi-directional many-to-one association to Like
+	@OneToMany(mappedBy="post")
+	private List<Like> likesSet;
+
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	private User user;
@@ -148,6 +152,28 @@ public class Post implements Serializable {
 		return comment;
 	}
 
+	public List<Like> getLikesSet() {
+		return this.likesSet;
+	}
+
+	public void setLikesSet(List<Like> likesSet) {
+		this.likesSet = likesSet;
+	}
+
+	public Like addLikesSet(Like likesSet) {
+		getLikesSet().add(likesSet);
+		likesSet.setPost(this);
+
+		return likesSet;
+	}
+
+	public Like removeLikesSet(Like likesSet) {
+		getLikesSet().remove(likesSet);
+		likesSet.setPost(null);
+
+		return likesSet;
+	}
+
 	public User getUser() {
 		return this.user;
 	}
@@ -165,81 +191,80 @@ public class Post implements Serializable {
 	}
 	
 	//local fields for populate
-		@Transient
-		private int noComments;
+	@Transient
+	private int noComments;
 
-		public int getNoComments() {
-			return noComments;
-		}
+	public int getNoComments() {
+		return noComments;
+	}
 
-		public void setNoComments(int noComments) {
-			this.noComments = noComments;
-		}
-		
-		@Transient
-		private String dateInterval;
+	public void setNoComments(int noComments) {
+		this.noComments = noComments;
+	}
+	
+	@Transient
+	private String dateInterval;
 
-		public String getDateInterval() {
-			return dateInterval;
-		}
+	public String getDateInterval() {
+		return dateInterval;
+	}
 
-		public void setDateInterval(String dateInterval) {
-			this.dateInterval = dateInterval;
-		}
-		
-		
-		@Transient
-		private List<String> listImages;
-		@Transient
-		private List<String> listVideos;
-		@Transient
-		private List<String> listAudios;
+	public void setDateInterval(String dateInterval) {
+		this.dateInterval = dateInterval;
+	}
+	
+	
+	@Transient
+	private List<String> listImages;
+	@Transient
+	private List<String> listVideos;
+	@Transient
+	private List<String> listAudios;
 
-		public List<String> getListImages() {
-			return listImages;
-		}
+	public List<String> getListImages() {
+		return listImages;
+	}
 
-		public void setListImages(List<String> listImages) {
-			this.listImages = listImages;
-		}
+	public void setListImages(List<String> listImages) {
+		this.listImages = listImages;
+	}
 
-		public List<String> getListVideos() {
-			return listVideos;
-		}
+	public List<String> getListVideos() {
+		return listVideos;
+	}
 
-		public void setListVideos(List<String> listVideos) {
-			this.listVideos = listVideos;
-		}
+	public void setListVideos(List<String> listVideos) {
+		this.listVideos = listVideos;
+	}
 
-		public List<String> getListAudios() {
-			return listAudios;
-		}
+	public List<String> getListAudios() {
+		return listAudios;
+	}
 
-		public void setListAudios(List<String> listAudios) {
-			this.listAudios = listAudios;
-		}
-		
-		@Transient
-		private List<String> listAudiosNames;
+	public void setListAudios(List<String> listAudios) {
+		this.listAudios = listAudios;
+	}
+	
+	@Transient
+	private List<String> listAudiosNames;
 
-		public List<String> getListAudiosNames() {
-			return listAudiosNames;
-		}
+	public List<String> getListAudiosNames() {
+		return listAudiosNames;
+	}
 
-		public void setListAudiosNames(List<String> listAudiosNames) {
-			this.listAudiosNames = listAudiosNames;
-		}	
-		
-		@Transient
-		private int liked;
+	public void setListAudiosNames(List<String> listAudiosNames) {
+		this.listAudiosNames = listAudiosNames;
+	}	
+	
+	@Transient
+	private int liked;
 
-		public int getLiked() {
-			return liked;
-		}
+	public int getLiked() {
+		return liked;
+	}
 
-		public void setLiked(int liked) {
-			this.liked = liked;
-		}
-		
+	public void setLiked(int liked) {
+		this.liked = liked;
+	}
 
 }

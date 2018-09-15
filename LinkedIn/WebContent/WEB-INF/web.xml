@@ -176,6 +176,22 @@
     <servlet-name>JobApplicationHandle</servlet-name>
     <url-pattern>/JobApplicationHandle/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Notifications</servlet-name>
+    <servlet-class>Servlets.Notifications</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Notifications</servlet-name>
+    <url-pattern>/Notifications/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PostView</servlet-name>
+    <servlet-class>Servlets.PostView</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostView</servlet-name>
+    <url-pattern>/PostView/</url-pattern>
+  </servlet-mapping>
   <context-param>
     <param-name>users.dir</param-name>
     <param-value>users</param-value>

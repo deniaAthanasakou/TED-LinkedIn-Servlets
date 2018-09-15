@@ -22,4 +22,6 @@ public interface PostDAO {
     
     public int countLikes(Long postId);
     
+    public Post getPost (int id);
+    
 }

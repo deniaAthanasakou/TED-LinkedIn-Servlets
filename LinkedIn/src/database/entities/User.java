@@ -94,6 +94,14 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user2")
 	private List<Connection> connections2;
 
+	//bi-directional many-to-one association to Job
+	@OneToMany(mappedBy="user")
+	private List<Job> jobs;
+
+	//bi-directional many-to-one association to Like
+	@OneToMany(mappedBy="user")
+	private List<Like> likes;
+
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="user")
 	private List<Post> posts1;
@@ -506,6 +514,50 @@ public class User implements Serializable {
 		return connections2;
 	}
 
+	public List<Job> getJobs() {
+		return this.jobs;
+	}
+
+	public void setJobs(List<Job> jobs) {
+		this.jobs = jobs;
+	}
+
+	public Job addJob(Job job) {
+		getJobs().add(job);
+		job.setUser(this);
+
+		return job;
+	}
+
+	public Job removeJob(Job job) {
+		getJobs().remove(job);
+		job.setUser(null);
+
+		return job;
+	}
+
+	public List<Like> getLikes() {
+		return this.likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
+
+	public Like addLike(Like like) {
+		getLikes().add(like);
+		like.setUser(this);
+
+		return like;
+	}
+
+	public Like removeLike(Like like) {
+		getLikes().remove(like);
+		like.setUser(null);
+
+		return like;
+	}
+
 	public List<Post> getPosts1() {
 		return this.posts1;
 	}
@@ -566,6 +618,18 @@ public class User implements Serializable {
 
 	public void setUsers4(List<User> users4) {
 		this.users4 = users4;
+	}
+	
+	//add local variables
+	@Transient
+	private int postId;
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
 	}
 
 }

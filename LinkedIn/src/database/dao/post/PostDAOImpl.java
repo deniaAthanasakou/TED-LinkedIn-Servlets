@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import database.dao.ConnectionFactory;
@@ -12,6 +13,7 @@ import database.dao.DAOUtil;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.Post;
+import database.entities.User;
 
 public class PostDAOImpl implements PostDAO 
 {
@@ -46,10 +48,13 @@ public class PostDAOImpl implements PostDAO
 			") posts ORDER BY posts.date_posted DESC";
 		
 	
-	private static final String SQL_INSERT_LIKE = "INSERT INTO ted.like (user_id,post_id) VALUES (?,?)";
+	private static final String SQL_INSERT_LIKE = "INSERT INTO ted.like (user_id,post_id, date_liked) VALUES (?,?, ?)";
 	private static final String SQL_DELETE_LIKE = "DELETE FROM ted.like WHERE user_id = ? AND post_id = ?";
 	private static final String SQL_CHECK_LIKE = "SELECT COUNT(*) FROM ted.like WHERE user_id = ? AND post_id = ?";
 	private static final String SQL_COUNT_LIKES = "SELECT COUNT(*) FROM ted.like WHERE post_id = ?";
+	
+	private static final String GET_POST = "SELECT * FROM Post WHERE id = ?";
+
     
     private ConnectionFactory factory;
     
@@ -157,9 +162,11 @@ public class PostDAOImpl implements PostDAO
 	
 	@Override
 	public void insertLike(Long userId, Long postId) {
+		//get current time
+		Date dNow = new Date();
         try (
             Connection connection = factory.getConnection();
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT_LIKE, false, userId, postId);
+        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT_LIKE, false, userId, postId, dNow);
         ) {
         	int rowsChanged = statement.executeUpdate();
         	if(rowsChanged==0) {
@@ -230,7 +237,24 @@ public class PostDAOImpl implements PostDAO
         return size;
 	}
 	
-	
+	@Override
+	public Post getPost (int id) {
+		Post post = null;
+		
+		try (
+			Connection connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection,GET_POST, false, id);
+	        ResultSet resultSet = statement.executeQuery();)
+		{
+	        if (resultSet.next()) 
+	        	post = map(resultSet);
+		} 
+		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+     
+        return post;
+	}
 	
 	private static Post map(ResultSet resultSet) throws SQLException {
         Post post = new Post();

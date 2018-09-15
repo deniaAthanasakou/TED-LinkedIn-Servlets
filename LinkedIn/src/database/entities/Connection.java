@@ -2,6 +2,7 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -17,6 +18,9 @@ public class Connection implements Serializable {
 	private ConnectionPK id;
 
 	private byte approved;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateSent;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -45,6 +49,14 @@ public class Connection implements Serializable {
 
 	public void setApproved(byte approved) {
 		this.approved = approved;
+	}
+
+	public Date getDateSent() {
+		return this.dateSent;
+	}
+
+	public void setDateSent(Date dateSent) {
+		this.dateSent = dateSent;
 	}
 
 	public User getUser1() {

@@ -43,11 +43,10 @@ public class Network extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		//show connnections
-		System.out.println("again in get");
+		System.out.println("again in get network");
 		
 		String displayPage="/jsp_files/network.jsp";
 		request.setAttribute("redirect", "StopLoop");	
-		
 			
 		ConnectionDAO dao = new ConnectionDAOImpl(true);
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
@@ -74,8 +73,20 @@ public class Network extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//show search results
+	
 		
-		System.out.println(" in post");
+		System.out.println(" in post network");
+		
+	/*	if(request.getParameter("searchIt") != null) {
+			System.out.println("searchIt is null");
+			//request.setAttribute("fromPrivateProfilePost", "null");
+			
+			doGet(request, response);
+			return;
+		}*/
+		
+		
+		
 		ConnectionDAO dao = new ConnectionDAOImpl(true);
 		
 		if (request.getParameter("connect") != null) {
@@ -88,7 +99,7 @@ public class Network extends HttpServlet {
             return;
 		}
 		
-		
+		request.setAttribute("fromPrivateProfilePost", "null");
 		
 		String search = request.getParameter("search");
 		String displayPage="/jsp_files/network.jsp";

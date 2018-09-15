@@ -18,10 +18,12 @@
 		
 	</head>
 	<body>
-		<c:set var="user_id" value="${param.id}" />
-		<c:set var="pending" value="${param.pending}" />
-		<c:set var="sentRequest" value="${param.sentRequest}" />
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+		
+		<% if ( request.getAttribute( "redirect" ) == null || request.getAttribute( "redirect" ).equals("null")) { %>
+			<c:set var="user_id" value="${param.id}" />
+			<c:set var="pending" value="${param.pending}" />
+			<c:set var="sentRequest" value="${param.sentRequest}" />
+		
 			<jsp:forward page="/PrivateProfile">
 				<jsp:param name="id" value="${user_id}" ></jsp:param>
 				<jsp:param name="pending" value="${pending}" ></jsp:param>
@@ -33,6 +35,7 @@
 		
 		<div class="main">
 			<div class="container">	
+			
 			<%if (request.getAttribute("msg") != null){%>
 				<div class="alert alert-success">
 					<%=request.getAttribute("msg")%>
@@ -43,13 +46,17 @@
 				
 				<% if ( request.getAttribute( "sentRequest" ).equals("0")) { %>
 					<div class="chat">
-						<button type="button" class="btn btn-primary btn-lg pending-button">Ακύρωση αιτήματος</button>
+						<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+							<input type="hidden" name="id" value="${user.id}">
+							<input type="hidden" name="pending" value="${user.isPending}">
+						    <input type="submit" name="rejectButton" value="Ακύρωση αιτήματος" class="btn btn-primary btn-lg reject-button"/>
+						</form>
 					</div>
 				<% }
 				else { %>
 					<div class="chat">
 						<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
-							<input type="hidden" name="id" value="${user_id}">
+							<input type="hidden" name="id" value="${param.id}">
 							<input type="hidden" name="pending" value="${pending}">
 						    <input type="submit" name="rejectButton" value="Απόρριψη αιτήματος" class="btn btn-primary btn-lg reject-button"/>
 						    <input type="submit" name="acceptButton" value="Αποδοχή αιτήματος"  class="btn btn-primary btn-lg  accept-button"/>
@@ -67,7 +74,6 @@
 				</div>
 			<% } %> 
 				
-			
 					<table class="table">
 						<tbody>
 					    	<tr>

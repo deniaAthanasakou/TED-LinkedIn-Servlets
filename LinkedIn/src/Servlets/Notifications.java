@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,16 +17,16 @@ import database.dao.user.UserDAOImpl;
 import database.entities.User;
 
 /**
- * Servlet implementation class PrivateProfile
+ * Servlet implementation class Notifications
  */
-@WebServlet("/PrivateProfile")
-public class PrivateProfile extends HttpServlet {
+@WebServlet("/Notifications")
+public class Notifications extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PrivateProfile() {
+    public Notifications() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,38 +36,46 @@ public class PrivateProfile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("in profile get");
 		
-		String displayPage="/jsp_files/privateProfile.jsp";
+		System.out.println(" in get notifications");
+		
+		String displayPage="/jsp_files/notifications.jsp";
 		request.setAttribute("redirect", "StopLoop");	
 			
-		UserDAO dao = new UserDAOImpl(true);
-		
-		int user_id=Integer.valueOf((String) request.getParameter("id"));
-		System.out.println("user_id "+ user_id);
-		String pending=(String) request.getParameter("pending");
-		System.out.println("pending "+ pending);
-		String sentRequest=(String) request.getParameter("sentRequest");
-		
-		System.out.println("sentRequest "+ pending);
-		request.setAttribute("sentRequest", sentRequest);
-		request.setAttribute("pending", pending);
-		System.out.println("after set attributes");
+		//get friend requests pending
+		ConnectionDAO dao = new ConnectionDAOImpl(true);
+		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		
 		
-		User user=dao.getUserProfile(user_id);
-		request.setAttribute("user", user);
-    
-		System.out.println("forward");
+		List<User> ulist = dao.getConnectionRequestsPending(user_id);
+		System.out.println("id is "+ user_id);
+		request.setAttribute("usersWithRequests", ulist);
+		
+		if(ulist==null || ulist.size()==0) {
+			request.setAttribute("requests", "noRequests");
+		}
+		
+		//get likes and comments
+		UserDAO userDao = new UserDAOImpl(true);
+		List<User> usersForPost = userDao.getLikesAndComments(user_id);
+		request.setAttribute("usersWithPosts", usersForPost);
+		
+		if(usersForPost==null || usersForPost.size()==0) {
+			request.setAttribute("postNotifications", "noPostNotifications");
+		}
+        
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
 	    view.forward(request, response);
+	     
+		
 	}
 
-
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		System.out.println("in post");
+		System.out.println("in notifications post");
 		
 		int loggedInUser=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		System.out.println("loggedInUser " + loggedInUser);
@@ -80,7 +89,7 @@ public class PrivateProfile extends HttpServlet {
 		
 		request.setAttribute("fromPrivateProfilePost", "notnull");
 		
-		String displayPage="/jsp_files/network.jsp";
+		String displayPage="/jsp_files/notifications.jsp";
 		if (request.getParameter("rejectButton") != null) {
 			dao.rejectConnection(loggedInUser, otherUser );
 			System.out.println("rejected go to network");
@@ -89,8 +98,9 @@ public class PrivateProfile extends HttpServlet {
         	dao.acceptConnection(loggedInUser, otherUser );
         	System.out.println("accepted go to network");
         }
-		RequestDispatcher view = request.getRequestDispatcher(displayPage);
- 	    view.forward(request, response);
+		//RequestDispatcher view = request.getRequestDispatcher(displayPage);
+ 	    //view.forward(request, response);
+		doGet(request, response);
 	}
 
 }

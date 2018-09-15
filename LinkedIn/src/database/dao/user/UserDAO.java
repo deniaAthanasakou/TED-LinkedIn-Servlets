@@ -22,4 +22,6 @@ public interface UserDAO
     public int updateUser(User user, int user_id);
 
     public List<User> getSelectedUsers(String[] ids);
+    
+    public List<User> getLikesAndComments(int user_id);
 }

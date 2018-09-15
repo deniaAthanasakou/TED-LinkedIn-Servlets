@@ -40,8 +40,8 @@ public class PublicProfile extends HttpServlet {
 			
 		UserDAO dao = new UserDAOImpl(true);
 		
-		
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
+		
 		User user=dao.getUserProfile(user_id);
 		
 		request.setAttribute("user", user);

@@ -32,6 +32,12 @@
 			<div class="container">
 				
 				<div class="myContainerPublicNetwork">
+				
+					<%if (request.getAttribute("msg") != null){%>
+						<div class="alert alert-success">
+							<%=request.getAttribute("msg")%>
+						</div>
+					<%} %>
 
 					<h2 style="font-family:sansserif;font-weight: bold;">Συνδεδεμένοι επαγγελματίες</h2>
 	  
@@ -75,10 +81,25 @@
 																
 																	<c:choose>
 																		<c:when test="${user.sentConnectionRequest==1}"> <!-- the other user sent the request -->
-																    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Απόρριψη αιτήματος</button></td>
+																    		<td rowspan="3">
+																    			<div class="buttonClass">
+																					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																						<input type="hidden" name="id" value="${user.id}">
+																						<input type="hidden" name="pending" value="${user.isPending}">
+																					    <input type="submit" name="rejectButton" value="Απόρριψη αιτήματος" class="btn btn-primary btn-sm reject-button"/>
+																					    <input type="submit" name="acceptButton" value="Αποδοχή αιτήματος"  class="btn btn-primary btn-sm accept-button"/>
+																					</form>
+																				</div>
+																    		</td>
 																		</c:when>
 																		<c:otherwise>
-																    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Το αίτημα έχει ήδη σταλεί</button></td>
+																    		<td rowspan="3">
+																    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																					<input type="hidden" name="id" value="${user.id}">
+																					<input type="hidden" name="pending" value="${user.isPending}">
+																				    <input type="submit" name="rejectButton" value="Ακύρωση αιτήματος" class="btn btn-primary reject-button"/>
+																				</form>
+																    		</td>
 																		</c:otherwise>
 																	</c:choose>
 	
@@ -96,7 +117,13 @@
 
 												    	</c:if>
 												    	<c:if test="${user.isConnected eq 1}">
-												    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Συνδεδεμένοι</button></td>
+												    		<td rowspan="3">
+												    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																	<input type="hidden" name="id" value="${user.id}">
+																	<input type="hidden" name="pending" value="${user.isPending}">
+																    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary reject-button"/>
+																</form>
+												    		</td>
 												    	</c:if>
 													</c:when>
 													<c:otherwise>

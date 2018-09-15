@@ -9,6 +9,12 @@
 		<class>database.entities.Message</class>
 		<class>database.entities.Connection</class>
 		<class>database.entities.ConnectionPK</class>
+		<class>database.entities.Job</class>
+		<class>database.entities.JobPK</class>
+		<class>database.entities.Jobapplication</class>
+		<class>database.entities.JobapplicationPK</class>
+		<class>database.entities.Like</class>
+		<class>database.entities.LikePK</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ted"/>
 			<property name="javax.persistence.jdbc.user" value="ted"/>

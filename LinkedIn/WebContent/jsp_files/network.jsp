@@ -18,7 +18,7 @@
 	<body>
 	
 	
-	<% if ( request.getAttribute( "redirect" ) == null ) { %>
+	<% if ( request.getAttribute( "redirect" ) == null  || request.getAttribute( "redirect" ).equals("null")) { %>
 		<jsp:forward page="/Network?action=getConnectedUsers" />
 	<% } %>
 	
@@ -30,7 +30,8 @@
 				<div class="searchContainer" >
 			        
 			        <br>
-			         <form role="Form" method="POST" action="${pageContext.request.contextPath}/Network" accept-charset="UTF-8" > 
+			         <form role="Form" method="POST" action="${pageContext.request.contextPath}/Network" accept-charset="UTF-8" >
+			          
 					  <div class="row">
 					  
 						  <div class="col-xs-3 col-md-3 col-lg-3 col-sm-3"></div> <!-- for alignment purposes -->
@@ -58,6 +59,12 @@
 				</div>
 				
 				<div class="myContainer">
+				
+					<%if (request.getAttribute("msg") != null){%>
+						<div class="alert alert-success">
+							<%=request.getAttribute("msg")%>
+						</div>
+					<%} %>
 					
 					<% if ( request.getAttribute( "connectionCompleted" )!= null ) { %>
 							<h3 style="font-family:sansserif;">Το αίτημα σύνδεσης ολοκληρώθηκε</h3>
@@ -66,9 +73,7 @@
 					
 					<% if ( request.getAttribute( "getUsers" ).equals("friends") ) { %>
 						<h2 style="font-family:sansserif;font-weight: bold;">Συνδεδεμένοι με εσάς επαγγελματίες</h2>
-						
-						
-						
+	
 					<%} 
 					else if ( request.getAttribute( "getUsers" ).equals("noFriends") ) { %>
 						<h2 style="font-family:sansserif;font-weight: bold;">Δεν έχετε συνδεθεί με κάποιον επαγγελματία</h2>
@@ -168,10 +173,25 @@
 																	<c:when test="${user.isPending==1}">
 															    		<c:choose>
 																			<c:when test="${user.sentConnectionRequest==1}"> <!-- the other user sent the request -->
-																	    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Απόρριψη αιτήματος</button></td>
+																	    		<td rowspan="3">
+																	    		<div class="buttonClass">
+																					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																						<input type="hidden" name="id" value="${user.id}">
+																						<input type="hidden" name="pending" value="${user.isPending}">
+																					    <input type="submit" name="rejectButton" value="Απόρριψη αιτήματος" class="btn btn-primary btn-sm reject-button"/>
+																					    <input type="submit" name="acceptButton" value="Αποδοχή αιτήματος"  class="btn btn-primary btn-sm accept-button"/>
+																					</form>
+																				</div>
+																	    		</td>
 																			</c:when>
 																			<c:otherwise>
-																	    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Το αίτημα έχει ήδη σταλεί</button></td>
+																	    		<td rowspan="3">
+																	    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																						<input type="hidden" name="id" value="${user.id}">
+																						<input type="hidden" name="pending" value="${user.isPending}">
+																					    <input type="submit" name="rejectButton" value="Ακύρωση αιτήματος" class="btn btn-primary reject-button"/>
+																					</form>
+																	    		</td>
 																			</c:otherwise>
 																		</c:choose>
 																	</c:when>
@@ -186,7 +206,13 @@
 																</c:choose>
 													    	</c:if>
 													    	<c:if test="${user.isConnected==1}">
-													    		<td rowspan="3"><button type="button" class="btn btn-primary disabled">Συνδεδεμένοι</button></td>
+													    		<td rowspan="3">
+													    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
+																		<input type="hidden" name="id" value="${user.id}">
+																		<input type="hidden" name="pending" value="${user.isPending}">
+																	    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary reject-button"/>
+																	</form>
+													    		</td>
 													    	</c:if>
 														</c:when>
 														<c:otherwise>
