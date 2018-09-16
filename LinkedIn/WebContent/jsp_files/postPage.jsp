@@ -14,7 +14,7 @@
 	<body>
 	
 		<c:set var="post_id" value="${param.id}" />
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+		<% if ( request.getAttribute( "redirect" ) == null || request.getAttribute( "redirect" ).equals("null")) { %>
 			<jsp:forward page="/PostView">
 				<jsp:param name="post_id" value="${post_id}" ></jsp:param>
 			</jsp:forward>
@@ -26,7 +26,7 @@
 			<div class="myContainer">	
 				
 				<c:set var="post" value="${post}" scope="request"/>
-				<c:import url="PostItem.jsp"/>
+				<c:import url="PostItemForNotifications.jsp"/>
 			
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
@@ -94,7 +96,58 @@ public class PostView extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("in post view do post");
+		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/postPage.jsp");
+		request.setAttribute("redirect", "null");	
+		
+		PostDAO dao = new PostDAOImpl(true);
+		//get post id
+		Long postId = Long.valueOf(request.getParameter("post_id"));
+		
+		if(request.getParameter("action")!=null) {
+			if(request.getParameter("action").equals("insertLike")) {
+				//insert like
+				dao.insertLike(Long.valueOf((String) request.getSession().getAttribute("id")),postId);
+				//display page
+			}else if(request.getParameter("action").equals("deleteLike")) {
+				//delete like
+				dao.deleteLike(Long.valueOf((String) request.getSession().getAttribute("id")),postId);
+			}else if(request.getParameter("action").equals("comment")) {
+				System.out.println("comment");
+				CommentDAO commentDao = new CommentDAOImpl(true);
+				
+				//get text
+				String text = request.getParameter("comment");
+				if(text.equals("")) {
+					text = null;
+				}
+				
+				if(text == null) {
+					request.setAttribute("commentError", "Your comment is empty.");
+					doGet(request, response);
+					return;
+				}
+				
+				//get current time
+				Date dNow = new Date();
+				
+				//get user id
+				Long userId = Long.valueOf((String) request.getSession().getAttribute("id"));
+				
+				//create comment
+				Comment comment = new Comment();
+				comment.setDatePosted(dNow);
+				comment.setText(text);
+				
+				commentDao.create(comment,userId,postId);
+			}
+		}
+		else {
+			System.out.println("no action");
+		}
+		
 		doGet(request, response);
+		
 	}
 
 }

@@ -191,7 +191,6 @@ public class User implements Serializable {
 		this.posts1 = posts;
 	}
 
-
 	public int getId() {
 		return this.id;
 	}
@@ -631,5 +630,18 @@ public class User implements Serializable {
 	public void setPostId(int postId) {
 		this.postId = postId;
 	}
+	
+	@Transient
+	private int isComment;
+
+	public int getIsComment() {
+		return isComment;
+	}
+
+	public void setIsComment(int isComment) {
+		this.isComment = isComment;
+	}
+
+
 
 }

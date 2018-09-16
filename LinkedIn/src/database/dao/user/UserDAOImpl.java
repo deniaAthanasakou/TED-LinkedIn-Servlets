@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import database.dao.ConnectionFactory;
@@ -28,7 +30,9 @@ public class UserDAOImpl implements UserDAO
 	
 	private static final String SQL_SELECTED_USERS = "SELECT * FROM User WHERE id IN ("; 
 	
-	private static final String SQL_GET_LIKES = "SELECT User.id, Post.id, name, surname, photoURL from User, Post, ted.like WHERE (post.user_id=? AND user.id=ted.like.user_id AND user.id!=post.user_id AND ted.like.post_id=post.id) ORDER BY ted.like.date_liked DESC";
+	private static final String SQL_GET_LIKES_AND_COMMENTS = "SELECT user.id, post.id AS postId, name, surname, photoURL, date_liked AS concatDate, '0' isComment from User, Post, ted.like WHERE (post.user_id=? AND User.id=ted.like.user_id AND User.id!=post.user_id AND ted.like.post_id=post.id AND date_liked >=?) "
+			+ " UNION SELECT user.id, post.id AS postId, name, surname, photoURL, comment.date_posted AS concatDate, '1' isComment from User, post, comment WHERE (post.user_id=? AND User.id=comment.user_id AND User.id!=post.user_id AND comment.post_id=post.id AND comment.date_posted >=?)"
+			+ " ORDER BY concatDate DESC";
 
 	
     private ConnectionFactory factory;
@@ -267,9 +271,18 @@ public class UserDAOImpl implements UserDAO
 	public List<User> getLikesAndComments(int user_id){
 		List<User> users = new ArrayList<>();
 		System.out.println("before sql get likes");
+		
+		//date 3 months ago
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -3);
+	
+		Date olderDate = cal.getTime();
+		
+		System.out.println("olderdate "+ olderDate);
+		
         try (
             Connection connection = factory.getConnection();
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES, false, user_id);
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES_AND_COMMENTS, false, user_id,olderDate, user_id, olderDate);
             ResultSet resultSet = statement.executeQuery();
         ) {
             while (resultSet.next()) {
@@ -345,11 +358,13 @@ public class UserDAOImpl implements UserDAO
 	
 	private static User mapForNotifications(ResultSet resultSet) throws SQLException {
         User user = new User();
-        user.setId(resultSet.getInt("user.id"));
-        user.setPostId(resultSet.getInt("post.id"));
+        user.setId(resultSet.getInt("id"));
+        user.setPostId(resultSet.getInt("postId"));
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
         user.setPhotoURL(resultSet.getString("photoURL"));
+        user.setIsComment(resultSet.getInt("isComment"));
+        System.out.println("is comment = "+ user.getIsComment());
        
         return user;
     }

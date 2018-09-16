@@ -37,5 +37,10 @@
     float: none;
     border: 1px solid #cecece;
     
+    
 }
 
+.notificationInfo{	
+	color: 	#585858;
+	font-size: 16px;
+}

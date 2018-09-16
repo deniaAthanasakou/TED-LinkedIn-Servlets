@@ -191,61 +191,60 @@ public class Job implements Serializable {
 	}
 	
 	//Local fields
+	@Transient
+	private String dateInterval;
+
+	public String getDateInterval() {
+		return dateInterval;
+	}
+
+	public void setDateInterval(String dateInterval) {
+		this.dateInterval = dateInterval;
+	}
 	
-		@Transient
-		private String dateInterval;
+	@Transient
+	private String educationLevelStr;
+	
+	@Transient
+	private String companyTypeStr;
+	
+	@Transient
+	private String jobFunctionStr;
 
-		public String getDateInterval() {
-			return dateInterval;
-		}
+	public String getEducationLevelStr() {
+		return educationLevelStr;
+	}
 
-		public void setDateInterval(String dateInterval) {
-			this.dateInterval = dateInterval;
-		}
-		
-		@Transient
-		private String educationLevelStr;
-		
-		@Transient
-		private String companyTypeStr;
-		
-		@Transient
-		private String jobFunctionStr;
+	public String getCompanyTypeStr() {
+		return companyTypeStr;
+	}
 
-		public String getEducationLevelStr() {
-			return educationLevelStr;
-		}
+	public String getJobFunctionStr() {
+		return jobFunctionStr;
+	}
 
-		public String getCompanyTypeStr() {
-			return companyTypeStr;
-		}
+	public void setEducationLevelStr(String educationLevelStr) {
+		this.educationLevelStr = educationLevelStr;
+	}
 
-		public String getJobFunctionStr() {
-			return jobFunctionStr;
-		}
+	public void setCompanyTypeStr(String companyTypeStr) {
+		this.companyTypeStr = companyTypeStr;
+	}
 
-		public void setEducationLevelStr(String educationLevelStr) {
-			this.educationLevelStr = educationLevelStr;
-		}
+	public void setJobFunctionStr(String jobFunctionStr) {
+		this.jobFunctionStr = jobFunctionStr;
+	}
+	
+	@Transient
+	private List<String> skillsArray;
 
-		public void setCompanyTypeStr(String companyTypeStr) {
-			this.companyTypeStr = companyTypeStr;
-		}
+	public List<String> getSkillsArray() {
+		return skillsArray;
+	}
 
-		public void setJobFunctionStr(String jobFunctionStr) {
-			this.jobFunctionStr = jobFunctionStr;
-		}
-		
-		@Transient
-		private List<String> skillsArray;
-
-		public List<String> getSkillsArray() {
-			return skillsArray;
-		}
-
-		public void setSkillsArray(List<String> skillsArray) {
-			this.skillsArray = skillsArray;
-		}
-
+	public void setSkillsArray(List<String> skillsArray) {
+		this.skillsArray = skillsArray;
+	}
+	
 
 }

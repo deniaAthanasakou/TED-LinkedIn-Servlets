@@ -75,6 +75,8 @@ public class Comment implements Serializable {
 		this.user = user;
 	}
 	
+	//comment
+
 	@Transient
 	private String dateInterval;
 
@@ -85,6 +87,5 @@ public class Comment implements Serializable {
 	public void setDateInterval(String dateInterval) {
 		this.dateInterval = dateInterval;
 	}
-
 
 }

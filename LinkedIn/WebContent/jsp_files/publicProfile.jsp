@@ -36,7 +36,7 @@
 					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
 						<input type="hidden" name="id" value="${user.id}">
 						<input type="hidden" name="pending" value="${user.isPending}">
-					    <input type="submit" name="rejectButton" value="Διαγραφή αιτήματος" class="btn btn-primary deleteFriend btn-lg reject-button"/>
+					    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary deleteFriend btn-lg reject-button"/>
 					</form>
 					<button onclick="location.href='${pageContext.request.contextPath}/jsp_files/Messaging.jsp?id=${user_id}'" type="button" class="btn btn-primary btn-lg chat-button">Συζήτηση</button>
 				</div>

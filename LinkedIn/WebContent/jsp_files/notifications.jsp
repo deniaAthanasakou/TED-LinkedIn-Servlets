@@ -118,8 +118,12 @@
 									<table class="requestTable">
 							    		<tr>
 								    		<td> <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><img  class="img-circle profileImage" src="<c:out value="${userPost.photoURL}" />"></a></td>
-								    		<td class="nameSurname deco-none"> Ο χρήστης <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> σημείωσε ενδιαφέρον για μια ανάρτησή σας</td>
-								    		<td><button type="button" class="btn btn-primary disabled">Seen</button></td>
+									    	<c:choose>
+									    		<c:when test="${userPost.isComment == 1}"><td class="notificationInfo">Ο χρήστης <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> σχολίασε μια ανάρτησή σας</td>
+									    		</c:when>
+									    		<c:otherwise><td class="notificationInfo">Ο χρήστης <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> σημείωσε ενδιαφέρον για μια ανάρτησή σας</td>
+									    		</c:otherwise>
+									    	</c:choose>
 									    </tr>	
 
 								    </table> 
