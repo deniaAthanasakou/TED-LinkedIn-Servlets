@@ -24,4 +24,6 @@ public interface UserDAO
     public List<User> getSelectedUsers(String[] ids);
     
     public List<User> getLikesAndComments(int user_id);
+    
+    public List<User> getJobApplicants(Long jobId);
 }

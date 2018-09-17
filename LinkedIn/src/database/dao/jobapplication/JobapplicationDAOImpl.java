@@ -24,6 +24,8 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM JobApplication";
 	private static final String SQL_FIND_BY_JOB_ID = "SELECT user_id, job_id, approved FROM JobApplication WHERE job_id=?";
     private static final String SQL_UPDATE_APPROVAL = "UPDATE JobApplication SET approved = ? WHERE job_id = ? AND user_id = ?";
+    private static final String SQL_CHECK_APPLY = "SELECT COUNT(*) FROM JobApplication WHERE job_id = ? AND user_id = ?";
+    private static final String SQL_DELETE_APPLICANT = "DELETE FROM JobApplication WHERE job_id = ? AND user_id = ?";
 	
     private ConnectionFactory factory;
     
@@ -129,6 +131,48 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("SQLException: Updating jobApplication failed.");
+			e.printStackTrace();
+			return affectedRows;
+		}
+		return affectedRows;
+	}
+	
+	@Override
+	public int checkApplied(Long jobId, Long userId) {
+		int size=0;
+        try (
+            Connection connection = factory.getConnection();
+        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_CHECK_APPLY, false, jobId, userId);
+        		ResultSet resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                	size = resultSet.getInt("COUNT(*)");
+                }
+        	if(size==1) {
+        		return 1;
+        	}
+        	return 0;
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        return -1;
+	}
+	
+	@Override
+	public int declineApplicant(Long jobId, Long userId) {
+		int affectedRows=0;
+		try (Connection	connection = factory.getConnection();
+			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_DELETE_APPLICANT, false, jobId, userId);)
+		
+		{
+	 		affectedRows = statement.executeUpdate();
+			if (affectedRows == 0) {
+				System.err.println("Deleting from jobApplication failed, no rows affected.");
+				return affectedRows;
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException: Deleting from jobApplication failed.");
 			e.printStackTrace();
 			return affectedRows;
 		}

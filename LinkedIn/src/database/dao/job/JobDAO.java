@@ -15,4 +15,8 @@ public interface JobDAO {
     public Job findJob(Long id);
     
     public int updateJob(Job job, Long id);
+    
+    public List<Job> getSessionJobs(Long userId);
+    
+    public List<Job> getConnectionsJobs(Long userId);
 }

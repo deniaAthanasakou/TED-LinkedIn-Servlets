@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -119,6 +120,14 @@ public class VariousFunctions {
 	    XmlMapper xmlMapper = new XmlMapper();
 	    xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
 	    return xmlMapper.writeValueAsString(users);
+	}
+	
+	public static String arrayStrToStr(String str) {
+		return str.replace("[","").replace("]", "").trim();
+	}
+	
+	public static List<String> strToArray(String str){
+		return Arrays.asList(str.split("\\s*,\\s*"));
 	}
 
 }

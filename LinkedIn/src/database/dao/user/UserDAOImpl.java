@@ -34,6 +34,7 @@ public class UserDAOImpl implements UserDAO
 			+ " UNION SELECT user.id, post.id AS postId, name, surname, photoURL, comment.date_posted AS concatDate, '1' isComment from User, post, comment WHERE (post.user_id=? AND User.id=comment.user_id AND User.id!=post.user_id AND comment.post_id=post.id AND comment.date_posted >=?)"
 			+ " ORDER BY concatDate DESC";
 
+	private static final String SQL_GET_APPLICANTS = "SELECT id, name, surname, photoURL FROM User WHERE id IN (SELECT Jobapplication.user_id FROM Jobapplication WHERE job_id = ?)";
 	
     private ConnectionFactory factory;
     
@@ -296,6 +297,26 @@ public class UserDAOImpl implements UserDAO
         return users;
 	}
 	
+	@Override
+	public List<User> getJobApplicants(Long jobId) {
+		List<User> users = new ArrayList<>();
+		
+		 try (
+            Connection connection = factory.getConnection();
+        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_APPLICANTS, false, jobId);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+                users.add(mapForApplicant(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return users;
+	}
+	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
@@ -364,12 +385,15 @@ public class UserDAOImpl implements UserDAO
         user.setSurname(resultSet.getString("surname"));
         user.setPhotoURL(resultSet.getString("photoURL"));
         user.setIsComment(resultSet.getInt("isComment"));
-        System.out.println("is comment = "+ user.getIsComment());
-       
         return user;
     }
 	
-	
-	
-
+	private static User mapForApplicant(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setPhotoURL(resultSet.getString("photoURL"));
+        return user;
+    }
 }

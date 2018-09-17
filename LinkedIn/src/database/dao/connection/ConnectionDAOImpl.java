@@ -39,8 +39,8 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	private static final String SQL_UPDATE_CONNECTION_APPROVED = "UPDATE connection SET approved='1' WHERE ((connection.connectedUser_id=? AND connection.user_id=?) OR (connection.user_id=? AND connection.connectedUser_id=?)) AND connection.approved=0";
 	private static final String SQL_UPDATE_CONNECTION_REJECT = "DELETE FROM connection WHERE ((connection.connectedUser_id=? AND connection.user_id=?) OR (connection.user_id=? AND connection.connectedUser_id=?))";
 	private static final String SQL_FIND_CONNECTIONS_PENDING = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User, connection WHERE connection.connectedUser_id=? AND connection.user_id=user.id AND connection.approved=0 ORDER BY dateSent DESC";
-
 	
+	private static final String SQL_CHECK_CONNECTED = "SELECT approved FROM connection WHERE (user_id = ? AND connectedUser_id = ?) OR (user_id = ? AND connectedUser_id = ?)";
 	private ConnectionFactory factory;
 	
 	 public ConnectionDAOImpl(boolean pool)
@@ -350,6 +350,24 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         }
 
         return users;
+	}
+	
+	@Override
+	public int checkConnected(Long userId, Long sessionId) {
+		byte approved=-1;
+        try (
+            Connection connection = factory.getConnection();
+        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_CHECK_CONNECTED, false, userId, sessionId, sessionId, userId);
+        		ResultSet resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                	approved = resultSet.getByte("approved");
+                }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        return approved;
 	}
 	
 	

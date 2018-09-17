@@ -26,4 +26,6 @@ public interface ConnectionDAO {
     public int rejectConnection(int user_id1, int user_id2);
     
     public List<User> getConnectionRequestsPending(int user_id);
+    
+    public int checkConnected(Long userId, Long sessionId);
 }

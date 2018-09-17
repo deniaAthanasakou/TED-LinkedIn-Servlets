@@ -14,5 +14,8 @@ public interface JobapplicationDAO {
     
     public int updateJobApplication(Long jobId, Long userId, byte approved);
     
+    public int checkApplied(Long jobId, Long userId);
     
+    public int declineApplicant(Long jobId, Long userId); 
+        
 }
