@@ -14,28 +14,40 @@
 		<div class="main">
 			<h2>Αιτήσεις Εργασίας</h2>
 		
-			<div class="applicant">
-				<div class="row equal">
-					<div class="col-md-3">
-						<img src="${pageContext.request.contextPath}/images/default-user.png" width="80px" height="80px" style="border-radius:50%;">
+			<c:forEach items="${applicants}" var="applicant">
+				<form method="post" action="${pageContext.request.contextPath}/JobApplicationHandle">
+					<div class="applicant">
+						<div class="row equal">
+							<div class="col-md-3">
+								<img src="${applicant.photoURL}" width="80px" height="80px" style="border-radius:50%;">
+							</div>
+							<div class="col-md-4">
+								<h3>${applicant.name} ${applicant.surname}</h3>
+							</div>
+							<div class="col-md-5">
+								<input type="hidden" name="userId" value="${applicant.id}">
+								<input type="hidden" name="jobId" value="${jobId}">
+								<div class="btn-group btn-group-justified">
+									<c:choose>
+										<c:when test="${approved == 1}">
+											<button type="submit" class="btn btn-success disabled"><i class="glyphicon glyphicon-ok-circle"></i> Accepted</button>
+								    	</c:when>
+								    	<c:otherwise>
+										    <div class="btn-group">
+										   			<button type="submit" class="btn btn-success" name="accept"><i class="glyphicon glyphicon-ok-circle"></i> Αποδοχή</button>
+										    </div>
+										    <div class="btn-group">
+										    	<button type="submit" class="btn btn-warning" name="decline"><i class="glyphicon glyphicon-remove-circle"></i> Απόρριψη</button>
+									    	</div>
+							    		</c:otherwise>
+							    	</c:choose>
+							    	<button type="submit" class="btn btn-info" name="getProfile"><i class="glyphicon glyphicon-zoom-in"></i> Προφίλ</button>
+						    	</div>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-4">
-						<h3>Name</h3>
-						<h3>Surname</h3>
-					</div>
-					<div class="col-md-5">
-						<div class="btn-group btn-group-justified">
-						    <div class="btn-group">
-						   		<button type="button" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i> Αποδοχή</button>
-						    </div>
-						    <div class="btn-group">
-						    	<button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-remove-circle"></i> Απόρριψη</button>
-					    	</div>
-				    	</div>
-					</div>
-				</div>
-			</div>
-		
+				</form>
+			</c:forEach>
 		</div>
 		
 		<jsp:include page="Footer.jsp" /> 

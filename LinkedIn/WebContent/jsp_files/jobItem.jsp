@@ -33,7 +33,12 @@
 							<c:when test="${job.id.userId != sessionScope.id}">
 								<form method="post" action="${pageContext.request.contextPath}/JobApplicationHandle" accept-charset="UTF-8">
 									<input type="hidden" name="jobId" value="${job.id.jobId}">
-									<button type="submit" class="btn btn-primary btn-lg" name="apply">Αίτηση</button>
+									<c:if test="${applied == 0}">
+										<button type="submit" class="btn btn-primary btn-lg" name="apply">Αίτηση</button>
+									</c:if>
+									<c:if test="${applied == 1}">
+										<button type="submit" class="btn btn-primary btn-lg disabled">Applied</button>
+									</c:if>
 								</form>
 							</c:when>
 							<c:otherwise>

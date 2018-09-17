@@ -34,7 +34,7 @@
 				</div>
 				
 				<div class="jobsSection">
-					<c:forEach items="${jobs}" var="job">
+					<c:forEach items="${sessionJobs}" var="job">
 						<c:if test="${job.id.userId == sessionScope.id}">
 							<div class="jobItem">
 								<form method="post" id="mine${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
@@ -57,7 +57,7 @@
 				</div>
 				
 				<div class="jobsSection">
-					<c:forEach items="${jobs}" var="job">
+					<c:forEach items="${connJobs}" var="job">
 						<div class="jobItem">
 							<form method="post" id="conn${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 								<div onclick="document.getElementById('conn${job.id.jobId}').submit();">
