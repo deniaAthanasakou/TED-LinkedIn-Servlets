@@ -78,18 +78,20 @@
 				</div>
 				
 				<div class="jobsSection">
-					<c:forEach items="${jobs}" var="job">
-						<div class="jobItem">
-							<form method="post" id="skills${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
-								<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
-									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>${job.title}</h3>
-									<h4>${job.company}</h4>
-									<h5>${job.location}</h5>
-									<p>${job.dateInterval}</p>
-								</div>
-							</form>
-						</div>
+					<c:forEach items="${skillJobs}" var="job">
+						<c:if test="${job.id.userId != sessionScope.id }">
+							<div class="jobItem">
+								<form method="post" id="skills${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
+									<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
+										<img src="${pageContext.request.contextPath}/images/company-name.png">
+										<h3>${job.title}</h3>
+										<h4>${job.company}</h4>
+										<h5>${job.location}</h5>
+										<p>${job.dateInterval}</p>
+									</div>
+								</form>
+							</div>
+						</c:if>
 					</c:forEach>
 				</div>
 				
