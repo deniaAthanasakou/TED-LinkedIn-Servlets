@@ -40,7 +40,7 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	private static final String SQL_UPDATE_CONNECTION_REJECT = "DELETE FROM connection WHERE ((connection.connectedUser_id=? AND connection.user_id=?) OR (connection.user_id=? AND connection.connectedUser_id=?))";
 	private static final String SQL_FIND_CONNECTIONS_PENDING = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User, connection WHERE connection.connectedUser_id=? AND connection.user_id=user.id AND connection.approved=0 ORDER BY dateSent DESC";
 	
-	private static final String SQL_CHECK_CONNECTED = "SELECT approved FROM connection WHERE (user_id = ? AND connectedUser_id = ?) OR (user_id = ? AND connectedUser_id = ?)";
+	private static final String SQL_CHECK_CONNECTED = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, prof_exp, education, skills, privateEmail, privateDateOfBirth, privateTelephone, privateGender, privateCountry, privateCity, privateProfExp, privateEducation, privateSkills, workPos, institution, privateWorkPos, privateInstitution, isPending, sentConnectionRequest FROM User, Connection WHERE (user_id = ? AND User.id = ?) OR (User.id = ? AND connectedUser_id = ? )";
 	private ConnectionFactory factory;
 	
 	 public ConnectionDAOImpl(boolean pool)
@@ -353,21 +353,36 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	}
 	
 	@Override
-	public int checkConnected(Long userId, Long sessionId) {
-		byte approved=-1;
+	public User checkConnected(Long userId, Long sessionId) {
+		User user = null;
         try (
             Connection connection = factory.getConnection();
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_CHECK_CONNECTED, false, userId, sessionId, sessionId, userId);
-        		ResultSet resultSet = statement.executeQuery();
-            ) {
-                while (resultSet.next()) {
-                	approved = resultSet.getByte("approved");
-                }
+
+        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, sessionId, sessionId);
+        		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, sessionId, sessionId);	
+        		PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, sessionId);
+        		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);)
+		{
+			System.err.println("inside listWithConnectedPendingField");
+			
+			System.out.println(statement4);
+			
+			statement.executeUpdate();		//isConnected=1
+			statement2.executeUpdate();		//isPending=1
+			statement4.executeUpdate();		//sentConnectionRequest=1
+			
+        	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_CHECK_CONNECTED, false, sessionId, userId, userId, sessionId);
+            ResultSet resultSet = statement3.executeQuery();	
+            if (resultSet.next()) {
+            	user = mapEverything(resultSet);
+            }
+            statement5.executeUpdate();		//fields=0
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
-        return approved;
+
+        return user;
 	}
 	
 	

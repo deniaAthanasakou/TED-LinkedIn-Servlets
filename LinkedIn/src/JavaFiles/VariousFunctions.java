@@ -6,8 +6,12 @@ import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -129,5 +133,29 @@ public class VariousFunctions {
 	public static List<String> strToArray(String str){
 		return Arrays.asList(str.split("\\s*,\\s*"));
 	}
+	
+	public static Map<Integer,Integer> sortMap(Map<Integer,Integer> map) {
+		List<Integer> mapKeys = new ArrayList<>(map.keySet());
+        List<Integer> mapValues = new ArrayList<>(map.values());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
 
+        LinkedHashMap<Integer, Integer> sortedMap = new LinkedHashMap<>();
+
+        for (Integer val : mapValues) {
+            Iterator<Integer> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                Integer key = keyIt.next();
+                Integer comp1 = map.get(key);
+
+                if (comp1.equals(val)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        return sortedMap;
+	}
 }

@@ -19,6 +19,7 @@ import database.dao.jobapplication.JobapplicationDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.Job;
+import database.entities.User;
 
 /**
  * Servlet implementation class JobApplicationHandle
@@ -95,19 +96,20 @@ public class JobApplicationHandle extends HttpServlet {
 	    	Long sessionId = Long.valueOf((String) request.getSession().getAttribute("id"));
 	    	//check if isConnected and isPending
 	    	ConnectionDAO connDao = new ConnectionDAOImpl(true);
-	    	int approved = connDao.checkConnected(userId, sessionId);
-	    	System.out.println("approved: " + approved);
+	    	User getUser = connDao.checkConnected(userId, sessionId);
 	    	//if isConnected
-	    	if(approved==1) {
+	    	if(getUser.getIsConnected()==1) {
 	    		String str = request.getContextPath() + "/jsp_files/publicProfile.jsp?id=" + userId;
 	    		response.sendRedirect(str);
 	    		return;
-	    	}else if(approved==0){
-	    		String str = request.getContextPath() + "/jsp_files/privateProfile.jsp?id=" + userId + "&pending=yes";
-	    		response.sendRedirect(str);
-	    		return;
-	    	}else {
-	    		String str = request.getContextPath() + "/jsp_files/privateProfile.jsp?id=" + userId + "&pending=no";
+	    	}else { 
+	    		String strPending = null;
+	    		if(getUser.getIsPending()==1) {
+	    			strPending = "yes";
+	    		}else {
+	    			strPending = "no";
+	    		}
+	    		String str = request.getContextPath() + "/jsp_files/privateProfile.jsp?id=" + userId + "&pending=" + strPending + "&sentRequest=" + getUser.getSentConnectionRequest();
 	    		response.sendRedirect(str);
 	    		return;
 	    	}

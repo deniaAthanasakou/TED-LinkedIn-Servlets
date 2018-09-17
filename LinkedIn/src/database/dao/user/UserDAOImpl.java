@@ -35,6 +35,7 @@ public class UserDAOImpl implements UserDAO
 			+ " ORDER BY concatDate DESC";
 
 	private static final String SQL_GET_APPLICANTS = "SELECT id, name, surname, photoURL FROM User WHERE id IN (SELECT Jobapplication.user_id FROM Jobapplication WHERE job_id = ?)";
+	private static final String SQL_GET_SKILLS = "SELECT skills FROM User WHERE id = ?";
 	
     private ConnectionFactory factory;
     
@@ -317,6 +318,28 @@ public class UserDAOImpl implements UserDAO
         return users;
 	}
 	
+	@Override
+	public String getUserSkills(Long userId) {
+		String str = null;
+
+        try (
+            Connection connection = factory.getConnection();
+            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_SKILLS,false, userId);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            if (resultSet.next()) {
+                str = resultSet.getString("skills");
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+
+        return str;
+	}
+	
+	
+	
 	private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
@@ -396,4 +419,6 @@ public class UserDAOImpl implements UserDAO
         user.setPhotoURL(resultSet.getString("photoURL"));
         return user;
     }
+
+	
 }

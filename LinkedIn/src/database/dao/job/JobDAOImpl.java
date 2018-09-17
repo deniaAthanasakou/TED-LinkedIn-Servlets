@@ -11,7 +11,6 @@ import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.entities.Job;
 import database.entities.JobPK;
-import database.entities.User;
 
 public class JobDAOImpl implements JobDAO{
 	//prepared Statements
@@ -21,8 +20,8 @@ public class JobDAOImpl implements JobDAO{
 	private static final String SQL_FIND_BY_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE job_id=?";
     private static final String SQL_UPDATE = "UPDATE Job SET title = ?, company = ?, location = ?, job_function = ?, job_type = ?, job_company_type = ?, experience = ?, description = ?, skills = ?, experience_from = ?, experience_to = ?, education_level = ?, daily_salary = ?, date_posted = ? WHERE job_id = ?";
 	
-    private static final String SQL_FIND_BY_USER_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE user_id=?";
-    private static final String SQL_FIND_JOBS_CONN = "SELECT * FROM Job WHERE Job.user_id IN (SELECT user_id FROM Connection WHERE connectedUser_id = ? UNION SELECT connectedUser_id FROM Connection WHERE user_id = ?)";
+    private static final String SQL_FIND_BY_USER_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE user_id=? ORDER BY date_posted DESC";
+    private static final String SQL_FIND_JOBS_CONN = "SELECT * FROM Job WHERE Job.user_id IN (SELECT user_id FROM Connection WHERE connectedUser_id = ? UNION SELECT connectedUser_id FROM Connection WHERE user_id = ?) ORDER BY date_posted DESC";
     
     private ConnectionFactory factory;
     
@@ -174,7 +173,8 @@ public class JobDAOImpl implements JobDAO{
 
         try (
             Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_JOBS_CONN,false,userId);
+            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_JOBS_CONN,false,userId,userId);
+        	
             ResultSet resultSet = statement.executeQuery();
         ) {
             while (resultSet.next()) {

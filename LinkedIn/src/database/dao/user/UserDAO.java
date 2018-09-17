@@ -26,4 +26,6 @@ public interface UserDAO
     public List<User> getLikesAndComments(int user_id);
     
     public List<User> getJobApplicants(Long jobId);
+    
+    public String getUserSkills(Long userId);
 }

@@ -1,7 +1,6 @@
 package Servlets;
 
 import java.io.IOException;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,7 +23,6 @@ import database.dao.jobapplication.JobapplicationDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.Job;
-import database.entities.User;
 
 /**
  * Servlet implementation class JobHandle
@@ -58,25 +56,41 @@ public class JobHandle extends HttpServlet {
 				request.setAttribute("connJobs", connJobs);
 				//get jobs sorted by most skills
 				UserDAO userDao = new UserDAOImpl(true);
-				User user = userDao.find(userId.intValue());
+				String skills = userDao.getUserSkills(userId);
 				List<Job> skillJobs = dao.list();
 				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
-				for(Job job: skillJobs) {
-					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-					java.util.Collections.sort(VariousFunctions.strToArray(job.getSkills()), Collator.getInstance());
-					//compare lists and count differences
-					int count = 0;
-					for (int i = 0; i < job.getSkillsArray().size(); i++) {
-					    if (!user.getSkills().contains(job.getSkillsArray().get(i))) {
-					        count++;
-					    }
+				if(skills != null) {
+					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
+					for(Job job: skillJobs) {
+						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
+						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
+						//compare lists and count differences
+						int differences = 0;
+						for (int i = 0; i < job.getSkillsArray().size(); i++) {
+							for(int j=0;j < skillsUser.size();j++) {
+							    if (!skillsUser.get(j).equalsIgnoreCase(job.getSkillsArray().get(i))) {
+							    	differences++;
+							    }else {
+							    	skillsUser.remove(j);
+							    }
+							}
+						}
+						jobsMap.put(job.getId().getJobId(),differences);
 					}
-					jobsMap.put(job.getId().getJobId(),count);
+					//sort map
+					jobsMap = VariousFunctions.sortMap(jobsMap);
+					List<Job> skillJobsList = new ArrayList<Job>();
+					List<Integer> mapKeys = new ArrayList<Integer>(jobsMap.keySet());
+					for(Job job: skillJobs) {
+						for(Integer key: mapKeys) {
+							if(key == job.getId().getJobId()) {
+								
+								skillJobsList.add(job);
+							}
+						}
+					}
+					request.setAttribute("skillJobs",  skillJobsList);
 				}
-				
-				
-				
-				java.util.Collections.sort(VariousFunctions.strToArray(user.getSkills()), Collator.getInstance());
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
@@ -120,18 +134,55 @@ public class JobHandle extends HttpServlet {
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
 				request.setAttribute("redirectJobs", "StopLoopJobs");
-				//get all jobs
+				//get session's jobs
 				Long userId = Long.valueOf((String) request.getSession().getAttribute("id"));
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
 				for(Job job: sessionJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("sessionJobs", sessionJobs);
+				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				for(Job job: connJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("connJobs", connJobs);
+				//get jobs sorted by most skills
+				UserDAO userDao = new UserDAOImpl(true);
+				String skills = userDao.getUserSkills(userId);
+				List<Job> skillJobs = dao.list();
+				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
+				if(skills != null) {
+					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
+					for(Job job: skillJobs) {
+						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
+						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
+						//compare lists and count differences
+						int differences = 0;
+						for (int i = 0; i < job.getSkillsArray().size(); i++) {
+							for(int j=0;j < skillsUser.size();j++) {
+							    if (!skillsUser.get(j).equalsIgnoreCase(job.getSkillsArray().get(i))) {
+							    	differences++;
+							    }else {
+							    	skillsUser.remove(j);
+							    }
+							}
+						}
+						jobsMap.put(job.getId().getJobId(),differences);
+					}
+					//sort map
+					jobsMap = VariousFunctions.sortMap(jobsMap);
+					List<Job> skillJobsList = new ArrayList<Job>();
+					List<Integer> mapKeys = new ArrayList<Integer>(jobsMap.keySet());
+					for(Job job: skillJobs) {
+						for(Integer key: mapKeys) {
+							if(key == job.getId().getJobId()) {
+								skillJobsList.add(job);
+							}
+						}
+					}
+					request.setAttribute("skillJobs",  skillJobsList);
+				}
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
