@@ -18,9 +18,11 @@
 	
 		<jsp:include page="Header.jsp" /> 
 		
+		<c:if test="${requestScope.getSpecific == null}">
 		<% if ( request.getAttribute( "redirect" ) == null ) { %>
-			<jsp:forward page="/Messaging?action=getMessages" />
+			<jsp:forward page="/MessageHandler?action=getMessages&user1=${conversation.id.userId1}&user2=${conversation.id.userId2}" />
 		<% } %>
+		</c:if>
 		
 		<div class="main">
 			<div class="container">
@@ -105,27 +107,38 @@
 				    
 				            <ul class="messageList col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								 
-								 <c:forEach items="${messages}" var="message">
+								 <c:forEach items="${conversation.messages}" var="message">
 								 	<c:choose>
-								 		<c:when test="${message.from_user==sessionScope.id}">
+								 		<c:when test="${message.conversation.id.userId1==sessionScope.id}">
 							    			<li class="me messageListItem"><c:out value="${message.text}"/></li>
 							    		</c:when>
 							    		<c:otherwise>
 							    			<li class="him messageListItem"><c:out value="${message.text}"/></li>
 							    		</c:otherwise>
 							    	</c:choose>
+							    	<c:choose>
+								 		<c:when test="${message.conversation.id.userId2==sessionScope.id}">
+							    			<li class="me messageListItem"><c:out value="${message.text}"/></li>
+							    		</c:when>
+							    		<c:otherwise>
+							    			<li class="him messageListItem"><c:out value="${message.text}"/></li>
+							    		</c:otherwise>
+							    	</c:choose>
+							    			
 								 </c:forEach>
 							</ul>
 				    
 				          </div>
 				
 				          <div class="row send">
-				          	<form action="${pageContext.request.contextPath}/Messaging" method="POST">
+				          	<form action="${pageContext.request.contextPath}/MessageHandler" method="POST">
+				          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
+				          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
 					            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					              <input type="text" placeholder="Message..." class="form-control" />
+					              <input type="text" name="message" placeholder="Message..." class="form-control" />
 					            </div>
 					            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-					              <button class="btn btn-info btn-block">Send</button>
+					              <button class="btn btn-info btn-block" type="submit">Send</button>
 					            </div>
 				            </form>
 				          </div>

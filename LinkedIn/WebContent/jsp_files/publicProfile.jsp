@@ -38,7 +38,7 @@
 						<input type="hidden" name="pending" value="${user.isPending}">
 					    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary deleteFriend btn-lg reject-button"/>
 					</form>
-					<button onclick="location.href='${pageContext.request.contextPath}/jsp_files/Messaging.jsp?id=${user_id}'" type="button" class="btn btn-primary btn-lg chat-button">Συζήτηση</button>
+					<a href="${pageContext.request.contextPath}/ConversationHandler?action=conversation&id=${user_id}" type="button" class="btn btn-primary btn-lg chat-button">Συζήτηση</a>
 				</div>
 				
 				<%if (request.getAttribute("msg") != null){%>

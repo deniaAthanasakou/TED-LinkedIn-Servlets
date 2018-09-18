@@ -81,12 +81,12 @@
     <url-pattern>/Logout/</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Messaging</servlet-name>
-    <servlet-class>Servlets.Messaging</servlet-class>
+    <servlet-name>MessageHandler</servlet-name>
+    <servlet-class>Servlets.MessageHandler</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Messaging</servlet-name>
-    <url-pattern>/Messaging/</url-pattern>
+    <servlet-name>MessageHandler</servlet-name>
+    <url-pattern>/MessageHandler/</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Settings</servlet-name>
@@ -191,6 +191,14 @@
   <servlet-mapping>
     <servlet-name>PostView</servlet-name>
     <url-pattern>/PostView/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ConversationHandler</servlet-name>
+    <servlet-class>Servlets.ConversationHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConversationHandler</servlet-name>
+    <url-pattern>/ConversationHandler/</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>users.dir</param-name>
