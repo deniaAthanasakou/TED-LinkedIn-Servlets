@@ -13,4 +13,6 @@ public interface ConversationDAO {
     public int count();
     
     public Conversation findConversation(Long sessionId, Long clickedId);
+    
+    public List<Conversation> findAllConversations(Long userId);
 }

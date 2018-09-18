@@ -21,13 +21,15 @@ public class Message implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
+	private byte sender;
+
 	private String text;
 
 	//bi-directional many-to-one association to Conversation
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="from_user", referencedColumnName="user_id1"),
-		@JoinColumn(name="to_user", referencedColumnName="user_id2")
+		@JoinColumn(name="user_id1", referencedColumnName="user_id1"),
+		@JoinColumn(name="user_id2", referencedColumnName="user_id2")
 		})
 	private Conversation conversation;
 
@@ -50,6 +52,14 @@ public class Message implements Serializable {
 		this.date = date;
 	}
 
+	public byte getSender() {
+		return this.sender;
+	}
+
+	public void setSender(byte sender) {
+		this.sender = sender;
+	}
+
 	public String getText() {
 		return this.text;
 	}
@@ -64,6 +74,17 @@ public class Message implements Serializable {
 
 	public void setConversation(Conversation conversation) {
 		this.conversation = conversation;
+	}
+	
+	@Transient
+	private String dateInterval;
+
+	public String getDateInterval() {
+		return dateInterval;
+	}
+
+	public void setDateInterval(String dateInterval) {
+		this.dateInterval = dateInterval;
 	}
 
 }

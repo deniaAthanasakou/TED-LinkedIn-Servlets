@@ -159,7 +159,7 @@ public class User implements Serializable {
 
 	public User() {
 	}
-	
+
 	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
 			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts, String profExp, String skills, String education, String workPos, String institution,
 			byte privateCity, byte privateCountry, byte privateDateOfBirth, byte privateEducation, byte privateEmail, byte privateGender, byte privateSkills, byte privateProfExp, byte privateTelephone, byte privateWorkPos, byte privateInstitution) {
@@ -194,7 +194,7 @@ public class User implements Serializable {
 		this.privateInstitution = privateInstitution;
 		this.posts1 = posts;
 	}
-
+	
 	public int getId() {
 		return this.id;
 	}
@@ -645,7 +645,6 @@ public class User implements Serializable {
 		this.users4 = users4;
 	}
 	
-	//add local variables
 	@Transient
 	private int postId;
 

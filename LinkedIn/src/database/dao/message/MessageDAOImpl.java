@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.entities.Conversation;
@@ -16,10 +17,10 @@ import database.entities.Message;
 public class MessageDAOImpl implements MessageDAO{
 	
 	//prepared statements
-	private static final String SQL_LIST = "SELECT message_id, text, date, from_user, to_user FROM Message";
-	private static final String SQL_INSERT = "INSERT INTO Message (text, date, from_user, to_user) VALUES  (?, ?, ?, ?)";
+	private static final String SQL_LIST = "SELECT message_id, text, date, user_id1, user_id2, sender FROM Message";
+	private static final String SQL_INSERT = "INSERT INTO Message (text, date, user_id1, user_id2, sender) VALUES  (?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Message";
-	private static final String SQL_FIND_MESSAGES = "SELECT message_id, text, date, from_user, to_user FROM Message, Conversation WHERE (from_user = ? AND to_user = ?) OR (from_user = ? AND to_user = ?)";
+	private static final String SQL_FIND_MESSAGES = "SELECT message_id, text, date, Message.user_id1, Message.user_id2, sender FROM Message, Conversation WHERE (Conversation.user_id1 = ? AND Conversation.user_id2 = ?) OR (Conversation.user_id1 = ? AND Conversation.user_id2 = ?)";
 
 	private ConnectionFactory factory;
     
@@ -51,7 +52,7 @@ public class MessageDAOImpl implements MessageDAO{
 	@Override
 	public int create(Message message) {
 		int ret = -1;
-		Object[] values = { message.getText(), DAOUtil.toSqlTimestamp(message.getDate()), message.getConversation().getId().getUserId1(), message.getConversation().getId().getUserId2()};
+		Object[] values = { message.getText(), DAOUtil.toSqlTimestamp(message.getDate()), message.getConversation().getId().getUserId1(), message.getConversation().getId().getUserId2(), message.getSender()};
 		//connect to DB
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
@@ -122,12 +123,14 @@ public class MessageDAOImpl implements MessageDAO{
 		message.setMessageId(resultSet.getInt("message_id"));
 		message.setText(resultSet.getString("text"));
 		message.setDate(new java.util.Date(resultSet.getTimestamp("date").getTime()));
+		message.setSender(resultSet.getByte("sender"));
 		Conversation conversation = new Conversation();
 		ConversationPK id = new ConversationPK();
-		id.setUserId1(resultSet.getInt("from_user"));
-		id.setUserId2(resultSet.getInt("to_user"));
+		id.setUserId1(resultSet.getInt("user_id1"));
+		id.setUserId2(resultSet.getInt("user_id2"));
 		conversation.setId(id);
 		message.setConversation(conversation);
+		message.setDateInterval(VariousFunctions.getDateInterval(message.getDate()));
 		return message;
 	}
 	

@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +34,8 @@ public class MessageHandler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//get to conversations
 		if(request.getParameter("action") != null) {
+			List<Conversation> conversations = connDAO.findAllConversations(Long.valueOf((String) request.getSession().getAttribute("id")));
+			request.setAttribute("conversations", conversations);
 			if(request.getParameter("action").equals("getMessages")) {
 				request.setAttribute("redirect", "stopRedirectMessages");
 				String user1 = request.getParameter("user1");
@@ -57,15 +60,16 @@ public class MessageHandler extends HttpServlet {
 					//just get last message and last conversation
 					System.out.println("get last message and conversation.");
 				}
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Messaging.jsp");
-				displayPage.forward(request, response);
-				return;
 			}
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Messaging.jsp");
+			displayPage.forward(request, response);
+			return;
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//post new message
+		request.setCharacterEncoding("UTF-8");
 		Long userId1 = Long.valueOf((String)request.getParameter("userId1"));
 		Long userId2 = Long.valueOf((String)request.getParameter("userId2"));
 		String text = request.getParameter("message");
@@ -74,6 +78,14 @@ public class MessageHandler extends HttpServlet {
 		Message message = new Message();
 		message.setText(text);
 		message.setDate(new Date());
+		Long sessionId = Long.valueOf((String) request.getSession().getAttribute("id"));
+		byte sender;
+		if(sessionId == userId1) {
+			sender = 0;
+		}else {
+			sender = 1;
+		}
+		message.setSender(sender);
 		Conversation conversation = new Conversation();
 		ConversationPK id = new ConversationPK();
 		id.setUserId1(userId1.intValue());

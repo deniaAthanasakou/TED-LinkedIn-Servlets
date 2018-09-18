@@ -20,7 +20,8 @@ public class ConversationDAOImpl implements ConversationDAO{
 	private static final String SQL_INSERT = "INSERT INTO Conversation (user_id1, user_id2) VALUES  (?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Conversation";
 	private static final String SQL_FIND_CONVERSATION = "SELECT user_id1, user_id2 FROM Conversation WHERE (user_id1 = ? AND user_id2 = ?) OR (user_id1 = ? AND user_id2 = ?)";
-
+	private static final String SQL_FIND_CONVERSATIONS = "SELECT user_id1,user_id2 FROM Conversation WHERE user_id1 = ? OR user_id2 = ?";
+	
 	private ConnectionFactory factory;
     
     public ConversationDAOImpl(boolean pool)
@@ -106,6 +107,25 @@ public class ConversationDAOImpl implements ConversationDAO{
         }
         return conversation;
 	}
+	
+	@Override
+	public List<Conversation> findAllConversations(Long userId) {
+		List<Conversation> conversations = new ArrayList<>();
+
+        try (
+            Connection connection = factory.getConnection();
+            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATIONS, false, userId,userId);
+            ResultSet resultSet = statement.executeQuery();
+        ) {
+            while (resultSet.next()) {
+            	conversations.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        return conversations;
+	}
 
 	private static Conversation map(ResultSet resultSet) throws SQLException {
 		Conversation conversation = new Conversation();
@@ -117,4 +137,5 @@ public class ConversationDAOImpl implements ConversationDAO{
 		conversation.setMessages(dao.findMessages(Long.valueOf(convPK.getUserId1()), Long.valueOf(convPK.getUserId2())));
 		return conversation;
 	}
+	
 }

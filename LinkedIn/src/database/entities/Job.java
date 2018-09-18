@@ -216,8 +216,6 @@ public class Job implements Serializable {
 		return jobapplication;
 	}
 	
-	//Local fields
-
 	@Transient
 	private String dateInterval;
 
@@ -272,6 +270,5 @@ public class Job implements Serializable {
 	public void setSkillsArray(List<String> skillsArray) {
 		this.skillsArray = skillsArray;
 	}
-
 
 }
