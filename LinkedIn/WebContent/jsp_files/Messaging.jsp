@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -30,76 +30,27 @@
 					<h3 class=" text-center">Messaging</h3>
 					<br>
 					<div class="row">
-				        <div class="card col-xs-4 col-sm-4 col-md-4 col-lg-4 otherPeopleMessages" style="overflow:auto;">
-				          <ul class="list-group list-group-flush">
-				            <li class="list-group-item">
-				            	
-				            	 <div class="row">
-				            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
-						            </div>
-						            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						              <div class="d-flex w-100 justify-content-between">
-						                    <h5 class="mb-1">Name Surname</h5>
-						                </div>
-						            </div>
-						          </div>
-				            	<br>
-				                <p class="lastMsg" >Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-				                
-				            </li>
-				            <li class="list-group-item">
-				            
-				                 <div class="row">
-				            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
-						            </div>
-						            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						              <div class="d-flex w-100 justify-content-between">
-						                    <h5 class="mb-1">Name Surname</h5>
-						                </div>
-						            </div>
-						          </div>
-						        <br>
-				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-				                
-				            </li>
-				            <li class="list-group-item">
-				            
-				                 <div class="row">
-				            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
-						            </div>
-						            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						              <div class="d-flex w-100 justify-content-between">
-						                    <h5 class="mb-1">Name Surname</h5>
-						                </div>
-						            </div>
-						          </div>
-						        <br>
-				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-				                
-				            </li> 
-				            
-				            <li class="list-group-item">
-				            
-				                 <div class="row">
-				            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
-						            </div>
-						            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						              <div class="d-flex w-100 justify-content-between">
-						                    <h5 class="mb-1">Name Surname</h5>
-						                </div>
-						            </div>
-						          </div>
-						        <br>
-				                <p class="lastMsg">Person: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-				                
-				            </li>
-				          </ul>
+				    	<div class="card col-xs-4 col-sm-4 col-md-4 col-lg-4 otherPeopleMessages" style="overflow:auto;">
+				       		<ul class="list-group list-group-flush">
+				         		<c:forEach items="${conversations}" var="conversationItem">
+				            		<li class="list-group-item">
+					            		<div class="row">
+						            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
+								            </div>
+								            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+								              <div class="d-flex w-100 justify-content-between">
+								                    <h5 class="mb-1">Name Surname</h5>
+								                </div>
+								            </div>
+							        	</div>
+					            		<br>
+					            		<c:set var="length" value = "${fn:length(conversationItem.messages)}"/>				            	
+					                	<p class="lastMsg">${conversationItem.messages[length-1].text}</p>
+					            	</li>
+					            </c:forEach>
+				          	</ul>
 			        	</div>
-			
 			        
 				        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 				        
@@ -109,22 +60,25 @@
 								 
 								 <c:forEach items="${conversation.messages}" var="message">
 								 	<c:choose>
-								 		<c:when test="${message.conversation.id.userId1==sessionScope.id}">
-							    			<li class="me messageListItem"><c:out value="${message.text}"/></li>
-							    		</c:when>
-							    		<c:otherwise>
-							    			<li class="him messageListItem"><c:out value="${message.text}"/></li>
-							    		</c:otherwise>
-							    	</c:choose>
-							    	<c:choose>
-								 		<c:when test="${message.conversation.id.userId2==sessionScope.id}">
-							    			<li class="me messageListItem"><c:out value="${message.text}"/></li>
-							    		</c:when>
-							    		<c:otherwise>
-							    			<li class="him messageListItem"><c:out value="${message.text}"/></li>
-							    		</c:otherwise>
-							    	</c:choose>
-							    			
+								 		<c:when test="${message.sender==0 && message.conversation.id.userId1 == sessionScope.id}">
+								 			<c:set var = "messageUser" value = "userId1"/>
+									 	</c:when>
+									 	<c:when test="${message.sender==1 && message.conversation.id.userId2 == sessionScope.id}">
+									 		<c:set var = "messageUser" value = "userId2"/>
+									 	</c:when>
+									 	<c:otherwise>
+									 		<c:set var = "messageUser" value = "null"/>
+									 	</c:otherwise>
+								 	</c:choose>
+							 		<c:if test="${messageUser == 'userId1'}">
+							 			<li class="me messageListItem">${message.text}<p class="datePostedMe">${message.dateInterval}</p></li>
+						    		</c:if>
+						    		<c:if test="${messageUser == 'userId2'}">
+							 			<li class="me messageListItem">${message.text}<p class="datePostedMe">${message.dateInterval}</p></li>
+						    		</c:if>
+							    	<c:if test="${messageUser == 'null'}">
+							 			<li class="him messageListItem">${message.text}<p class="datePostedHim">${message.dateInterval}</p></li>
+						    		</c:if>	
 								 </c:forEach>
 							</ul>
 				    

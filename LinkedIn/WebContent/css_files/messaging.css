@@ -1,4 +1,3 @@
-
 .messaging {
     background-color: gray; /* Add an active/current color for nav bar */
 }
@@ -93,8 +92,15 @@
 	border-radius:30px;
 }
 
+.datePostedMe{
+	color: #ccc;
+	font-size: 10px;
+}
 
-
+.datePostedHim{
+	color: white;
+	font-size: 10px;
+}
 
 
 
