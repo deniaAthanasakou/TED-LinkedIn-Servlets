@@ -59,6 +59,10 @@ public class Job implements Serializable {
 	@ManyToOne
 	private User user;
 
+	//bi-directional many-to-one association to Jobapplication
+	@OneToMany(mappedBy="job")
+	private List<Jobapplication> jobapplications;
+
 	public Job() {
 	}
 
@@ -189,8 +193,31 @@ public class Job implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public List<Jobapplication> getJobapplications() {
+		return this.jobapplications;
+	}
+
+	public void setJobapplications(List<Jobapplication> jobapplications) {
+		this.jobapplications = jobapplications;
+	}
+
+	public Jobapplication addJobapplication(Jobapplication jobapplication) {
+		getJobapplications().add(jobapplication);
+		jobapplication.setJob(this);
+
+		return jobapplication;
+	}
+
+	public Jobapplication removeJobapplication(Jobapplication jobapplication) {
+		getJobapplications().remove(jobapplication);
+		jobapplication.setJob(null);
+
+		return jobapplication;
+	}
 	
 	//Local fields
+
 	@Transient
 	private String dateInterval;
 
@@ -201,13 +228,13 @@ public class Job implements Serializable {
 	public void setDateInterval(String dateInterval) {
 		this.dateInterval = dateInterval;
 	}
-	
+
 	@Transient
 	private String educationLevelStr;
-	
+
 	@Transient
 	private String companyTypeStr;
-	
+
 	@Transient
 	private String jobFunctionStr;
 
@@ -234,7 +261,7 @@ public class Job implements Serializable {
 	public void setJobFunctionStr(String jobFunctionStr) {
 		this.jobFunctionStr = jobFunctionStr;
 	}
-	
+
 	@Transient
 	private List<String> skillsArray;
 
@@ -245,6 +272,6 @@ public class Job implements Serializable {
 	public void setSkillsArray(List<String> skillsArray) {
 		this.skillsArray = skillsArray;
 	}
-	
+
 
 }

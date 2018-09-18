@@ -21,8 +21,6 @@ public class Like implements Serializable {
 	@Column(name="date_liked")
 	private Date dateLiked;
 
-	private byte seen;
-
 	//bi-directional many-to-one association to Post
 	@ManyToOne
 	private Post post;
@@ -48,14 +46,6 @@ public class Like implements Serializable {
 
 	public void setDateLiked(Date dateLiked) {
 		this.dateLiked = dateLiked;
-	}
-
-	public byte getSeen() {
-		return this.seen;
-	}
-
-	public void setSeen(byte seen) {
-		this.seen = seen;
 	}
 
 	public Post getPost() {

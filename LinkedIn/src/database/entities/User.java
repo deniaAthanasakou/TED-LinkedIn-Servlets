@@ -98,6 +98,10 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Job> jobs;
 
+	//bi-directional many-to-one association to Jobapplication
+	@OneToMany(mappedBy="user")
+	private List<Jobapplication> jobapplications;
+
 	//bi-directional many-to-one association to Like
 	@OneToMany(mappedBy="user")
 	private List<Like> likes;
@@ -535,6 +539,28 @@ public class User implements Serializable {
 		return job;
 	}
 
+	public List<Jobapplication> getJobapplications() {
+		return this.jobapplications;
+	}
+
+	public void setJobapplications(List<Jobapplication> jobapplications) {
+		this.jobapplications = jobapplications;
+	}
+
+	public Jobapplication addJobapplication(Jobapplication jobapplication) {
+		getJobapplications().add(jobapplication);
+		jobapplication.setUser(this);
+
+		return jobapplication;
+	}
+
+	public Jobapplication removeJobapplication(Jobapplication jobapplication) {
+		getJobapplications().remove(jobapplication);
+		jobapplication.setUser(null);
+
+		return jobapplication;
+	}
+
 	public List<Like> getLikes() {
 		return this.likes;
 	}
@@ -630,7 +656,7 @@ public class User implements Serializable {
 	public void setPostId(int postId) {
 		this.postId = postId;
 	}
-	
+
 	@Transient
 	private int isComment;
 
@@ -641,7 +667,5 @@ public class User implements Serializable {
 	public void setIsComment(int isComment) {
 		this.isComment = isComment;
 	}
-
-
 
 }
