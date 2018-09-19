@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,7 +37,7 @@ public class ConversationHandler extends HttpServlet {
 				Conversation checkConv = dao.findConversation(sessionId, idClicked);
 				if(checkConv == null) {
 					System.out.println("Conversation doesnt exist ->  create");
-					dao.create(sessionId, idClicked);
+					dao.create(sessionId, idClicked, new Date());
 					checkConv = dao.findConversation(sessionId, idClicked);
 				}else {
 					System.out.println("Conversation exist");

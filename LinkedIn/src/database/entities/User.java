@@ -94,6 +94,14 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user2")
 	private List<Connection> connections2;
 
+	//bi-directional many-to-one association to Conversation
+	@OneToMany(mappedBy="user1")
+	private List<Conversation> conversations1;
+
+	//bi-directional many-to-one association to Conversation
+	@OneToMany(mappedBy="user2")
+	private List<Conversation> conversations2;
+
 	//bi-directional many-to-one association to Job
 	@OneToMany(mappedBy="user")
 	private List<Job> jobs;
@@ -159,7 +167,7 @@ public class User implements Serializable {
 
 	public User() {
 	}
-
+	
 	public User(String city, String country, Date dateOfBirth, String email, int gender, byte isAdmin,
 			String name, String password, String photoURL, String surname, String tel, byte hasImage, List<Post> posts, String profExp, String skills, String education, String workPos, String institution,
 			byte privateCity, byte privateCountry, byte privateDateOfBirth, byte privateEducation, byte privateEmail, byte privateGender, byte privateSkills, byte privateProfExp, byte privateTelephone, byte privateWorkPos, byte privateInstitution) {
@@ -194,7 +202,7 @@ public class User implements Serializable {
 		this.privateInstitution = privateInstitution;
 		this.posts1 = posts;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -517,6 +525,50 @@ public class User implements Serializable {
 		return connections2;
 	}
 
+	public List<Conversation> getConversations1() {
+		return this.conversations1;
+	}
+
+	public void setConversations1(List<Conversation> conversations1) {
+		this.conversations1 = conversations1;
+	}
+
+	public Conversation addConversations1(Conversation conversations1) {
+		getConversations1().add(conversations1);
+		conversations1.setUser1(this);
+
+		return conversations1;
+	}
+
+	public Conversation removeConversations1(Conversation conversations1) {
+		getConversations1().remove(conversations1);
+		conversations1.setUser1(null);
+
+		return conversations1;
+	}
+
+	public List<Conversation> getConversations2() {
+		return this.conversations2;
+	}
+
+	public void setConversations2(List<Conversation> conversations2) {
+		this.conversations2 = conversations2;
+	}
+
+	public Conversation addConversations2(Conversation conversations2) {
+		getConversations2().add(conversations2);
+		conversations2.setUser2(this);
+
+		return conversations2;
+	}
+
+	public Conversation removeConversations2(Conversation conversations2) {
+		getConversations2().remove(conversations2);
+		conversations2.setUser2(null);
+
+		return conversations2;
+	}
+
 	public List<Job> getJobs() {
 		return this.jobs;
 	}
@@ -645,6 +697,7 @@ public class User implements Serializable {
 		this.users4 = users4;
 	}
 	
+	//add local variables
 	@Transient
 	private int postId;
 

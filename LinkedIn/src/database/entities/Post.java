@@ -66,6 +66,7 @@ public class Post implements Serializable {
 		this.likes = likes;
 	}
 
+
 	public int getId() {
 		return this.id;
 	}

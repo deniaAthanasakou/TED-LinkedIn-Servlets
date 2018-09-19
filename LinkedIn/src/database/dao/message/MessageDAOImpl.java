@@ -20,7 +20,7 @@ public class MessageDAOImpl implements MessageDAO{
 	private static final String SQL_LIST = "SELECT message_id, text, date, user_id1, user_id2, sender FROM Message";
 	private static final String SQL_INSERT = "INSERT INTO Message (text, date, user_id1, user_id2, sender) VALUES  (?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Message";
-	private static final String SQL_FIND_MESSAGES = "SELECT message_id, text, date, Message.user_id1, Message.user_id2, sender FROM Message, Conversation WHERE (Conversation.user_id1 = ? AND Conversation.user_id2 = ?) OR (Conversation.user_id1 = ? AND Conversation.user_id2 = ?)";
+	private static final String SQL_FIND_MESSAGES = "SELECT message_id, text, date, Message.user_id1, Message.user_id2, sender FROM Message, Conversation WHERE (Conversation.user_id1 = ? AND Conversation.user_id2 = ? AND Message.user_id1 = ? AND Message.user_id2 = ?) OR (Conversation.user_id1 = ? AND Conversation.user_id2 = ? AND Message.user_id1 = ? AND Message.user_id2 = ?)";
 
 	private ConnectionFactory factory;
     
@@ -105,7 +105,7 @@ public class MessageDAOImpl implements MessageDAO{
 
         try (
             Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_MESSAGES, false, userId1, userId2, userId2, userId1);
+            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_MESSAGES, false, userId1, userId2, userId1, userId2,userId2, userId1, userId2, userId1);
             ResultSet resultSet = statement.executeQuery();
         ) {
             while (resultSet.next()) {
