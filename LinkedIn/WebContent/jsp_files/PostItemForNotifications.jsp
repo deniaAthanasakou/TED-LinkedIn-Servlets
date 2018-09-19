@@ -125,14 +125,14 @@
 					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostView?action=insertLike" accept-charset="UTF-8">
 					    <button id="giveLike" class="btn btn-default"  type="submit"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>   
 					    <input type="hidden" name="post_id" value="${post.id}" />         
-						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(${post.id})"><i class="glyphicon glyphicon-comment"></i> Comment</button>
+						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(1)"><i class="glyphicon glyphicon-comment"></i> Comment</button>
 					</form>
 				</c:if>
 				<c:if test="${post.liked == '1'}">
 					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostView?action=deleteLike" accept-charset="UTF-8">
 					    <button id="returnLike" class="btn btn-default active"  type="submit"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>   
 					    <input type="hidden" name="post_id" value="${post.id}" />         
-						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(${post.id})"><i class="glyphicon glyphicon-comment"></i> Comment</button>
+						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(1)"><i class="glyphicon glyphicon-comment"></i> Comment</button>
 					</form>
 				</c:if>
 				
@@ -140,13 +140,13 @@
 			
 		
 			<div class="commentsBox" id="commentsBox" style="display:none;">
-				<% if ( request.getAttribute( "commentError" ) != null ) { %>
+				<c:if test="${requestScope.commentError != null}">
 					<div class="alert alert-danger">
-						<strong>Error!</strong> <%=request.getAttribute( "commentError" )%>
+						<strong>Error!</strong> ${requestScope.commentError}
 					</div>
-				<% } %>
+				</c:if>
 				<div class="commenterImage">
-	            	<img src="<%=session.getAttribute("image")%>" />
+	            	<img src="${sessionScope.image}" />
 	            </div>
 		        <form class="form-inline" role="form" method="POST" id="commentForm" action="${pageContext.request.contextPath}/PostView?action=comment" accept-charset="UTF-8">
 		            <div class="form-group">

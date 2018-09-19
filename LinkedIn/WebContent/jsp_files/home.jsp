@@ -11,47 +11,43 @@
 		<script src="${pageContext.request.contextPath}/js_files/chooseInputs.js"></script>
 		<script src="${pageContext.request.contextPath}/js_files/enableLoading.js"></script>
 		
-		<title>Home of user</title>
+		<title>Home</title>
 		
 	</head>
 	<body>
-		<% if ( request.getAttribute( "redirectPosts" ) == null ) { %>
+		<c:if test="${requestScope.redirectPosts == null}">
 			<jsp:forward page="/PostHandle?action=getPosts" />
-		<% } %>
+		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="leftdiv">
-				<a href="${pageContext.request.contextPath}/jsp_files/profile.jsp">
-					<div class="item_profile">
-						<div>
-							<img class="image_circle" alt="thumbnail" src="<%=session.getAttribute("image")%>" style="width:80px;height:80px">
-						</div>
-						<h4><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></h4>
+				<div class="item_profile" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/profile.jsp'">
+					<div>
+						<img class="image_circle" alt="thumbnail" src="${sessionScope.image}" style="width:80px;height:80px">
 					</div>
-				</a>
-				<a href="${pageContext.request.contextPath}/jsp_files/network.jsp">
-					<div class="item_network">
-						<p id="connections_number">${requestScope.noConnections}</p>
-						<p>Connections</p>
-					</div>
-				</a>
+					<h4>${sessionScope.name} ${sessionScope.surname}</h4>
+				</div>
+				<div class="item_network"  onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/network.jsp'">
+					<p id="connections_number">${requestScope.noConnections}</p>
+					<p>Connections</p>
+				</div>
 			</div>
 			
 			<div class="create_post">
 				<div class="info_post" id="info_post">
-					<img class="image_circle_view" alt="thumbnail" src="<%=session.getAttribute("image")%>">
-					<h5><b><%=session.getAttribute("name")%> <%=session.getAttribute("surname")%></b></h5>
+					<img class="image_circle_view" alt="thumbnail" src="${sessionScope.image}">
+					<h5><b>${sessionScope.name} ${sessionScope.surname}</b></h5>
 				</div>
 				<div class="loader" id="loader"></div>
 				<div class="form_post" id="form_post">
 					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle" accept-charset="UTF-8" enctype="multipart/form-data" onsubmit="return enableLoading()">
-						<% if ( request.getAttribute( "postError" ) != null ) { %>
+						<c:if test="${requestScope.postError != null}">
 							<div class="alert alert-danger">
-								<%=request.getAttribute( "postError" )%>
+								${requestScope.postError}
 							</div>
-						<% } %>
+						</c:if>
 						<div class="form-group divider">
 						    <textarea id="text_post" name="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50"></textarea>
 					  	</div>

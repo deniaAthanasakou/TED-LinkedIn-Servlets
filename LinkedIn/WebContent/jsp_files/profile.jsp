@@ -19,9 +19,9 @@
 	</head>
 	<body>
 	
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+		<c:if test="${requestScope.redirect == null}">
 			<jsp:forward page="/Profile?action=getUser" />
-		<% } %>
+		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		
@@ -35,34 +35,34 @@
 							         	<img id="uploadedImage" class="profileImage" src="${user.photoURL}"/>
 							        </div>
 						    	</td>
-						    	<td ><label>Ονοματεπώνυμο:</label> <c:out value="${user.name}"/> <c:out value="${user.surname}"/></td>
+						    	<td ><label>Full name:</label> <c:out value="${user.name}"/> <c:out value="${user.surname}"/></td>
 						    </tr>
 						    <tr>
 						    	<td><label>Email:</label> <c:out value="${user.email}"/></td>
 						    </tr>
 						    <tr>
-						    	<td><label>Τηλέφωνο:</label>
+						    	<td><label>Telephone:</label>
 							    	<c:choose>
-							    		<c:when test="${empty user.tel}"><em>Δεν έχει οριστεί.</em></c:when>
+							    		<c:when test="${empty user.tel}"><em>Not set</em></c:when>
 							    		<c:otherwise><c:out value="${user.tel}"/></c:otherwise>
 							    	</c:choose>
 						    	 </td>
 						    </tr>
 						    <tr>
-						    	<td><label>Ημερομηνία γέννησης:</label>
+						    	<td><label>Date of birth:</label>
 									<c:choose>
-							    		<c:when test="${empty  user.dateOfBirth}"><em>Δεν έχει οριστεί.</em></c:when>
+							    		<c:when test="${empty  user.dateOfBirth}"><em>Not set</em></c:when>
 							    		<c:otherwise><c:out value="${user.dateOfBirth}"/></c:otherwise>
 							    	</c:choose>
 								</td>
 						    </tr>
 						    <tr>
-						    	<td><label>Φύλο:</label>
+						    	<td><label>Gender:</label>
 						    		 <c:choose>
-							    		<c:when test="${user.gender == 0}"><em>Δεν έχει οριστεί.</em></c:when>
-							    		<c:when test="${user.gender == 1}">Άνδρας</c:when>
-							    		<c:when test="${user.gender == 2}">Γυναίκα</c:when>
-							    		<c:otherwise><em>Δεν έχει οριστεί.</em></c:otherwise>
+							    		<c:when test="${user.gender == 0}"><em>Not set</em></c:when>
+							    		<c:when test="${user.gender == 1}">Male</c:when>
+							    		<c:when test="${user.gender == 2}">Female</c:when>
+							    		<c:otherwise><em>Not set</em></c:otherwise>
 							    	</c:choose>
 								</td>
 						    </tr>
@@ -70,18 +70,18 @@
 						    	<td>
 						    		<div class="row">
 							    		<div class="col-xs-6 col-md-6 col-lg-6 col-sm-6 ">
-							    			<label>Χώρα κατοικίας:</label>
+							    			<label>Country of residence:</label>
 											<c:choose>
-									    		<c:when test="${empty  user.country}"><em>Δεν έχει οριστεί.</em></c:when>
+									    		<c:when test="${empty  user.country}"><em>Not set</em></c:when>
 									    		<c:otherwise><c:out value="${user.country}"/></c:otherwise>
 									    	</c:choose>
 										</div>
 												
 										
 										<div class="col-xs-6 col-md-6 col-lg-6 col-sm-6">
-							    			<label>Πόλη κατοικίας:</label>
+							    			<label>City of residence:</label>
 							    			<c:choose>
-									    		<c:when test="${empty  user.city}"><em>Δεν έχει οριστεί.</em></c:when>
+									    		<c:when test="${empty  user.city}"><em>Not set</em></c:when>
 									    		<c:otherwise><c:out value="${user.city}"/></c:otherwise>
 									    	</c:choose>
 										</div>
@@ -94,45 +94,45 @@
 					 <div class="info">
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
-							  <label>Επαγγελματική θέση:</label>
+							  <label>Work position:</label>
 							  <c:choose>
-					    		<c:when test="${empty  user.workPos}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:when test="${empty  user.workPos}"><em>Not set</em></c:when>
 					    		<c:otherwise><p><c:out value="${user.workPos}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
-							  <label>Φορέας απασχόλησης:</label>
+							  <label>Employment institution:</label>
 							  <c:choose>
-					    		<c:when test="${empty  user.institution}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:when test="${empty  user.institution}"><em>Not set</em></c:when>
 					    		<c:otherwise><p><c:out value="${user.institution}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
-							  <label>Επαγγελματική εμπειρία:</label>
+							  <label>Professional experience:</label>
 							  <c:choose>
-					    		<c:when test="${empty  user.profExp}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:when test="${empty  user.profExp}"><em>Not set</em></c:when>
 					    		<c:otherwise><p><c:out value="${user.profExp}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
-							  <label>Εκπαίδευση:</label>
+							  <label>Education:</label>
 							  <c:choose>
-					    		<c:when test="${empty  user.education}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:when test="${empty  user.education}"><em>Not set</em></c:when>
 					    		<c:otherwise><p><c:out value="${user.education}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
 						 </div>
 						  <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
-							  <label>Δεξιότητες:</label>
+							  <label>Skills:</label>
 							  <c:choose>
-					    		<c:when test="${empty  user.skills}"><em>Δεν έχει οριστεί.</em></c:when>
+					    		<c:when test="${empty  user.skills}"><em>Not set</em></c:when>
 					    		<c:otherwise><p><c:out value="${user.skills}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
@@ -142,62 +142,62 @@
 		
 					
 					<div class="choosePrivate">
-						<label>Δημόσιες (<span class="glyphicon glyphicon-ok"></span>) και ιδιωτικές (<span class="glyphicon glyphicon-remove"></span>) πληροφορίες:</label>
+						<label>Public (<span class="glyphicon glyphicon-ok"></span>) and private (<span class="glyphicon glyphicon-remove"></span>) information:</label>
 						<br><br>
-						<span class="glyphicon glyphicon-ok"></span> Ονοματεπώνυμο</p>
+						<p><span class="glyphicon glyphicon-ok"></span> Full name</p>
 						<c:choose>
-				    		<c:when test="${user.privateEmail==1}"><p><span class="glyphicon glyphicon-remove"></span> Ηλεκτρονική διέυθυνση/Email</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Ηλεκτρονική διέυθυνση/Email</p></c:otherwise>
+				    		<c:when test="${user.privateEmail==1}"><p><span class="glyphicon glyphicon-remove"></span> Email</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Email</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateTelephone==1}"><p><span class="glyphicon glyphicon-remove"></span> Τηλέφωνο</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Τηλέφωνο</p></c:otherwise>
+				    		<c:when test="${user.privateTelephone==1}"><p><span class="glyphicon glyphicon-remove"></span> Telephone</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Telephone</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateDateOfBirth==1}"><p><span class="glyphicon glyphicon-remove"></span> Ημερομηνία γέννησης</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Ημερομηνία γέννησης</p></c:otherwise>
+				    		<c:when test="${user.privateDateOfBirth==1}"><p><span class="glyphicon glyphicon-remove"></span> Date of birth</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Date of birth</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateGender==1}"><p><span class="glyphicon glyphicon-remove"></span> Φύλο</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Φύλο</p></c:otherwise>
+				    		<c:when test="${user.privateGender==1}"><p><span class="glyphicon glyphicon-remove"></span> Gender</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Gender</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateCountry==1}"><p><span class="glyphicon glyphicon-remove"></span> Χώρα κατοικίας</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Χώρα κατοικίας</p></c:otherwise>
+				    		<c:when test="${user.privateCountry==1}"><p><span class="glyphicon glyphicon-remove"></span> Country of residence</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Country of residence</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateCity==1}"><p><span class="glyphicon glyphicon-remove"></span> Πόλη/Περιοχή κατοικίας</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Πόλη/Περιοχή κατοικίας</p></c:otherwise>
+				    		<c:when test="${user.privateCity==1}"><p><span class="glyphicon glyphicon-remove"></span> City of residence</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> City of residence</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateWorkPos==1}"><p><span class="glyphicon glyphicon-remove"></span> Επαγγελματική Θέση</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Επαγγελματική Θέση</p></c:otherwise>
+				    		<c:when test="${user.privateWorkPos==1}"><p><span class="glyphicon glyphicon-remove"></span> Work position</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Work position</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateInstitution==1}"><p><span class="glyphicon glyphicon-remove"></span> Φορέας απασχόλησης</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Φορέας απασχόλησης</p></c:otherwise>
+				    		<c:when test="${user.privateInstitution==1}"><p><span class="glyphicon glyphicon-remove"></span> Employment institution</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Employment institution</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateProfExp==1}"><p><span class="glyphicon glyphicon-remove"></span> Επαγγελματική Εμπειρία</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Επαγγελματική Εμπειρία</p></c:otherwise>
+				    		<c:when test="${user.privateProfExp==1}"><p><span class="glyphicon glyphicon-remove"></span> Professional experience</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Professional experience</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateEducation==1}"><p><span class="glyphicon glyphicon-remove"></span> Εκπαίδευση</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Εκπαίδευση</p></c:otherwise>
+				    		<c:when test="${user.privateEducation==1}"><p><span class="glyphicon glyphicon-remove"></span> Education</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span>  Education</p></c:otherwise>
 				    	</c:choose>
 				    	
 				    	<c:choose>
-				    		<c:when test="${user.privateSkills==1}"><p><span class="glyphicon glyphicon-remove"></span> Δεξιότητες</p></c:when>
-				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Δεξιότητες</p></c:otherwise>
+				    		<c:when test="${user.privateSkills==1}"><p><span class="glyphicon glyphicon-remove"></span> Skills</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Skills</p></c:otherwise>
 				    	</c:choose>
 
 					</div>
@@ -205,7 +205,7 @@
 					<form role="Form" method="POST" action="${pageContext.request.contextPath}/Profile" accept-charset="UTF-8">
 						<div class="editDiv row">
 							<div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 ">
-						 		<button type="submit" class="btn btn-primary editButton">Επεξεργασία</button>
+						 		<button type="submit" class="btn btn-primary editButton">Edit</button>
 						 	</div>
 						</div>
 					</form>

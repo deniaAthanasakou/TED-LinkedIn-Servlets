@@ -12,7 +12,7 @@
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
-			<h2>Αιτήσεις Εργασίας</h2>
+			<h2>Job Applications</h2>
 		
 			<c:forEach items="${applicants}" var="applicant">
 				<form method="post" action="${pageContext.request.contextPath}/JobApplicationHandle">
@@ -34,14 +34,14 @@
 								    	</c:when>
 								    	<c:otherwise>
 										    <div class="btn-group">
-										   			<button type="submit" class="btn btn-success" name="accept"><i class="glyphicon glyphicon-ok-circle"></i> Αποδοχή</button>
+										   			<button type="submit" class="btn btn-success" name="accept"><i class="glyphicon glyphicon-ok-circle"></i> Accept</button>
 										    </div>
 										    <div class="btn-group">
-										    	<button type="submit" class="btn btn-warning" name="decline"><i class="glyphicon glyphicon-remove-circle"></i> Απόρριψη</button>
+										    	<button type="submit" class="btn btn-warning" name="decline"><i class="glyphicon glyphicon-remove-circle"></i> Reject</button>
 									    	</div>
 							    		</c:otherwise>
 							    	</c:choose>
-							    	<button type="submit" class="btn btn-info" name="getProfile"><i class="glyphicon glyphicon-zoom-in"></i> Προφίλ</button>
+							    	<button type="submit" class="btn btn-info" name="getProfile"><i class="glyphicon glyphicon-zoom-in"></i> Profile</button>
 						    	</div>
 							</div>
 						</div>

@@ -19,11 +19,11 @@
 	
 	
 		<c:set var="user_id" value="${param.id}" />
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+		<c:if test="${requestScope.redirect == null}">
 			<jsp:forward page="/PublicNetwork">
 				<jsp:param name="id" value="${user_id}" ></jsp:param>
 			</jsp:forward>
-		<% } %>
+		</c:if>
 		
 	
 		<jsp:include page="Header.jsp" /> 
@@ -32,14 +32,13 @@
 			<div class="container">
 				
 				<div class="myContainerPublicNetwork">
-				
-					<%if (request.getAttribute("msg") != null){%>
+					<c:if test="${requestScope.msg != null}">
 						<div class="alert alert-success">
-							<%=request.getAttribute("msg")%>
+							${requestScope.msg}
 						</div>
-					<%} %>
+					</c:if>
 
-					<h2 style="font-family:sansserif;font-weight: bold;">Συνδεδεμένοι επαγγελματίες</h2>
+					<h2 style="font-family:sansserif;font-weight: bold;">Connections</h2>
 	  
 					    <c:forEach items="${users}" var="user">
 							<div class="row">
@@ -86,8 +85,8 @@
 																					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
 																						<input type="hidden" name="id" value="${user.id}">
 																						<input type="hidden" name="pending" value="${user.isPending}">
-																					    <input type="submit" name="rejectButton" value="Απόρριψη αιτήματος" class="btn btn-primary btn-sm reject-button"/>
-																					    <input type="submit" name="acceptButton" value="Αποδοχή αιτήματος"  class="btn btn-primary btn-sm accept-button"/>
+																					    <input type="submit" name="rejectButton" value="Reject request" class="btn btn-primary btn-sm reject-button"/>
+																					    <input type="submit" name="acceptButton" value="Accept request"  class="btn btn-primary btn-sm accept-button"/>
 																					</form>
 																				</div>
 																    		</td>
@@ -97,7 +96,7 @@
 																    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
 																					<input type="hidden" name="id" value="${user.id}">
 																					<input type="hidden" name="pending" value="${user.isPending}">
-																				    <input type="submit" name="rejectButton" value="Ακύρωση αιτήματος" class="btn btn-primary reject-button"/>
+																				    <input type="submit" name="rejectButton" value="Cancel request" class="btn btn-primary reject-button"/>
 																				</form>
 																    		</td>
 																		</c:otherwise>
@@ -108,7 +107,7 @@
 																	<td rowspan="2">
 												    					<form action="${pageContext.request.contextPath}/Network" method="POST">
 														    				<input type="hidden" name="userId" value="${user.id}" />
-																		    <input class="btn btn-primary" type="submit" name="connect" value="Σύνδεση" />
+																		    <input class="btn btn-primary" type="submit" name="connect" value="Connect" />
 																		</form>
 																	</td>
 																</c:otherwise>
@@ -121,7 +120,7 @@
 												    			<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
 																	<input type="hidden" name="id" value="${user.id}">
 																	<input type="hidden" name="pending" value="${user.isPending}">
-																    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary reject-button"/>
+																    <input type="submit" name="rejectButton" value="Delete connection" class="btn btn-primary reject-button"/>
 																</form>
 												    		</td>
 												    	</c:if>
@@ -138,12 +137,12 @@
 														<c:if test="${user.isConnected==0}">
 															<tr>
 																<c:choose>
-														    		<c:when test="${user.privateWorkPos eq 1}"><td class="deco-none">Επαγγελματική Θέση: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+														    		<c:when test="${user.privateWorkPos eq 1}"><td class="deco-none">Work position: <em>You can not see this information</em></td></c:when>
 														    		<c:otherwise>
 														    			<td class="deco-none">
 																    		<c:choose>
-																	    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
-																	    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+																	    		<c:when test="${empty user.workPos}">Work position: <em>Not set</em></c:when>
+																	    		<c:otherwise>Work position: <c:out value="${user.workPos}" /></c:otherwise>
 																	    	</c:choose>
 																		</td>
 														    		</c:otherwise>
@@ -152,12 +151,12 @@
 													    	
 													    	<tr>
 																<c:choose>
-														    		<c:when test="${user.privateInstitution eq 1}"><td class="deco-none">Φορέας Απασχόλησης: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+														    		<c:when test="${user.privateInstitution eq 1}"><td class="deco-none">Employment institution: <em>You can not see this information</em></td></c:when>
 														    		<c:otherwise>
 														    			<td class="deco-none">
 																    		<c:choose>
-																	    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
-																	    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+																	    		<c:when test="${empty user.institution}">Employment institution: <em>Not set</em></c:when>
+																	    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 																	    	</c:choose>
 																		</td>
 														    		</c:otherwise>
@@ -168,16 +167,16 @@
 												    		 <tr>
 														    	<td class="deco-none">
 														    		<c:choose>
-															    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
-															    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+															    		<c:when test="${empty user.workPos}">Work Position: <em>Not set</em></c:when>
+															    		<c:otherwise>Work Position: <c:out value="${user.workPos}" /></c:otherwise>
 															    	</c:choose>
 																</td>
 														    </tr>
 														    <tr>
 														    	<td class="deco-none">
 														    		<c:choose>
-															    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
-															    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+															    		<c:when test="${empty user.institution}">Employment institution: <em>Not set</em></c:when>
+															    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 															    	</c:choose>
 																</td>
 														    	
@@ -188,16 +187,16 @@
 														    <tr>
 														    	<td class="deco-none">
 														    		<c:choose>
-															    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
-															    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+															    		<c:when test="${empty user.workPos}">Work Position: <em>Not set</em></c:when>
+															    		<c:otherwise>Work Position: <c:out value="${user.workPos}" /></c:otherwise>
 															    	</c:choose>
 																</td>
 														    </tr>
 														    <tr>
 														    	<td class="deco-none">
 														    		<c:choose>
-															    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
-															    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+															    		<c:when test="${empty user.institution}">Employment institution: <em>Not set</em></c:when>
+															    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 															    	</c:choose>
 																</td>
 														    	

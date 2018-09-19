@@ -140,13 +140,14 @@
 			
 		
 			<div class="commentsBox" id="commentsBox" style="display:none;">
-				<% if ( request.getAttribute( "commentError" ) != null ) { %>
+
+				<c:if test="${requestScope.commentError != null}">
 					<div class="alert alert-danger">
-						<strong>Error!</strong> <%=request.getAttribute( "commentError" )%>
+						<strong>Error!</strong> ${requestScope.commentError}
 					</div>
-				<% } %>
+				</c:if>
 				<div class="commenterImage">
-	            	<img src="<%=session.getAttribute("image")%>" />
+	            	<img src="${sessionScope.image}" />
 	            </div>
 		        <form class="form-inline" role="form" method="POST" id="commentForm" action="${pageContext.request.contextPath}/CommentCreation" accept-charset="UTF-8">
 		            <div class="form-group">

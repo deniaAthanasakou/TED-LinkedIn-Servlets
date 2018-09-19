@@ -14,11 +14,12 @@
 	<body>
 	
 		<c:set var="post_id" value="${param.id}" />
-		<% if ( request.getAttribute( "redirect" ) == null || request.getAttribute( "redirect" ).equals("null")) { %>
+
+		<c:if test="${requestScope.redirect == null || requestScope.redirect == 'null'}">
 			<jsp:forward page="/PostView">
 				<jsp:param name="post_id" value="${post_id}" ></jsp:param>
 			</jsp:forward>
-		<% } %>
+		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		

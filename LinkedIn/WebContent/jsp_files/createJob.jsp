@@ -8,7 +8,6 @@
 		<title>Create job</title>
 	</head>
 	<body>
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">

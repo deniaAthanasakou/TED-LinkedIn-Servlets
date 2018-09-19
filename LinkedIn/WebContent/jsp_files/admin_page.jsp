@@ -10,9 +10,9 @@
 	</head>
 	<body>
 	
-		<% if ( request.getAttribute( "redirectList" ) == null ) { %>
+		<c:if test="${requestScope.redirectList == null}">
 			<jsp:forward page="/ListUsers?action=getUsers" />
-		<% } %>
+		</c:if>
 		
 		<jsp:include page="Header.jsp" /> 
 		

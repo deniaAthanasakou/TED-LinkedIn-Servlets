@@ -9,9 +9,10 @@
 		<title>Jobs</title>
 	</head>
 	<body>
-		<% if ( request.getAttribute( "redirectJobs" ) == null ) { %>
+
+		<c:if test="${requestScope.redirectJobs == null}">
 			<jsp:forward page="/JobHandle?action=getJobs" />
-		<% } %>
+		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		

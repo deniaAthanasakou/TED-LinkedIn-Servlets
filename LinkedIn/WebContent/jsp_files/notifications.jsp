@@ -14,29 +14,32 @@
 	</head>
 	<body>
 	
-		<% if ( request.getAttribute( "redirect" ) == null) { %>
+
+		<c:if test="${requestScope.redirect == null}">
 			<jsp:forward page="/Notifications" />
-		<% } %>
+		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="container">	
-				<h3>Ειδοποιήσεις</h3>
+				<h3>Notifications</h3>
 				<br>
 				<div class="friendRequests">			        
-			        <%if (request.getAttribute("msg") != null){%>
+					<c:if test="${requestScope.msg != null}">
 						<div class="alert alert-success">
-							<%=request.getAttribute("msg")%>
+							${requestScope.msg}
 						</div>
-					<%} %>
-					
-					<% if ( request.getAttribute( "requests" )!=null && request.getAttribute( "requests" ).equals("noRequests") ) { %>
-						<h4>&nbsp; Δεν έχετε νέα αιτήματα σύνδεσης</h4><br>
-					<%}
-					else{%>
-						<h4>&nbsp; Αιτήματα Σύνδεσης</h4><br>
-					<%} %>
+					</c:if>
+
+					<c:choose>
+						<c:when test="${requestScope.requests != null && requestScope.requests == 'noRequests'}">
+							<h4>&nbsp; No new connection requests</h4><br>
+						</c:when>
+						<c:otherwise>
+							<h4>&nbsp; Connection Requests</h4><br>
+						</c:otherwise>
+					</c:choose>
 			        
 			        
 			        <c:forEach items="${usersWithRequests}" var="user">
@@ -64,12 +67,12 @@
 									    </tr>	
 										<tr>
 											<c:choose>
-									    		<c:when test="${user.privateWorkPos eq 1}"><td class="deco-none">Επαγγελματική Θέση: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+									    		<c:when test="${user.privateWorkPos eq 1}"><td class="deco-none">Work Position: <em>You can not see this information</em></td></c:when>
 									    		<c:otherwise>
 									    			<td class="deco-none">
 											    		<c:choose>
-												    		<c:when test="${empty user.workPos}">Επαγγελματική Θέση: <em>Δεν έχει οριστεί.</em></c:when>
-												    		<c:otherwise>Επαγγελματική Θέση: <c:out value="${user.workPos}" /></c:otherwise>
+												    		<c:when test="${empty user.workPos}">Work Position: <em>Not set</em></c:when>
+												    		<c:otherwise>Work Position: <c:out value="${user.workPos}" /></c:otherwise>
 												    	</c:choose>
 													</td>
 									    		</c:otherwise>
@@ -78,12 +81,12 @@
 								    	
 								    	<tr>
 											<c:choose>
-									    		<c:when test="${user.privateInstitution eq 1}"><td class="deco-none">Φορέας Απασχόλησης: <em>Δεν μπορείτε να δείτε αυτή την πληροφορία.</em></td></c:when>
+									    		<c:when test="${user.privateInstitution eq 1}"><td class="deco-none">Employment institution: <em>You can not see this information</em></td></c:when>
 									    		<c:otherwise>
 									    			<td class="deco-none">
 											    		<c:choose>
-												    		<c:when test="${empty user.institution}">Φορέας Απασχόλησης: <em>Δεν έχει οριστεί.</em></c:when>
-												    		<c:otherwise>Φορέας Απασχόλησης: <c:out value="${user.institution}" /></c:otherwise>
+												    		<c:when test="${empty user.institution}">Employment institution: <em>Not set</em></c:when>
+												    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 												    	</c:choose>
 													</td>
 									    		</c:otherwise>
@@ -101,12 +104,14 @@
 			    </div>
 			    <hr>
 			    <div class="likesComments">
-					<% if ( request.getAttribute( "postNotifications" )!=null && request.getAttribute( "postNotifications" ).equals("noPostNotifications") ) { %>
-						<h4>&nbsp; Δεν έχετε νέα Likes & Comments</h4><br>
-					<%}
-					else{%>
-						<h4>&nbsp; Likes & Comments</h4><br>
-					<%} %>
+					<c:choose>
+						<c:when test="${requestScope.postNotifications != null && requestScope.postNotifications == 'noPostNotifications'}">
+							<h4>&nbsp; No new Likes & Comments</h4><br>
+						</c:when>
+						<c:otherwise>
+							<h4>&nbsp; Likes & Comments</h4><br>
+						</c:otherwise>
+					</c:choose>
 			        
 					<c:forEach items="${usersWithPosts}" var="userPost">
 						<div class="row">
@@ -119,9 +124,9 @@
 							    		<tr>
 								    		<td> <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><img  class="img-circle profileImage" src="<c:out value="${userPost.photoURL}" />"></a></td>
 									    	<c:choose>
-									    		<c:when test="${userPost.isComment == 1}"><td class="notificationInfo">Ο χρήστης <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> σχολίασε μια ανάρτησή σας</td>
+									    		<c:when test="${userPost.isComment == 1}"><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> commented on your post</td>
 									    		</c:when>
-									    		<c:otherwise><td class="notificationInfo">Ο χρήστης <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> σημείωσε ενδιαφέρον για μια ανάρτησή σας</td>
+									    		<c:otherwise><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> liked your post</td>
 									    		</c:otherwise>
 									    	</c:choose>
 									    </tr>	
