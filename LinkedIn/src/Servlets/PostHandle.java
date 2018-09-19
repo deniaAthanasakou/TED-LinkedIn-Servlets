@@ -43,6 +43,11 @@ import database.entities.User;
 public class PostHandle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private PostDAO dao = new PostDAOImpl(true);
+	private CommentDAO commentsDao = new CommentDAOImpl(true);
+	private ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
+	private UserDAO userDao = new UserDAOImpl(true);
+	
 	private ServletFileUpload uploader = null;
     @Override
     public void init() throws ServletException{
@@ -58,57 +63,65 @@ public class PostHandle extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PostDAO dao = new PostDAOImpl(true);
+		
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getPosts")) {
 				HttpSession session = request.getSession();
-				long userId = Long.valueOf((String) session.getAttribute("id"));
+				int userId = Integer.valueOf((String) session.getAttribute("id"));
 				List<Post> userPosts = dao.findPosts(userId);
+				
 				//get right posts
 				request.setAttribute("posts",userPosts);
 				request.setAttribute("redirectPosts", "StopLoopPosts");
+				
 				//get & set comments & edit post
-				CommentDAO commentsDao = new CommentDAOImpl(true);
 				for(Post post: userPosts) {
 					//set comments
-					List<Comment> comments = commentsDao.findComments((long)post.getId());
+					List<Comment> comments = commentsDao.findComments(post.getId());
+					
 					//set Date interval in specific format for comments and specific user
 					for(Comment comment: comments) {
 						comment.setDateInterval(VariousFunctions.getDateInterval(comment.getDatePosted()));
 					}
 					post.setComments(comments);
+					
 					//set no of comments
 					post.setNoComments(comments.size());
+					
 					//set Date interval in specific format
 					post.setDateInterval(VariousFunctions.getDateInterval(post.getDatePosted()));
+					
 					//decrypt path and set lists of images,videos,audios
 					if(post.getPathFiles() != null) {
 						String folderPath = AESCrypt.decrypt(post.getPathFiles());
 						VariousFunctions.setFilePathsFromFolders(folderPath,post);
 					}
 					//set likes
-					post.setLikes(dao.countLikes(Long.valueOf(post.getId())));
+					post.setLikes(dao.countLikes(Integer.valueOf(post.getId())));
+					
 					//get if liked from user
-					post.setLiked(dao.checkLiked(userId, Long.valueOf(post.getId())));
+					post.setLiked(dao.checkLiked(userId, Integer.valueOf(post.getId())));
 				}	
 				//get no of connections
-				ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
 				int noConnections = cnxDao.countConnections(userId);
 				request.setAttribute("noConnections", noConnections);
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("insertLike")) {
 				//insert like
-				dao.insertLike(Long.valueOf((String) request.getSession().getAttribute("id")),Long.valueOf(request.getParameter("post_id")));
+				dao.insertLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("deleteLike")) {
 				//delete like
-				dao.deleteLike(Long.valueOf((String) request.getSession().getAttribute("id")),Long.valueOf(request.getParameter("post_id")));
+				dao.deleteLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
@@ -118,57 +131,64 @@ public class PostHandle extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		PostDAO dao = new PostDAOImpl(true);
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getPosts")) {
 				HttpSession session = request.getSession();
-				long userId = Long.valueOf((String) session.getAttribute("id"));
+				int userId = Integer.valueOf((String) session.getAttribute("id"));
 				List<Post> userPosts = dao.findPosts(userId);
+				
 				//get right posts
 				request.setAttribute("posts",userPosts);
 				request.setAttribute("redirectPosts", "StopLoopPosts");
+				
 				//get & set comments & edit post
-				CommentDAO commentsDao = new CommentDAOImpl(true);
 				for(Post post: userPosts) {
 					//set comments
-					List<Comment> comments = commentsDao.findComments((long)post.getId());
+					List<Comment> comments = commentsDao.findComments(post.getId());
+					
 					//set Date interval in specific format for comments and specific user
 					for(Comment comment: comments) {
 						comment.setDateInterval(VariousFunctions.getDateInterval(comment.getDatePosted()));
 					}
 					post.setComments(comments);
+					
 					//set no of comments
 					post.setNoComments(comments.size());
+					
 					//set Date interval in specific format
 					post.setDateInterval(VariousFunctions.getDateInterval(post.getDatePosted()));
+					
 					//decrypt path and set lists of images,videos,audios
 					if(post.getPathFiles() != null) {
 						String folderPath = AESCrypt.decrypt(post.getPathFiles());
 						VariousFunctions.setFilePathsFromFolders(folderPath,post);
 					}
 					//set likes
-					post.setLikes(dao.countLikes(Long.valueOf(post.getId())));
+					post.setLikes(dao.countLikes(post.getId()));
+					
 					//get if liked from user
-					post.setLiked(dao.checkLiked(userId, Long.valueOf(post.getId())));
+					post.setLiked(dao.checkLiked(userId, post.getId()));
 				}	
 				//get no of connections
-				ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
 				int noConnections = cnxDao.countConnections(userId);
 				request.setAttribute("noConnections", noConnections);
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("insertLike")) {
 				//insert like
-				dao.insertLike(Long.valueOf((String) request.getSession().getAttribute("id")),Long.valueOf(request.getParameter("post_id")));
+				dao.insertLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("deleteLike")) {
 				//delete like
-				dao.deleteLike(Long.valueOf((String) request.getSession().getAttribute("id")),Long.valueOf(request.getParameter("post_id")));
+				dao.deleteLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
+				
 				//display page
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
 				displayPage.forward(request, response);
@@ -197,6 +217,7 @@ public class PostHandle extends HttpServlet {
 			while(fileItemsIterator.hasNext()){
 				FileItem fileItem = fileItemsIterator.next();
 				if (fileItem.isFormField()) {
+					
 	                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
 					fields.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
 	            } else {
@@ -300,7 +321,7 @@ public class PostHandle extends HttpServlet {
 			}
 			
 			//create new post
-			UserDAO userDao = new UserDAOImpl(true);
+			
 			User user = userDao.find(Integer.valueOf((String) request.getSession().getAttribute("id")));
 			
 			Post newPost = new Post(text,dNow,pathFiles,hasAudio, hasImages, hasVideo, 0, user);

@@ -66,7 +66,6 @@ public class Post implements Serializable {
 		this.likes = likes;
 	}
 
-
 	public int getId() {
 		return this.id;
 	}
@@ -191,7 +190,6 @@ public class Post implements Serializable {
 		this.users = users;
 	}
 	
-	//local fields for populate
 	@Transient
 	private int noComments;
 
@@ -266,6 +264,6 @@ public class Post implements Serializable {
 
 	public void setLiked(int liked) {
 		this.liked = liked;
-	}
+	}	
 
 }

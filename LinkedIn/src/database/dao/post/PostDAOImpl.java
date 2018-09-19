@@ -13,7 +13,6 @@ import database.dao.DAOUtil;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.Post;
-import database.entities.User;
 
 public class PostDAOImpl implements PostDAO 
 {
@@ -46,13 +45,11 @@ public class PostDAOImpl implements PostDAO
 			"		)\r\n" + 
 			"	)\r\n" + 
 			") posts ORDER BY posts.date_posted DESC";
-		
-	
+
 	private static final String SQL_INSERT_LIKE = "INSERT INTO ted.like (user_id,post_id, date_liked) VALUES (?,?, ?)";
 	private static final String SQL_DELETE_LIKE = "DELETE FROM ted.like WHERE user_id = ? AND post_id = ?";
 	private static final String SQL_CHECK_LIKE = "SELECT COUNT(*) FROM ted.like WHERE user_id = ? AND post_id = ?";
-	private static final String SQL_COUNT_LIKES = "SELECT COUNT(*) FROM ted.like WHERE post_id = ?";
-	
+	private static final String SQL_COUNT_LIKES = "SELECT COUNT(*) FROM ted.like WHERE post_id = ?";	
 	private static final String GET_POST = "SELECT * FROM Post WHERE id = ?";
 
     
@@ -94,7 +91,6 @@ public class PostDAOImpl implements PostDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{			
-			System.out.println(statement);
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -140,7 +136,7 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public List<Post> findPosts(Long id) {
+	public List<Post> findPosts(int id) {
 		List<Post> posts = new ArrayList<>();
 		
 		//get id's and friends' posts
@@ -161,7 +157,7 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public void insertLike(Long userId, Long postId) {
+	public void insertLike(int userId, int postId) {
 		//get current time
 		Date dNow = new Date();
         try (
@@ -170,7 +166,7 @@ public class PostDAOImpl implements PostDAO
         ) {
         	int rowsChanged = statement.executeUpdate();
         	if(rowsChanged==0) {
-        		System.err.println("Error liking a post.");
+        		System.err.println("Error in liking a post.");
         	}
         } 
         catch (SQLException e) {
@@ -179,14 +175,14 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public void deleteLike(Long userId, Long postId) {
+	public void deleteLike(int userId, int postId) {
         try (
             Connection connection = factory.getConnection();
         		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_DELETE_LIKE, false, userId, postId);
         ) {
         	int rowsChanged = statement.executeUpdate();
         	if(rowsChanged==0) {
-        		System.err.println("Error deleting like of post.");
+        		System.err.println("Error in deleting like of post.");
         	}
         } 
         catch (SQLException e) {
@@ -195,7 +191,7 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public int checkLiked(Long userId, Long postId) {
+	public int checkLiked(int userId, int postId) {
 		int size=0;
         try (
             Connection connection = factory.getConnection();
@@ -217,7 +213,7 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public int countLikes(Long postId) {
+	public int countLikes(int postId) {
 
 		int size = 0;
 		

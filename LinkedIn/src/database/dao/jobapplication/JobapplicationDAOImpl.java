@@ -55,14 +55,13 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	}
 
 	@Override
-	public int create(Long jobId, Long userId) {
+	public int create(int jobId, int userId) {
 		int ret = -1;
 		Object[] values = {userId, jobId, 0};
 		//connect to DB
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{			
-			System.out.println(statement);
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -98,7 +97,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	}
 
 	@Override
-	public List<Jobapplication> findApplications(Long jobId) {
+	public List<Jobapplication> findApplications(int jobId) {
 		List<Jobapplication> jobApplications = new ArrayList<>();
 
         try (
@@ -118,7 +117,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	}
 
 	@Override
-	public int updateJobApplication(Long jobId, Long userId, byte approved) {
+	public int updateJobApplication(int jobId, int userId, byte approved) {
 		int affectedRows=0;
 		try (Connection	connection = factory.getConnection();
 			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_APPROVAL, false, approved, jobId, userId);)
@@ -138,7 +137,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	}
 	
 	@Override
-	public int checkApplied(Long jobId, Long userId) {
+	public int checkApplied(int jobId, int userId) {
 		int size=0;
         try (
             Connection connection = factory.getConnection();
@@ -160,7 +159,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 	}
 	
 	@Override
-	public int declineApplicant(Long jobId, Long userId) {
+	public int declineApplicant(int jobId, int userId) {
 		int affectedRows=0;
 		try (Connection	connection = factory.getConnection();
 			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_DELETE_APPLICANT, false, jobId, userId);)
@@ -188,7 +187,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 		jobApplication.setApproved(resultSet.getByte("approved"));
 		//set objects
 		JobDAO jobDao = new JobDAOImpl(true);
-		jobApplication.setJob(jobDao.findJob(Long.valueOf(jobApplicationPk.getJobId())));
+		jobApplication.setJob(jobDao.findJob(Integer.valueOf(jobApplicationPk.getJobId())));
 		UserDAO userDao = new UserDAOImpl(true);
 		jobApplication.setUser(userDao.find(jobApplicationPk.getUserId()));
 		

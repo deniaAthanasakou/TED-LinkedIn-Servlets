@@ -14,13 +14,8 @@ import javax.servlet.http.HttpSession;
 import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
 
-import java.util.List;
-
-import database.dao.post.PostDAO;
-import database.dao.post.PostDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
-import database.entities.Post;
 import database.entities.User;
 
 
@@ -31,27 +26,21 @@ import database.entities.User;
 public class LoginUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private UserDAO dao = new UserDAOImpl(true);
+    
     public LoginUser() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		UserDAO dao = new UserDAOImpl(true);
+		
 		String email = request.getParameter("email");
 		response.setContentType("text/html;charset=UTF-8");
+		
 		//check email
 		Boolean validMail = VariousFunctions.isValidEmailAddress(email);
 		if(!validMail) {
@@ -71,12 +60,14 @@ public class LoginUser extends HttpServlet {
 			//create new session
 			request.getSession(true);
 			HttpSession session = request.getSession();
+			
 			//set values
 			session.setAttribute("id",String.valueOf(loggedInUser.getId()));
 			session.setAttribute("email",loggedInUser.getEmail());
 			session.setAttribute("name",loggedInUser.getName());
 			session.setAttribute("surname",loggedInUser.getSurname());
 			session.setAttribute("image",loggedInUser.getPhotoURL());
+			
 			//go to home or admin page
 			RequestDispatcher displayPage;
 			if(loggedInUser.getIsAdmin()==1) {

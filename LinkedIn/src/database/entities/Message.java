@@ -85,6 +85,6 @@ public class Message implements Serializable {
 
 	public void setDateInterval(String dateInterval) {
 		this.dateInterval = dateInterval;
-	}
+	}	
 
 }

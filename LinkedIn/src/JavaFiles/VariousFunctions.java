@@ -26,26 +26,17 @@ public class VariousFunctions {
         return email.matches("[a-zA-Z0-9\\.]+@[a-zA-Z0-9\\-\\_\\.]+\\.[a-zA-Z0-9]+");
 	}
 
-
-
 	public boolean isBlank(String str) {
-		
-		System.out.println("in isBlank");
-		
-	    if (str == null || str.equals("")) {
-	    	System.out.println("first if");
-	    	
+				
+	    if (str == null || str.equals("")) {	    	
 	        return true;
 	    }
 	    for (int i = 0; i < str.length(); i++) {
 	        if ((Character.isWhitespace(str.charAt(i)) == false)) {
-	        	
-	        	System.out.println("false");
-	            return false;
+	        	return false;
 	        }
 	    }
 	    
-	    System.out.println("end true");
 	    return true;
 	}
 	

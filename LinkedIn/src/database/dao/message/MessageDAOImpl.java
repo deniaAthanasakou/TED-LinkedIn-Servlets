@@ -57,7 +57,6 @@ public class MessageDAOImpl implements MessageDAO{
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{			
-			System.out.println(statement);
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -100,7 +99,7 @@ public class MessageDAOImpl implements MessageDAO{
 	}
 
 	@Override
-	public List<Message> findMessages(Long userId1, Long userId2){
+	public List<Message> findMessages(int userId1, int userId2){
 		List<Message> messages = new ArrayList<>();
 
         try (

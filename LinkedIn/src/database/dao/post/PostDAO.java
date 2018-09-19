@@ -12,15 +12,15 @@ public interface PostDAO {
     
     public int count();
     
-    public List<Post> findPosts(Long id);
+    public List<Post> findPosts(int id);
     
-    public void insertLike(Long userId, Long postId);
+    public void insertLike(int userId, int postId);
     
-    public void deleteLike(Long userId, Long postId);
+    public void deleteLike(int userId, int postId);
     
-    public int checkLiked(Long userId, Long postId);
+    public int checkLiked(int userId, int postId);
     
-    public int countLikes(Long postId);
+    public int countLikes(int postId);
     
     public Post getPost (int id);
     

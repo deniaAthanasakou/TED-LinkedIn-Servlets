@@ -17,12 +17,6 @@ public abstract class ConnectionFactory {
 	    private static String USERNAME;
 	    private static String PASSWORD;
 	    
-	    /*private static final String URL = "jdbc:mysql://localhost:3306/ted";
-	    private static final String DRIVER = "com.mysql.jdbc.Driver";
-	    private static final String USERNAME = "ted";
-	    private static final String PASSWORD = "ted";
-	    */
-	    
 	    //Singleton pattern: Connection factory instance is created only once
 	    private static ConnectionFactory instance = null;
 	    

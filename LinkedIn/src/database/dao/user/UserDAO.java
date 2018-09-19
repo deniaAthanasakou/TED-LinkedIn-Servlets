@@ -21,11 +21,11 @@ public interface UserDAO
     
     public int updateUser(User user, int user_id);
 
-    public List<User> getSelectedUsers(String[] ids);
+    public List<User> getSelectedUsers(String[] ids);						//gets selected users from admin page in order to generate xml
     
     public List<User> getLikesAndComments(int user_id);
     
-    public List<User> getJobApplicants(Long jobId);
+    public List<User> getJobApplicants(int jobId);
     
-    public String getUserSkills(Long userId);
+    public String getUserSkills(int userId);
 }

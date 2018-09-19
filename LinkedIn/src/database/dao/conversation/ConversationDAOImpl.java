@@ -52,14 +52,13 @@ public class ConversationDAOImpl implements ConversationDAO{
 	}
 
 	@Override
-	public int create(Long sessionId, Long clickedId, Date lastDate) {
+	public int create(int sessionId, int clickedId, Date lastDate) {
 		int ret = -1;
 		Object[] values = {sessionId, clickedId, DAOUtil.toSqlTimestamp(lastDate)};
 		//connect to DB
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{			
-			System.out.println(statement);
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -93,7 +92,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 	}
 
 	@Override
-	public Conversation findConversation(Long sessionId, Long clickedId) {
+	public Conversation findConversation(int sessionId, int clickedId) {
 		Conversation conversation = null;
 
         try (
@@ -112,7 +111,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 	}
 	
 	@Override
-	public List<Conversation> findAllConversations(Long userId) {
+	public List<Conversation> findAllConversations(int userId) {
 		List<Conversation> conversations = new ArrayList<>();
 
         try (
@@ -131,7 +130,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 	}
 
 	@Override
-	public int updateLastDate(Date date, Long userId1, Long userId2) {
+	public int updateLastDate(Date date, int userId1, int userId2) {
 		int affectedRows=0;
 		try (Connection	connection = factory.getConnection();
 			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_CONVERSATION, false, DAOUtil.toSqlTimestamp(date), userId1, userId2, userId2, userId1);)
@@ -161,7 +160,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 		conversation.setLastDate(new java.util.Date(resultSet.getTimestamp("lastDate").getTime()));
 		conversation.setDateInterval(VariousFunctions.getDateInterval(conversation.getLastDate()));
 		MessageDAO dao = new MessageDAOImpl(true);
-		conversation.setMessages(dao.findMessages(Long.valueOf(convPK.getUserId1()), Long.valueOf(convPK.getUserId2())));
+		conversation.setMessages(dao.findMessages(Integer.valueOf(convPK.getUserId1()), Integer.valueOf(convPK.getUserId2())));
 		return conversation;
 	}
 	
@@ -173,7 +172,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 		conversation.setId(convPK);
 		conversation.setLastDate(new java.util.Date(resultSet.getTimestamp("lastDate").getTime()));
 		MessageDAO dao = new MessageDAOImpl(true);
-		conversation.setMessages(dao.findMessages(Long.valueOf(convPK.getUserId1()), Long.valueOf(convPK.getUserId2())));
+		conversation.setMessages(dao.findMessages(Integer.valueOf(convPK.getUserId1()), Integer.valueOf(convPK.getUserId2())));
 		//set local fields
 		conversation.setDateInterval(VariousFunctions.getDateInterval(conversation.getLastDate()));
 		conversation.setConversationId(resultSet.getInt("id"));

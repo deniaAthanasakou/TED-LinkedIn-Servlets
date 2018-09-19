@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,14 +20,12 @@ import org.apache.commons.io.FilenameUtils;
 import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
 
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
-import database.entities.Post;
 import database.entities.User;
 
 /**
@@ -48,27 +45,17 @@ public class RegisterUser extends HttpServlet {
          uploader.setHeaderEncoding("UTF-8");
      }
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private UserDAO dao = new UserDAOImpl(true);
+    
     public RegisterUser() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		UserDAO dao = new UserDAOImpl(true);
 		FileItem imageItem = null;
 		Hashtable<String, String> fields = new Hashtable<String, String>();
 		
@@ -83,6 +70,7 @@ public class RegisterUser extends HttpServlet {
 			while(fileItemsIterator.hasNext()){
 				FileItem fileItem = fileItemsIterator.next();
 				if (fileItem.isFormField()) {
+					
 	                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
 					fields.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
 	            } else {
@@ -154,7 +142,6 @@ public class RegisterUser extends HttpServlet {
 		//check phone number
 		if(telephone!=null) {	
 			telephone=telephone.replaceAll("[\\D]","");
-			System.out.println(telephone);
 			if(telephone.length()!=10 ) {
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Error! Invalid phone number was given as input.');");
@@ -225,6 +212,7 @@ public class RegisterUser extends HttpServlet {
 				//create new session
 				request.getSession(true);
 				HttpSession session = request.getSession();
+				
 				//set values
 				session.setAttribute("id",String.valueOf(newUser.getId()));
 				session.setAttribute("email",String.valueOf(newUser.getEmail()));

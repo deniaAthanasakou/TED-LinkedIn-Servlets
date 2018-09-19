@@ -9,13 +9,13 @@ import database.entities.Conversation;
 public interface ConversationDAO {
 	public List<Conversation> list();
 
-	public int create(Long sessionId, Long clickedId, Date lastDate);
+	public int create(int sessionId, int clickedId, Date lastDate);
     
     public int count();
     
-    public Conversation findConversation(Long sessionId, Long clickedId);
+    public Conversation findConversation(int sessionId, int clickedId);
     
-    public List<Conversation> findAllConversations(Long userId);
+    public List<Conversation> findAllConversations(int userId);
     
-    public int updateLastDate(Date date, Long userId1, Long userId2);
+    public int updateLastDate(Date date, int userId1, int userId2);
 }

@@ -11,5 +11,5 @@ public interface MessageDAO {
     
     public int count();
     
-    public List<Message> findMessages(Long userId1, Long userId2);
+    public List<Message> findMessages(int userId1, int userId2);
 }

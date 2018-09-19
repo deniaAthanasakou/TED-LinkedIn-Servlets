@@ -6,16 +6,16 @@ public interface JobapplicationDAO {
 
 	public List<Jobapplication> list();
 
-    public int create(Long jobId, Long userId);
+    public int create(int jobId, int userId);
     
     public int count();
     
-    public List<Jobapplication> findApplications(Long jobId);
+    public List<Jobapplication> findApplications(int jobId);
     
-    public int updateJobApplication(Long jobId, Long userId, byte approved);
+    public int updateJobApplication(int jobId, int userId, byte approved);
     
-    public int checkApplied(Long jobId, Long userId);
+    public int checkApplied(int jobId, int userId);
     
-    public int declineApplicant(Long jobId, Long userId); 
+    public int declineApplicant(int jobId, int userId); 
         
 }

@@ -2,7 +2,6 @@ package Servlets;
 
 import java.io.IOException;
 import java.util.Date;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,24 +27,24 @@ public class ConversationHandler extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Go to conversation " + request.getParameter("action"));
+		System.out.println("in get conv");
 		if(request.getParameter("action") != null) {
 			if(request.getParameter("action").equals("conversation")) {
+				
 				//get conversation if exists, else create
-				Long idClicked = Long.valueOf((String) request.getParameter("id"));
-				Long sessionId = Long.valueOf((String) request.getSession().getAttribute("id"));
+				int idClicked = Integer.valueOf((String) request.getParameter("id"));
+				int sessionId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 				Conversation checkConv = dao.findConversation(sessionId, idClicked);
 				if(checkConv == null) {
-					System.out.println("Conversation doesnt exist ->  create");
 					dao.create(sessionId, idClicked, new Date());
 					checkConv = dao.findConversation(sessionId, idClicked);
 				}else {
-					System.out.println("Conversation exist");
 					checkConv = dao.findConversation(sessionId, idClicked);
 				}
 				//display page
 				request.setAttribute("conversation", checkConv);
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Messaging.jsp");
+				System.out.println("haha");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
 				displayPage.forward(request, response);
 				return;
 			}

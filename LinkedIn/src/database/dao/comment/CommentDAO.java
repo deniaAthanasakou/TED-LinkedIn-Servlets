@@ -5,12 +5,12 @@ import java.util.List;
 import database.entities.Comment;
 
 public interface CommentDAO {
+	
+    public List<Comment> list();									//get all comments
 
-    public List<Comment> list();
-
-	public int create(Comment comment, Long userId, Long postId);
+	public int create(Comment comment, int userId, int postId);		//create comment
     
-    public int count();
+    public int count();												//count how many comments exist
     
-    public List<Comment> findComments(Long id);
+    public List<Comment> findComments(int id);						//find comments of post
 }

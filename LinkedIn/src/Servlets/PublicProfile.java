@@ -20,42 +20,26 @@ import database.entities.User;
 public class PublicProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private UserDAO dao = new UserDAOImpl(true);
+    
     public PublicProfile() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("in profile get");
-		
+		//show profile of connected user
 		String displayPage="/jsp_files/publicProfile.jsp";
 		request.setAttribute("redirect", "StopLoop");	
-			
-		UserDAO dao = new UserDAOImpl(true);
 		
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
-		
 		User user=dao.getUserProfile(user_id);
-		
 		request.setAttribute("user", user);
 
-    
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
 	    view.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

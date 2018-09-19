@@ -2,13 +2,11 @@ package Servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -27,7 +24,6 @@ import org.joda.time.DateTime;
 import JavaFiles.VariousFunctions;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
-import database.entities.Post;
 import database.entities.User;
 
 /**
@@ -36,11 +32,8 @@ import database.entities.User;
 @WebServlet("/EditProfile")
 public class EditProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private UserDAO dao = new UserDAOImpl(true);
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-	
 	 private ServletFileUpload uploader = null;
      @Override
      public void init() throws ServletException{
@@ -53,14 +46,9 @@ public class EditProfile extends HttpServlet {
 	
     public EditProfile() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		//cancel was clicked
 		String fromAdminId = (String) request.getAttribute("fromAdmin");
@@ -72,9 +60,7 @@ public class EditProfile extends HttpServlet {
 		}else {
 			displayPage="/jsp_files/edit_profile_admin.jsp";
 			user_id=Integer.valueOf((String) fromAdminId);
-		}
-		System.out.println("in doGet");
-		UserDAO dao = new UserDAOImpl(true);
+		}		
 				
 		User user=dao.getUserProfile(user_id);
 		request.setAttribute("user", user);
@@ -86,12 +72,9 @@ public class EditProfile extends HttpServlet {
 		if(user.getDateOfBirth()!=null) {
 			Calendar cal = Calendar.getInstance(); 
 			cal.setTime(user.getDateOfBirth());
-			
 			day=cal.get(Calendar.DAY_OF_MONTH);
 			month=cal.get(Calendar.MONTH)+1;	//zero based
-			year=cal.get(Calendar.YEAR);
-			
-			 
+			year=cal.get(Calendar.YEAR); 
 		}
 		
 		request.setAttribute("day", day);
@@ -103,15 +86,9 @@ public class EditProfile extends HttpServlet {
 	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		//update database
-		System.out.println("in doPost");
-		
 		FileItem imageItem = null;
 		Hashtable<String, String> fields = new Hashtable<String, String>();
 		
@@ -193,18 +170,12 @@ public class EditProfile extends HttpServlet {
 		if((String) fields.get("pr_institution")!=null)
 			pr_institution=1;
 		
-		
-		
-	
-		System.out.println(name+" "+surname+" "+telephone+" "+gender+" "+ day+ " "+ month+ " "+ year+ " "+country+" "+city+" "+profExp+" "+education+" "+skills+"!"+pr_email+"!");
-
 		VariousFunctions vf = new VariousFunctions();   
 		
 		//validators
 		//check phone number
 		if(telephone!=null && !vf.isBlank(telephone)) {	
 			telephone=telephone.replaceAll("[\\D]","");
-			System.out.println(telephone);
 			if(telephone.length()!=10 ) {
 				request.setAttribute("editError", "Invalid phone number was given as input.");
 				doGet(request, response);
@@ -253,11 +224,8 @@ public class EditProfile extends HttpServlet {
 		
 		Date dateOfBirth = new DateTime(year, month, day, 0, 0).toDate();
 		
-		UserDAO dao = new UserDAOImpl(true);
-
 		//insert photoUrl code here
 		
-		//must insert user to database
 		String photoURL = null;
 		byte hasImage;
 		//create folder
@@ -271,10 +239,6 @@ public class EditProfile extends HttpServlet {
 		}
 		File idFolder = new File(request.getServletContext().getAttribute("FILES_DIR_USERS") + File.separator + user_id);
     	idFolder.mkdirs();
-    	
-    	
-    	System.out.println("image:" +imageItem+"!");
-    	System.out.println("removed:" +removedImage+"!");
     	
     	//save image
     	if(imageItem!= null && imageItem.getName() != null && !imageItem.getName().equals("") ) {
@@ -309,8 +273,6 @@ public class EditProfile extends HttpServlet {
 			}
 		}
 
-		
-		
 		byte isAdmin=0;
 		User updatedUser = new User(city, country, dateOfBirth, "", genderNum, isAdmin, name, "", photoURL, surname, telephone, hasImage, null, profExp, skills, education, workPos, institution, pr_city,pr_country,pr_dateOfBirth,pr_education,pr_email,pr_gender,pr_skills,pr_profExp,pr_tel, pr_workPos, pr_institution);
 		
@@ -331,8 +293,7 @@ public class EditProfile extends HttpServlet {
 			}
 		}
  
-		doGet(request, response);
-		
+		doGet(request, response);	
 	}
 
 }

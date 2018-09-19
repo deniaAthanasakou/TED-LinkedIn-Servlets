@@ -30,32 +30,37 @@ import database.entities.Job;
 @WebServlet("/JobHandle")
 public class JobHandle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	private JobDAO dao = new JobDAOImpl(true);
+	private UserDAO userDao = new UserDAOImpl(true);
+	private JobapplicationDAO jobAppDao = new JobapplicationDAOImpl(true);
+ 
     public JobHandle() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher displayPage;
-		JobDAO dao = new JobDAOImpl(true);
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
 				request.setAttribute("redirectJobs", "StopLoopJobs");
+				
 				//get session's jobs
-				Long userId = Long.valueOf((String) request.getSession().getAttribute("id"));
+				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
 				for(Job job: sessionJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("sessionJobs", sessionJobs);
+				
 				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				for(Job job: connJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("connJobs", connJobs);
+				
 				//get jobs sorted by most skills
-				UserDAO userDao = new UserDAOImpl(true);
 				String skills = userDao.getUserSkills(userId);
 				List<Job> skillJobs = dao.list();
 				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
@@ -64,6 +69,7 @@ public class JobHandle extends HttpServlet {
 					for(Job job: skillJobs) {
 						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
+						
 						//compare lists and count differences
 						int differences = 0;
 						for (int i = 0; i < job.getSkillsArray().size(); i++) {
@@ -95,8 +101,9 @@ public class JobHandle extends HttpServlet {
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("getJob")) {
+				
 				//get specific job
-				Long id = Long.valueOf( (String) request.getParameter("id"));
+				int id = Integer.valueOf( (String) request.getParameter("id"));
 				Job job = dao.findJob(id);
 				job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				job.setEducationLevelStr(VariousFunctions.arrayStrToStr(job.getEducationLevel()));
@@ -104,9 +111,9 @@ public class JobHandle extends HttpServlet {
 				job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
 				job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
 				request.setAttribute("job", job);
+				
 				//check if apply already done
-				JobapplicationDAO jobAppDao = new JobapplicationDAOImpl(true);
-				request.setAttribute("applied", jobAppDao.checkApplied(id, Long.valueOf((String) request.getSession().getAttribute("id"))));
+				request.setAttribute("applied", jobAppDao.checkApplied(id, Integer.valueOf((String) request.getSession().getAttribute("id"))));
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
 				displayPage.forward(request, response);
 				return;
@@ -116,11 +123,12 @@ public class JobHandle extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
-		JobDAO dao = new JobDAOImpl(true);
+		
 		request.setCharacterEncoding("UTF-8");
+		
 		//get pressed button
 		if(request.getParameter("edit") != null) {
-			Long jobId = Long.valueOf( (String) request.getParameter("edit"));
+			int jobId = Integer.valueOf( (String) request.getParameter("edit"));
 			Job job = dao.findJob(jobId);
 			request.setAttribute("job", job);
 			displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -129,26 +137,27 @@ public class JobHandle extends HttpServlet {
 		}else if(request.getParameter("apply") != null) {
 			return;
 		}
-		
 		//action get
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
 				request.setAttribute("redirectJobs", "StopLoopJobs");
+				
 				//get session's jobs
-				Long userId = Long.valueOf((String) request.getSession().getAttribute("id"));
+				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
 				for(Job job: sessionJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("sessionJobs", sessionJobs);
+				
 				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				for(Job job: connJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				}
 				request.setAttribute("connJobs", connJobs);
+				
 				//get jobs sorted by most skills
-				UserDAO userDao = new UserDAOImpl(true);
 				String skills = userDao.getUserSkills(userId);
 				List<Job> skillJobs = dao.list();
 				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
@@ -157,6 +166,7 @@ public class JobHandle extends HttpServlet {
 					for(Job job: skillJobs) {
 						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
+						
 						//compare lists and count differences
 						int differences = 0;
 						for (int i = 0; i < job.getSkillsArray().size(); i++) {
@@ -187,8 +197,9 @@ public class JobHandle extends HttpServlet {
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("getJob")) {
+				
 				//get specific job
-				Long id = Long.valueOf( (String) request.getParameter("id"));
+				int id = Integer.valueOf( (String) request.getParameter("id"));
 				Job job = dao.findJob(id);
 				job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
 				job.setEducationLevelStr(VariousFunctions.arrayStrToStr(job.getEducationLevel()));
@@ -196,25 +207,27 @@ public class JobHandle extends HttpServlet {
 				job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
 				job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
 				request.setAttribute("job", job);
+				
 				//check if apply already done
-				JobapplicationDAO jobAppDao = new JobapplicationDAOImpl(true);
-				request.setAttribute("applied", jobAppDao.checkApplied(id, Long.valueOf((String) request.getSession().getAttribute("id"))));
+				request.setAttribute("applied", jobAppDao.checkApplied(id, Integer.valueOf((String) request.getSession().getAttribute("id"))));
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
 		}
+		
 		//get post info
 		String jobTitle = request.getParameter("jobTitle");
 		String company = request.getParameter("jobIndustry");
 		String location = request.getParameter("jobLocation");
 		String[] jobFunctions = request.getParameterValues("jobFunction");
+		
 		//check length of jobFunctions
 		if(jobFunctions.length > 3) {
-			request.setAttribute("jobFunctionError", "Επιλέξατε πάνω από 3 στοιχεία.");
+			request.setAttribute("jobFunctionError", "More than 3 options were chosen."); 
 			if(request.getParameter("action") != null) {
 				if(request.getParameter("action").equals("editJob")) {
-					Long id = Long.valueOf((String) request.getParameter("jobId"));
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
 					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -228,12 +241,13 @@ public class JobHandle extends HttpServlet {
 		}
 		String jobType = request.getParameter("employmentType");
 		String[] companyTypes = request.getParameterValues("companyIndustry");
+		
 		//check length of companyTypes
 		if(companyTypes.length > 3) {
-			request.setAttribute("companyTypesError", "Επιλέξατε πάνω από 3 στοιχεία.");
+			request.setAttribute("companyTypesError", "More than 3 options were chosen."); 
 			if(request.getParameter("action") != null) {
 				if(request.getParameter("action").equals("editJob")) {
-					Long id = Long.valueOf((String) request.getParameter("jobId"));
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
 					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -248,12 +262,13 @@ public class JobHandle extends HttpServlet {
 		String experienceLevel = request.getParameter("seniorityLevel");
 		String description = request.getParameter("jobDescription");
 		String skills = request.getParameter("skills");
+		
 		//check length of educationLevels
 		if(skills.split(",").length > 10) {
-			request.setAttribute("skillsError", "Γράψατε πάνω από 10 στοιχεία.");
+			request.setAttribute("skillsError", "More than 10 skills were added.");
 			if(request.getParameter("action") != null) {
 				if(request.getParameter("action").equals("editJob")) {
-					Long id = Long.valueOf((String) request.getParameter("jobId"));
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
 					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -268,10 +283,10 @@ public class JobHandle extends HttpServlet {
 		Integer experienceFrom = Integer.valueOf(request.getParameter("fromYears"));
 		Integer experienceTo = Integer.valueOf(request.getParameter("toYears"));
 		if(experienceTo - experienceFrom < 0) {
-			request.setAttribute("experienceFromToError", "Η συνολική εμπειρία είναι αρνητική.");
+			request.setAttribute("experienceFromToError", "Wrong input in years of experience");
 			if(request.getParameter("action") != null) {
 				if(request.getParameter("action").equals("editJob")) {
-					Long id = Long.valueOf((String) request.getParameter("jobId"));
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
 					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -284,12 +299,13 @@ public class JobHandle extends HttpServlet {
 			return;
 		}
 		String[] educationLevels =  request.getParameterValues("educationLevel");
+		
 		//check length of educationLevels
 		if(educationLevels.length > 5) {
-			request.setAttribute("educationLevelError", "Επιλέξατε πάνω από 5 στοιχεία.");
+			request.setAttribute("educationLevelError", "More than 5 options were chosen.");
 			if(request.getParameter("action") != null) {
 				if(request.getParameter("action").equals("editJob")) {
-					Long id = Long.valueOf((String) request.getParameter("jobId"));
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
 					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
@@ -302,6 +318,7 @@ public class JobHandle extends HttpServlet {
 			return;
 		}
 		Double dailySalary =  Double.valueOf(request.getParameter("dailyMoney"));
+		
 		//get current time
 		Date dNow = new Date();
 		
@@ -324,9 +341,11 @@ public class JobHandle extends HttpServlet {
 
 		if(request.getParameter("action") != null) {
 			if(request.getParameter("action").equals("editJob")) {
+				
 				//update job
-				Long id = Long.valueOf((String) request.getParameter("jobId"));
+				int id = Integer.valueOf((String) request.getParameter("jobId"));
 				dao.updateJob(job, id);
+				
 				//find job
 				Job jobUpdated = dao.findJob(id);
 				jobUpdated.setDateInterval(VariousFunctions.getDateInterval(jobUpdated.getDatePosted()));
@@ -334,6 +353,7 @@ public class JobHandle extends HttpServlet {
 				jobUpdated.setCompanyTypeStr(VariousFunctions.arrayStrToStr(jobUpdated.getJobCompanyType()));
 				jobUpdated.setJobFunctionStr(VariousFunctions.arrayStrToStr(jobUpdated.getJobFunction()));
 				jobUpdated.setSkillsArray(VariousFunctions.strToArray(jobUpdated.getSkills()));
+				
 				//go to jobItem
 				request.setAttribute("job", jobUpdated);
 				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
@@ -342,7 +362,8 @@ public class JobHandle extends HttpServlet {
 			}
 		}else {
 			//create job
-			dao.create(job,Long.valueOf((String) request.getSession().getAttribute("id")));
+			dao.create(job,Integer.valueOf((String) request.getSession().getAttribute("id")));
+			
 			//go to jobs
 			List<Job> jobs = dao.list();
 			request.setAttribute("jobs", jobs);

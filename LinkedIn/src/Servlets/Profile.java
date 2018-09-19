@@ -2,8 +2,6 @@ package Servlets;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,44 +20,26 @@ import database.entities.User;
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private UserDAO dao = new UserDAOImpl(true);
+    
     public Profile() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("in profile get");
-		
+		//show logged-in user's profile
 		String displayPage="/jsp_files/profile.jsp";
 		request.setAttribute("redirect", "StopLoop");	
-			
-		UserDAO dao = new UserDAOImpl(true);
-		
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
-		
-		
+
 		User user=dao.getUserProfile(user_id);
 		request.setAttribute("user", user);
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
 	    view.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		System.out.println("in profile post");
-		
-		UserDAO dao = new UserDAOImpl(true);
+		//edit profile	
 		String displayPage = null;
 		
 		String fromAdminId = request.getParameter("fromAdmin");
@@ -85,9 +65,7 @@ public class Profile extends HttpServlet {
 			
 			day=cal.get(Calendar.DAY_OF_MONTH);
 			month=cal.get(Calendar.MONTH)+1;		//zero based
-			year=cal.get(Calendar.YEAR);
-			
-			 
+			year=cal.get(Calendar.YEAR);	 
 		}
 		
 		request.setAttribute("day", day);

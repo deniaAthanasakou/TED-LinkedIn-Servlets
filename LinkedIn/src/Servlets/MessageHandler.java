@@ -3,7 +3,6 @@ package Servlets;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,6 @@ import database.entities.Conversation;
 import database.entities.ConversationPK;
 import database.entities.Message;
 
-
 @WebServlet("/MessageHandler")
 public class MessageHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,8 +31,9 @@ public class MessageHandler extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//get to conversations
+		System.out.println("get message handler");
 		if(request.getParameter("action") != null) {
-			List<Conversation> conversations = connDAO.findAllConversations(Long.valueOf((String) request.getSession().getAttribute("id")));
+			List<Conversation> conversations = connDAO.findAllConversations(Integer.valueOf((String) request.getSession().getAttribute("id")));
 			request.setAttribute("conversations", conversations);
 			if(conversations.size() == 0) {
 				request.setAttribute("noConversations", "No conversations :( . Go to a friend and start one!");
@@ -43,7 +42,6 @@ public class MessageHandler extends HttpServlet {
 				request.setAttribute("redirect", "stopRedirectMessages");
 				String user1 = request.getParameter("user1");
 				String user2 = request.getParameter("user2");
-				System.out.println("get specific conversation with: !" +user1+ "! !" + user2 + "!");
 				if(user1.equals("")) {
 					user1 = null;
 				}
@@ -51,23 +49,23 @@ public class MessageHandler extends HttpServlet {
 					user2 = null;
 				}
 				if(user1 != null && user2!= null) {
+					
 					//get specific conversation
-					Long userId1 = Long.valueOf((String)request.getParameter("user1"));
-					Long userId2 = Long.valueOf((String)request.getParameter("user2"));
+					int userId1 = Integer.valueOf((String)request.getParameter("user1"));
+					int userId2 = Integer.valueOf((String)request.getParameter("user2"));
+					
 					//find position in all conversations
 					for(int i=0;i<conversations.size();i++) {
 						if(userId1 == conversations.get(i).getId().getUserId1() && userId2 == conversations.get(i).getId().getUserId2()) {
 							request.setAttribute("pressedConversation",i);
 						}
 					}
-					System.out.println("get specific conversation with: " + userId1 + " " + userId2);
 					//get conversation
 					Conversation checkConv = connDAO.findConversation(userId1, userId2);
 					request.setAttribute("conversation", checkConv);
 					request.setAttribute("getSpecific", "get");
 				}else {
 					//just get last message and last conversation
-					System.out.println("get last message and conversation.");
 					if(conversations.size() > 0) {
 						request.setAttribute("conversation", conversations.get(0));
 					}
@@ -75,7 +73,7 @@ public class MessageHandler extends HttpServlet {
 					request.setAttribute("pressedConversation",0);
 				}
 			}
-			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Messaging.jsp");
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
 			displayPage.forward(request, response);
 			return;
 		}
@@ -84,16 +82,16 @@ public class MessageHandler extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//post new message
 		request.setCharacterEncoding("UTF-8");
-		Long userId1 = Long.valueOf((String)request.getParameter("userId1"));
-		Long userId2 = Long.valueOf((String)request.getParameter("userId2"));
+		int userId1 = Integer.valueOf((String)request.getParameter("userId1"));
+		int userId2 = Integer.valueOf((String)request.getParameter("userId2"));
 		String text = request.getParameter("message");
 		Date dNow = new Date();
+		
 		//create message
-		System.out.println("create message");
 		Message message = new Message();
 		message.setText(text);
 		message.setDate(dNow);
-		Long sessionId = Long.valueOf((String) request.getSession().getAttribute("id"));
+		int sessionId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 		byte sender;
 		if(sessionId == userId1) {
 			sender = 0;
@@ -103,20 +101,25 @@ public class MessageHandler extends HttpServlet {
 		message.setSender(sender);
 		Conversation conversation = new Conversation();
 		ConversationPK id = new ConversationPK();
-		id.setUserId1(userId1.intValue());
-		id.setUserId2(userId2.intValue());
+		id.setUserId1(userId1);
+		id.setUserId2(userId2);
 		conversation.setId(id);
 		message.setConversation(conversation);
+		
 		//insert to db
 		dao.create(message);
+		
 		//update conversation
 		connDAO.updateLastDate(dNow, userId1, userId2);
+		
 		//get conversation
 		Conversation checkConv = connDAO.findConversation(userId1, userId2);
 		request.setAttribute("conversation", checkConv);
+		
 		//get all conversations
-		List<Conversation> conversations = connDAO.findAllConversations(Long.valueOf((String) request.getSession().getAttribute("id")));
+		List<Conversation> conversations = connDAO.findAllConversations(Integer.valueOf((String) request.getSession().getAttribute("id")));
 		request.setAttribute("conversations", conversations);
+		
 		//find position in all conversations
 		for(int i=0;i<conversations.size();i++) {
 			if(userId1 == conversations.get(i).getId().getUserId1() && userId2 == conversations.get(i).getId().getUserId2()) {
@@ -124,8 +127,9 @@ public class MessageHandler extends HttpServlet {
 			}
 		}
 		request.setAttribute("getSpecific", "get");
+		
 		//display page
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/Messaging.jsp");
+		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
 		displayPage.forward(request, response);
 		return;
 	}

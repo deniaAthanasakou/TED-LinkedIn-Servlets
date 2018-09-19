@@ -22,23 +22,16 @@ import database.entities.User;
 public class AdminPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	private UserDAO dao = new UserDAOImpl(true);
+	
     public AdminPage() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String actionDownload = request.getParameter("actionDownload");
 		String actionProfile = request.getParameter("actionProfile");
@@ -51,13 +44,9 @@ public class AdminPage extends HttpServlet {
 		} else if (actionDownload != null) {
 			String[] selectedUserIds = request.getParameterValues("selected");
 			if(selectedUserIds != null) {
-				for(int i=0;i<selectedUserIds.length;i++) {
-					System.out.println(selectedUserIds[i]);
-				}
+				
 				//get selected users
-				UserDAO dao = new UserDAOImpl(true);
 				List<User> users = dao.getSelectedUsers(selectedUserIds);
-				System.out.println(users.get(0).getName());
 				//generate xml file
 				String xml = VariousFunctions.generateXML(users);
 				response.setContentType("text/xml");

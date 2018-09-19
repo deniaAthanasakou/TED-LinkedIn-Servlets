@@ -19,7 +19,6 @@ public class JobDAOImpl implements JobDAO{
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Job";
 	private static final String SQL_FIND_BY_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE job_id=?";
     private static final String SQL_UPDATE = "UPDATE Job SET title = ?, company = ?, location = ?, job_function = ?, job_type = ?, job_company_type = ?, experience = ?, description = ?, skills = ?, experience_from = ?, experience_to = ?, education_level = ?, daily_salary = ?, date_posted = ? WHERE job_id = ?";
-	
     private static final String SQL_FIND_BY_USER_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE user_id=? ORDER BY date_posted DESC";
     private static final String SQL_FIND_JOBS_CONN = "SELECT * FROM Job WHERE Job.user_id IN (SELECT user_id FROM Connection WHERE connectedUser_id = ? UNION SELECT connectedUser_id FROM Connection WHERE user_id = ?) ORDER BY date_posted DESC";
     
@@ -51,7 +50,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 
 	@Override
-	public int create(Job job, Long id) 
+	public int create(Job job, int id) 
 	{
 		int ret = -1;
 		//get values from post entity
@@ -60,7 +59,6 @@ public class JobDAOImpl implements JobDAO{
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{			
-			System.out.println(statement);
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -108,7 +106,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 	
 	@Override
-	public Job findJob(Long id) {
+	public Job findJob(int id) {
 		Job job = null;
 		
 		try (
@@ -127,7 +125,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 	
 	@Override
-	public int updateJob(Job job, Long id) {
+	public int updateJob(Job job, int id) {
 		int affectedRows=0;
 		try (Connection	connection = factory.getConnection();
 			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE, false,  job.getTitle(), job.getCompany(), job.getLocation(), job.getJobFunction(), job.getJobType(), job.getJobCompanyType(), job.getExperience(), job.getDescription(), job.getSkills(), job.getExperienceFrom(), job.getExperienceTo(), job.getEducationLevel(), job.getDailySalary(), DAOUtil.toSqlTimestamp(job.getDatePosted()), id);)
@@ -139,7 +137,6 @@ public class JobDAOImpl implements JobDAO{
 				return affectedRows;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.err.println("SQLException: Updating job failed.");
 			e.printStackTrace();
 			return affectedRows;
@@ -148,7 +145,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 	
 	@Override
-	public List<Job> getSessionJobs(Long userId) {
+	public List<Job> getSessionJobs(int userId) {
 		List<Job> jobs = new ArrayList<>();
 
         try (
@@ -168,7 +165,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 
 	@Override
-	public List<Job> getConnectionsJobs(Long userId) {
+	public List<Job> getConnectionsJobs(int userId) {
 		List<Job> jobs = new ArrayList<>();
 
         try (

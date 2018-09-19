@@ -1,6 +1,5 @@
 package database.dao.user;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
-import database.entities.Post;
 import database.entities.User;
 
 public class UserDAOImpl implements UserDAO 
@@ -24,16 +22,12 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_INSERT = "INSERT INTO User (isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?,?,?,? )";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM User";
 	private static final String SQL_UPDATE_EMAIL_PASSWORD = "UPDATE User SET email = ?, password = ? WHERE id = ?";
-
 	private static final String SQL_FIND_BY_ID_PROFILE = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User WHERE id = ?";
 	private static final String SQL_UPDATE_USER = "UPDATE User SET name=?, surname=?, tel=?, photoURL=?, dateOfBirth=?, gender=?, city=?, country=?, hasImage=?, prof_exp=?, education=?, skills=?, privateTelephone=?, privateEmail=?, privateGender=?, privateDateOfBirth=?, privateProfExp=?, privateSkills=?, privateEducation=?, privateCity=?, privateCountry=?, workPos=?, institution=?, privateWorkPos=?, privateInstitution=? WHERE id=?";
-	
 	private static final String SQL_SELECTED_USERS = "SELECT * FROM User WHERE id IN ("; 
-	
 	private static final String SQL_GET_LIKES_AND_COMMENTS = "SELECT user.id, post.id AS postId, name, surname, photoURL, date_liked AS concatDate, '0' isComment from User, Post, ted.like WHERE (post.user_id=? AND User.id=ted.like.user_id AND User.id!=post.user_id AND ted.like.post_id=post.id AND date_liked >=?) "
 			+ " UNION SELECT user.id, post.id AS postId, name, surname, photoURL, comment.date_posted AS concatDate, '1' isComment from User, post, comment WHERE (post.user_id=? AND User.id=comment.user_id AND User.id!=post.user_id AND comment.post_id=post.id AND comment.date_posted >=?)"
 			+ " ORDER BY concatDate DESC";
-
 	private static final String SQL_GET_APPLICANTS = "SELECT id, name, surname, photoURL FROM User WHERE id IN (SELECT Jobapplication.user_id FROM Jobapplication WHERE job_id = ?)";
 	private static final String SQL_GET_SKILLS = "SELECT skills FROM User WHERE id = ?";
 	
@@ -86,10 +80,8 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public int create(User user) 
 	{
-		System.out.println("in create");
 		int ret = -1;
 		//get values from user entity
-		int isAdmin=0;
 		Object[] values = { user.getIsAdmin(), user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(),
 				DAOUtil.toSqlDate(user.getDateOfBirth()), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry(), user.getWorkPos(), user.getInstitution(), user.getPrivateWorkPos(), user.getPrivateInstitution()  };
 		
@@ -97,20 +89,14 @@ public class UserDAOImpl implements UserDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{
-			System.err.println("inside first try");
-			
-			System.out.println(statement);
-			
+						
 			int affectedRows = statement.executeUpdate();
-			System.err.println("after affectedRows");
 			ret = affectedRows;
 			if (ret == 0) {
 				System.err.println("Creating user failed, no rows affected.");
 				return ret;
 			}
-			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-				System.err.println("inside second try");
 				if (generatedKeys.next()) {
 					user.setId(generatedKeys.getInt(1));
 					return ret;
@@ -187,7 +173,6 @@ public class UserDAOImpl implements UserDAO
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.err.println("SQLException: Updating user failed.");
 			e.printStackTrace();
 			return affectedRows;
@@ -230,7 +215,6 @@ public class UserDAOImpl implements UserDAO
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.err.println("SQLException: Updating user failed.");
 			e.printStackTrace();
 			return affectedRows;
@@ -240,7 +224,7 @@ public class UserDAOImpl implements UserDAO
 	}
 	
 	@Override
-	public List<User> getSelectedUsers(String[] ids){
+	public List<User> getSelectedUsers(String[] ids){		//gets selected users from admin page in order to generate xml
 		//build statement
 		StringBuilder builder = new StringBuilder();
 
@@ -249,7 +233,6 @@ public class UserDAOImpl implements UserDAO
 		}
 		builder.setCharAt( builder.length() -1, ')');
 		String stmt = SQL_SELECTED_USERS + builder.toString();
-		System.out.println(stmt);
 		
 		List<User> users = new ArrayList<>();
 
@@ -272,16 +255,13 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public List<User> getLikesAndComments(int user_id){
 		List<User> users = new ArrayList<>();
-		System.out.println("before sql get likes");
 		
 		//date 3 months ago
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -3);
 	
 		Date olderDate = cal.getTime();
-		
-		System.out.println("olderdate "+ olderDate);
-		
+				
         try (
             Connection connection = factory.getConnection();
         	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES_AND_COMMENTS, false, user_id,olderDate, user_id, olderDate);
@@ -299,7 +279,7 @@ public class UserDAOImpl implements UserDAO
 	}
 	
 	@Override
-	public List<User> getJobApplicants(Long jobId) {
+	public List<User> getJobApplicants(int jobId) {
 		List<User> users = new ArrayList<>();
 		
 		 try (
@@ -319,7 +299,7 @@ public class UserDAOImpl implements UserDAO
 	}
 	
 	@Override
-	public String getUserSkills(Long userId) {
+	public String getUserSkills(int userId) {
 		String str = null;
 
         try (

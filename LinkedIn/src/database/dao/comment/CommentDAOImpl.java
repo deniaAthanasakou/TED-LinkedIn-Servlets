@@ -21,7 +21,6 @@ public class CommentDAOImpl implements CommentDAO
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Comment";
 	private static final String SQL_FIND_COMMENTS = "SELECT comment_id, text, date_posted, post_id, user_id FROM Comment WHERE post_id = ? ORDER BY date_posted DESC";
 	
-    
     private ConnectionFactory factory;
     
     public CommentDAOImpl(boolean pool)
@@ -30,7 +29,7 @@ public class CommentDAOImpl implements CommentDAO
     }
 
 	@Override
-	public List<Comment> list() {
+	public List<Comment> list() {		//get all comments
 		List<Comment> comments = new ArrayList<>();
 
         try (
@@ -50,7 +49,7 @@ public class CommentDAOImpl implements CommentDAO
 	}
 
 	@Override
-	public int create(Comment comment, Long userId, Long postId) 
+	public int create(Comment comment, int userId, int postId) 	//create comment
 	{
 		int ret = -1;
 		//get values from comment entity
@@ -60,20 +59,13 @@ public class CommentDAOImpl implements CommentDAO
 		try (Connection connection = factory.getConnection();
 				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
 		{
-			System.err.println("inside first try");
-			
-			System.out.println(statement);
-			
+						
 			int affectedRows = statement.executeUpdate();
-			System.err.println("after affectedRows");
 			ret = affectedRows;
 			if (ret == 0) {
-				System.err.println("Creating comment failed, no rows affected.");
 				return ret;
 			}
-			System.err.println("before second try");
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-				System.err.println("inside second try");
 				if (generatedKeys.next()) {
 					comment.setCommentId(generatedKeys.getInt(1));
 					return ret;
@@ -90,7 +82,7 @@ public class CommentDAOImpl implements CommentDAO
 		}
 	}
 	
-	@Override
+	@Override			//count how many comments exist
 	public int count() {
 
 		int size = 0;
@@ -112,7 +104,7 @@ public class CommentDAOImpl implements CommentDAO
 	}
 	
 	@Override
-	public List<Comment> findComments(Long id) {
+	public List<Comment> findComments(int id) {			//find comments of post
 		List<Comment> comments = new ArrayList<>();
 
         try (

@@ -27,5 +27,5 @@ public interface ConnectionDAO {
     
     public List<User> getConnectionRequestsPending(int user_id);
     
-    public User checkConnected(Long userId, Long sessionId);
+    public User checkConnected(int userId, int sessionId);
 }

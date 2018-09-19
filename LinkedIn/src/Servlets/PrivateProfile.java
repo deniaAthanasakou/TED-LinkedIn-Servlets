@@ -22,72 +22,52 @@ import database.entities.User;
 public class PrivateProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private UserDAO dao = new UserDAOImpl(true);
+    private ConnectionDAO cnxDao = new ConnectionDAOImpl(true);
+    
     public PrivateProfile() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("in profile get");
 		
+		//show profile of not-connected user
 		String displayPage="/jsp_files/privateProfile.jsp";
 		request.setAttribute("redirect", "StopLoop");	
-			
-		UserDAO dao = new UserDAOImpl(true);
-		
+
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
-		System.out.println("user_id "+ user_id);
 		String pending=(String) request.getParameter("pending");
-		System.out.println("pending "+ pending);
 		String sentRequest=(String) request.getParameter("sentRequest");
 		
-		System.out.println("sentRequest "+ pending);
 		request.setAttribute("sentRequest", sentRequest);
 		request.setAttribute("pending", pending);
-		System.out.println("after set attributes");
-		
-		
+
 		User user=dao.getUserProfile(user_id);
 		request.setAttribute("user", user);
     
-		System.out.println("forward");
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
 	    view.forward(request, response);
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		System.out.println("in post");
-		
+				
 		int loggedInUser=Integer.valueOf((String) request.getSession().getAttribute("id"));
-		System.out.println("loggedInUser " + loggedInUser);
-		int otherUser=Integer.valueOf((String) request.getParameter("id"));
-		System.out.println("otherUser " + otherUser);
+		int otherUser=Integer.valueOf((String) request.getParameter("id"));		
 		
-		ConnectionDAO dao = new ConnectionDAOImpl(true);
-		
-		request.setAttribute("msg", "Η ενέργειά σας πραγματοποιήθηκε με επιτυχία.");
+		request.setAttribute("msg", "Your action was completed successfully.");
 		request.setAttribute("redirect", "null");	
 		
 		request.setAttribute("fromPrivateProfilePost", "notnull");
 		
 		String displayPage="/jsp_files/network.jsp";
+		
+		//accept or reject connection
 		if (request.getParameter("rejectButton") != null) {
-			dao.rejectConnection(loggedInUser, otherUser );
-			System.out.println("rejected go to network");
+			cnxDao.rejectConnection(loggedInUser, otherUser );
         } 
 		else{		//accept
-        	dao.acceptConnection(loggedInUser, otherUser );
-        	System.out.println("accepted go to network");
+			cnxDao.acceptConnection(loggedInUser, otherUser );
         }
 		RequestDispatcher view = request.getRequestDispatcher(displayPage);
  	    view.forward(request, response);
