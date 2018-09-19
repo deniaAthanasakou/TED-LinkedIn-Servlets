@@ -32,28 +32,51 @@
 					<div class="row">
 				    	<div class="card col-xs-4 col-sm-4 col-md-4 col-lg-4 otherPeopleMessages" style="overflow:auto;">
 				       		<ul class="list-group list-group-flush">
-				         		<c:forEach items="${conversations}" var="conversationItem">
-				            		<li class="list-group-item">
-					            		<div class="row">
-						            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								              <img  class="img-circle profileImage" src="${pageContext.request.contextPath}/images/randomProfileImage.jpeg">
-								            </div>
-								            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-								              <div class="d-flex w-100 justify-content-between">
-								                    <h5 class="mb-1">Name Surname</h5>
-								                </div>
-								            </div>
-							        	</div>
-					            		<br>
-					            		<c:set var="length" value = "${fn:length(conversationItem.messages)}"/>				            	
-					                	<p class="lastMsg">${conversationItem.messages[length-1].text}</p>
-					            	</li>
+				         		<c:forEach items="${conversations}" var="conversationItem" varStatus="status">
+				         			<c:choose>
+					         			<c:when test="${status.index == pressedConversation}">
+						            		<li class="list-group-item" style="background-color: #C0C0C0;" onclick="window.location.href='${pageContext.request.contextPath}/MessageHandler?action=getMessages&user1=${conversationItem.id.userId1}&user2=${conversationItem.id.userId2}'">
+							            		<div class="row">
+								            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										              <img  class="img-circle profileImage" src="${conversationItem.photoURL}">
+										            </div>
+										            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+										              <div class="d-flex w-100 justify-content-between">
+										                    <h5 class="mb-1" style="text-align:center">${conversationItem.name} ${conversationItem.surname}</h5>
+										                    <h5 class="mb-1 datePostedHim" style="text-align:center">${conversationItem.dateInterval} ago</h5>
+										                </div>
+										            </div>
+									        	</div>
+							            		<br>
+							            		<c:set var="length" value = "${fn:length(conversationItem.messages)}"/>				            	
+							                	<p class="lastMsg">${conversationItem.messages[length-1].text}</p>
+							            	</li>
+						            	</c:when>
+					            		<c:otherwise>
+						            		<li class="list-group-item" onclick="window.location.href='${pageContext.request.contextPath}/MessageHandler?action=getMessages&user1=${conversationItem.id.userId1}&user2=${conversationItem.id.userId2}'">
+							            		<div class="row">
+								            		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										              <img  class="img-circle profileImage" src="${conversationItem.photoURL}">
+										            </div>
+										            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+										              <div class="d-flex w-100 justify-content-between">
+										                    <h5 class="mb-1" style="text-align:center">${conversationItem.name} ${conversationItem.surname}</h5>
+										                </div>
+										            </div>
+									        	</div>
+							            		<br>
+							            		<c:set var="length" value = "${fn:length(conversationItem.messages)}"/>				            	
+							                	<p class="lastMsg">${conversationItem.messages[length-1].text} </p>
+							            	</li>
+					            		</c:otherwise>
+					            	</c:choose>
 					            </c:forEach>
 				          	</ul>
 			        	</div>
 			        
 				        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 				        
+				          <c:if test="${fn:length(conversation.messages) != 0}">
 				          <div class="row chatbody">
 				    
 				            <ul class="messageList col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -83,19 +106,39 @@
 							</ul>
 				    
 				          </div>
+				          </c:if>
 				
-				          <div class="row send">
-				          	<form action="${pageContext.request.contextPath}/MessageHandler" method="POST">
-				          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
-				          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
-					            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					              <input type="text" name="message" placeholder="Message..." class="form-control" />
-					            </div>
-					            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-					              <button class="btn btn-info btn-block" type="submit">Send</button>
-					            </div>
-				            </form>
-				          </div>
+						  <c:if test="${noConversations != null}">
+						  	  <div class="alert alert-warning" role="alert">
+								  ${noConversations}
+							  </div>
+					          <div class="row send">
+					          	<form action="${pageContext.request.contextPath}/MessageHandler" method="POST">
+					          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
+					          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
+						            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+						              <input type="text" name="message" placeholder="Message..." class="form-control" disabled/>
+						            </div>
+						            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						              <button class="btn btn-info btn-block disabled" type="submit">Send</button>
+						            </div>
+					            </form>
+					          </div>
+				          </c:if>
+				          <c:if test="${noConversations == null}">
+				          	<div class="row send">
+					          	<form action="${pageContext.request.contextPath}/MessageHandler" method="POST">
+					          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
+					          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
+						            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+						              <input type="text" name="message" placeholder="Message..." class="form-control" />
+						            </div>
+						            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						              <button class="btn btn-info btn-block" type="submit">Send</button>
+						            </div>
+					            </form>
+					          </div>
+				          </c:if>
 				
 				        </div>
 				      </div>
