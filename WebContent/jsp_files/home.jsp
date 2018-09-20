@@ -49,7 +49,7 @@
 							</div>
 						</c:if>
 						<div class="form-group divider">
-						    <textarea id="text_post" name="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50"></textarea>
+						    <textarea id="text_post" name="text_post" placeholder="Share a photo, video, audio or idea" rows="3" cols="50" maxlength="5000"></textarea>
 					  	</div>
 						
 						<div style="display:inline-block;">

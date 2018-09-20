@@ -48,10 +48,10 @@
 									</c:if>
 									
 									<div class="form-group">
-										<input type="text" name="email" placeholder="Email..." class="form-control" required>
+										<input type="text" name="email" placeholder="Email..." class="form-control" maxlength="60" required>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" placeholder="Password..." class="form-control" required>
+										<input type="password" name="password" placeholder="Password..." class="form-control" maxlength="70" required>
 									</div>
 									<div class="form-group" style="padding-top:20px;">
 										<button type="submit" class="btn btn-primary">Submit</button>
@@ -62,22 +62,22 @@
 								<h3>Sign Up</h3>
 								<form role="Form" method="POST" action="${pageContext.request.contextPath}/RegisterUser" accept-charset="UTF-8" enctype="multipart/form-data">
 									<div class="form-group">
-										<input type="text" name="email" placeholder="Email..." class="form-control" required>
+										<input type="text" name="email" placeholder="Email..." class="form-control"  maxlength="60"required>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" placeholder="Password..." class="form-control" required>
+										<input type="password" name="password" placeholder="Password..." class="form-control" maxlength="70" required>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password2" placeholder="Verify password..." class="form-control" required>
+										<input type="password" name="password2" placeholder="Verify password..." class="form-control" maxlength="70" required>
 									</div>
 									<div class="form-group">
-										<input type="text" name="name" placeholder="Name..." class="form-control" required>
+										<input type="text" name="name" placeholder="Name..." class="form-control" maxlength="45"required>
 									</div>
 									<div class="form-group">
-										<input type="text" name="surname" placeholder="Surname..." class="form-control" required>
+										<input type="text" name="surname" placeholder="Surname..." class="form-control" maxlength="50" required>
 									</div>
 									<div class="form-group">
-										<input type="tel" name="telephone" placeholder="Telephone..." class="form-control">
+										<input type="tel" name="telephone" placeholder="Telephone..." class="form-control" maxlength="15">
 									</div>
 								    <div class="form-group">
 								        <label> Upload Image</label>

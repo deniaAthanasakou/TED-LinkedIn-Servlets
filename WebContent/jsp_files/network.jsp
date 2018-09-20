@@ -34,7 +34,7 @@
 						    
 						    
 						      <div class="input-group">
-						        <input type="text" class="form-control" placeholder="Search" id="search" name="search"/>
+						        <input type="text" class="form-control" placeholder="Search" id="search" name="search" maxlength="100"/>
 						        <div class="input-group-btn">
 						          <button class="btn btn-primary" type="submit">
 						            <span class="glyphicon glyphicon-search"></span>

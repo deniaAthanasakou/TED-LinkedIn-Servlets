@@ -117,7 +117,7 @@
 					          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
 					          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
 						            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-						              <input type="text" name="message" placeholder="Message..." class="form-control" disabled/>
+						              <input type="text" name="message" placeholder="Message..." class="form-control" maxlength="3000" disabled/>
 						            </div>
 						            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 						              <button class="btn btn-info btn-block disabled" type="submit">Send</button>
@@ -131,7 +131,7 @@
 					          		<input type="hidden" name="userId1" value="${conversation.id.userId1}">
 					          		<input type="hidden" name="userId2" value="${conversation.id.userId2}">
 						            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-						              <input type="text" name="message" placeholder="Message..." class="form-control" />
+						              <input type="text" name="message" placeholder="Message..." class="form-control" maxlength="3000"/>
 						            </div>
 						            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 						              <button class="btn btn-info btn-block" type="submit">Send</button>

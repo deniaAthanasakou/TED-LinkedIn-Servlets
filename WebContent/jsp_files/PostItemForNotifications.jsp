@@ -150,7 +150,7 @@
 	            </div>
 		        <form class="form-inline" role="form" method="POST" id="commentForm" action="${pageContext.request.contextPath}/PostView?action=comment" accept-charset="UTF-8">
 		            <div class="form-group">
-		                <input class="form-control" id="comment" name="comment" type="text" placeholder="Add a comment..." />
+		                <input class="form-control" id="comment" name="comment" type="text" placeholder="Add a comment..." maxlength="2000"/>
 		                 <input type="hidden" name="post_id" value="${post.id}" />
 		            </div>
 		        </form>

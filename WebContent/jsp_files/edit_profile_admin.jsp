@@ -74,11 +74,11 @@
 						    		<div class="row">
 										<div class="col-xs-6 col-md-6 col-lg-6 col-sm-6 form-group ">
 											<label for="name">Name:</label>
-											<input type="text" name="name" placeholder="Name..." class="form-control " value="${user.name}" required>
+											<input type="text" name="name" placeholder="Name..." class="form-control " value="${user.name}" maxlength="45" required>
 										</div>
 										<div class="col-xs-6 col-md-6 col-lg-6 col-sm-6 form-group ">
 											<label for="surname">Surname:</label>
-											<input type="text" name="surname" placeholder="Surname..." class="form-control" value="${user.surname}" required>
+											<input type="text" name="surname" placeholder="Surname..." class="form-control" value="${user.surname}" maxlength="50" required>
 										</div>
 									</div>
 								</td>
@@ -96,8 +96,8 @@
 									<div class="form-group">
 										<label for="telephone">Telephone:</label>
 										<c:choose>
-								    		<c:when test="${empty user.tel}"><input type="tel" name="telephone" placeholder="Telephone..." class="form-control"></c:when>
-								    		<c:otherwise><input type="tel" name="telephone" placeholder="Telephone..." class="form-control" value="${user.tel}"></c:otherwise>
+								    		<c:when test="${empty user.tel}"><input type="tel" name="telephone" placeholder="Telephone..." class="form-control" maxlength="15"></c:when>
+								    		<c:otherwise><input type="tel" name="telephone" placeholder="Telephone..." class="form-control" value="${user.tel}" maxlength="15"></c:otherwise>
 								    	</c:choose>
 										
 									</div>
@@ -198,8 +198,8 @@
 										<div class="col-xs-6 col-md-6 col-lg-6 col-sm-6 form-group ">
 							    			<label class="gds-countryflag">City of residence:</label>
 											<c:choose>
-										    		<c:when test="${empty user.city}"><input type="text" name="city" placeholder="City..." class="form-control"></c:when>
-										    		<c:otherwise> <input type="text" name="city" placeholder="City..." class="form-control" value="${user.city}"></c:otherwise>
+										    		<c:when test="${empty user.city}"><input type="text" name="city" placeholder="City..." class="form-control" maxlength="100"></c:when>
+										    		<c:otherwise> <input type="text" name="city" placeholder="City..." class="form-control" value="${user.city}" maxlength="100"></c:otherwise>
 										     </c:choose>
 										</div>
 									</div>
@@ -212,19 +212,19 @@
 					 <div class="info">
 					 	<div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your work position:</label>
+								  <label for="workPos">Enter information about your work positions:</label>
 								  <c:choose>
-							    		<c:when test="${empty  user.workPos}"><textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..."></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..."><c:out value="${user.workPos}"/></textarea></c:otherwise>
+							    		<c:when test="${empty  user.workPos}"><textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"><c:out value="${user.workPos}"/></textarea></c:otherwise>
 							     </c:choose>
 							</div>
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your employment institution:</label>
+								  <label for="workPos">Enter information about your employment institutions:</label>
 								  <c:choose>
-							    		<c:when test="${empty  user.institution}"><textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..."></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..."><c:out value="${user.institution}"/></textarea></c:otherwise>
+							    		<c:when test="${empty  user.institution}"><textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"><c:out value="${user.institution}"/></textarea></c:otherwise>
 							     </c:choose>
 							</div>
 						 </div>
@@ -232,8 +232,8 @@
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
 								  <label for="education">Enter information about your professional experience:</label>
 								  <c:choose>
-							    		<c:when test="${empty  user.profExp}"><textarea class="form-control" rows="10" id="work" name="work" placeholder="Professional experience..."></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="10" id="work" name="work" placeholder="Professional experience..."><c:out value="${user.profExp}"/></textarea></c:otherwise>
+							    		<c:when test="${empty  user.profExp}"><textarea class="form-control" rows="10" id="work" name="work" placeholder="Professional experience..." maxlength="3000"></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="10" id="work" name="work" placeholder="Professional experience..." maxlength="3000"><c:out value="${user.profExp}"/></textarea></c:otherwise>
 							     </c:choose>
 							</div>
 						 </div>
@@ -241,17 +241,17 @@
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
 								  <label for="education">Enter information about your education:</label>
 								  <c:choose>
-							    		<c:when test="${empty  user.education}"><textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..."></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." ><c:out value="${user.education}"/></textarea></c:otherwise>
+							    		<c:when test="${empty  user.education}"><textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." maxlength="3000"></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." maxlength="3000"><c:out value="${user.education}"/></textarea></c:otherwise>
 							      </c:choose>
 							</div>
 						 </div>
 						  <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="education">Enter information about your skills:</label>
+								  <label for="education">Enter information about your skills (Divide with commas):</label>
 								  <c:choose>
-							    		<c:when test="${empty  user.skills}"><textarea class="form-control" rows="10" id="skills" name="skills" placeholder="Skills..."></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="10" id="skills" name="skills" placeholder="Skills..."><c:out value="${user.skills}"/></textarea></c:otherwise>
+							    		<c:when test="${empty  user.skills}"><textarea class="form-control" rows="10" id="skills" name="skills" placeholder="Skills..." maxlength="3000"></textarea></c:when>
+							    		<c:otherwise> <textarea class="form-control" rows="10" id="skills" name="skills" placeholder="Skills..." maxlength="3000"><c:out value="${user.skills}"/></textarea></c:otherwise>
 							      </c:choose>
 							</div>
 						 </div>
