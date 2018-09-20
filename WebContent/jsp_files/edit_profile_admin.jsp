@@ -6,13 +6,11 @@
 		<meta charset="utf-8">
 		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profile.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">
 			
 		<link href="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.css" rel="stylesheet" />
 		<script src="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.js"></script>				
 
 		<script src="${pageContext.request.contextPath}/js_files/handleImage.js"></script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/admin_page.css" type="text/css">
 
 		<title>Edit Profile</title>
 		
@@ -212,7 +210,7 @@
 					 <div class="info">
 					 	<div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your work positions:</label>
+								  <label for="workPos">Enter information about your work position:</label>
 								  <c:choose>
 							    		<c:when test="${empty  user.workPos}"><textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"></textarea></c:when>
 							    		<c:otherwise> <textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"><c:out value="${user.workPos}"/></textarea></c:otherwise>
@@ -221,7 +219,7 @@
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your employment institutions:</label>
+								  <label for="workPos">Enter information about your employment institution:</label>
 								  <c:choose>
 							    		<c:when test="${empty  user.institution}"><textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"></textarea></c:when>
 							    		<c:otherwise> <textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"><c:out value="${user.institution}"/></textarea></c:otherwise>

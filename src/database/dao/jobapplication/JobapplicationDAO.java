@@ -17,5 +17,6 @@ public interface JobapplicationDAO {
     public int checkApplied(int jobId, int userId);
     
     public int declineApplicant(int jobId, int userId); 
-        
+    
+    public int countAppliedJobs(int userId);
 }

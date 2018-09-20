@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -40,6 +41,12 @@
   				<i class="glyphicon glyphicon-cog"></i>
   				<p class="caption">Settings</p>
 	  		</div>
+	  		<c:if test="${sessionScope.isAdmin == 1 }">
+	  			<div class="item admin" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/admin_page.jsp'">
+	  				<i class="glyphicon glyphicon-sunglasses"></i>
+	  				<p class="caption">Admin Page</p>
+		  		</div>
+	  		</c:if>
 	  		<div class="item logout" onclick="document.getElementById('logoutFrom').submit()">
   				<i class="glyphicon glyphicon-log-out"></i>
   				<p class="caption">Logout</p>

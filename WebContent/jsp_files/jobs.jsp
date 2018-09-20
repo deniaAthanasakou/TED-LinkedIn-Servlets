@@ -19,7 +19,7 @@
 		<div class="main">
 			<div class="createJob">
 				<div class="applied_stats">
-					<p style="color:#E1E1E1;">0</p>
+					<p style="color:#E1E1E1;">${noApplied}</p>
 					<h4 style="color:#939393;">Applied jobs</h4>
 				</div>
 				<div class="newJob">

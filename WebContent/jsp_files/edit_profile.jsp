@@ -214,7 +214,7 @@
 					 <div class="info">
 					 	<div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your work positions:</label>
+								  <label for="workPos">Enter information about your work position:</label>
 								  <c:choose>
 							    		<c:when test="${empty  user.workPos}"><textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"></textarea></c:when>
 							    		<c:otherwise> <textarea class="form-control" rows="3" id="workPos" name="workPos" placeholder="Job..." maxlength="3000"><c:out value="${user.workPos}"/></textarea></c:otherwise>
@@ -223,7 +223,7 @@
 						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 form-group">
-								  <label for="workPos">Enter information about your employment institutions:</label>
+								  <label for="workPos">Enter information about your employment institution:</label>
 								  <c:choose>
 							    		<c:when test="${empty  user.institution}"><textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"></textarea></c:when>
 							    		<c:otherwise> <textarea class="form-control" rows="3" id="institution" name="institution" placeholder="Institution..." maxlength="3000"><c:out value="${user.institution}"/></textarea></c:otherwise>
@@ -244,7 +244,7 @@
 								  <label for="education">Enter information about your education:</label>
 								  <c:choose>
 							    		<c:when test="${empty  user.education}"><textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." maxlength="3000"></textarea></c:when>
-							    		<c:otherwise> <textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." ><c:out value="${user.education}" maxlength="3000"/></textarea></c:otherwise>
+							    		<c:otherwise> <textarea class="form-control" rows="10" id="education" name="education" placeholder="Education..." maxlength="3000"><c:out value="${user.education}" /></textarea></c:otherwise>
 							      </c:choose>
 							</div>
 						 </div>

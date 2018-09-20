@@ -36,7 +36,7 @@
 					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
 						<input type="hidden" name="id" value="${user.id}">
 						<input type="hidden" name="pending" value="${user.isPending}">
-					    <input type="submit" name="rejectButton" value="Διαγραφή Σύνδεσης" class="btn btn-primary deleteFriend btn-lg reject-button"/>
+					    <input type="submit" name="rejectButton" value="Delete connection" class="btn btn-primary deleteFriend btn-lg reject-button"/>
 					</form>
 					<a href="${pageContext.request.contextPath}/ConversationHandler?action=conversation&id=${user_id}" type="button" class="btn btn-primary btn-lg chat-button">Chat</a>
 				</div>

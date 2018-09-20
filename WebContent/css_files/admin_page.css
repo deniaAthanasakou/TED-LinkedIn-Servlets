@@ -1,5 +1,5 @@
-.home,.jobs,.messaging,.notifications,.profile,.network,.settings{
-	display: none;
+.admin{
+	background-color: gray;
 }
 
 #titleList{

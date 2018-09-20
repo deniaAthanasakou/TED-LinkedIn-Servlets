@@ -27,6 +27,7 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
     private static final String SQL_UPDATE_APPROVAL = "UPDATE JobApplication SET approved = ? WHERE job_id = ? AND user_id = ?";
     private static final String SQL_CHECK_APPLY = "SELECT COUNT(*) FROM JobApplication WHERE job_id = ? AND user_id = ?";
     private static final String SQL_DELETE_APPLICANT = "DELETE FROM JobApplication WHERE job_id = ? AND user_id = ?";
+	private static final String SQL_COUNT_APPLIED_JOBS = "SELECT COUNT(*) FROM JobApplication WHERE user_id = ?";
 	
     private ConnectionFactory factory;
     
@@ -231,6 +232,35 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
             VariousFunctions.closeStmt(statement);
         }
 		return affectedRows;
+	}
+	
+	@Override
+	public int countAppliedJobs(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		int size = 0;
+		
+        try {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection, SQL_COUNT_APPLIED_JOBS, false, userId);
+             resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	size = resultSet.getInt("COUNT(*)");
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return size;
 	}
 	
 	private static Jobapplication map(ResultSet resultSet) throws SQLException {

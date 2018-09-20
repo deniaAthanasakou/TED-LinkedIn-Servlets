@@ -19,7 +19,7 @@
 div.item {
     display: inline-block;
     text-align: center;
-    width: 100px;
+    width: 90px;
     cursor:pointer;
 }
 

@@ -41,7 +41,7 @@
 					    </thead>
 					    <tbody>
 					    <c:forEach items="${users}" var="user">
-					    	<c:if test="${user.id > 1 }">
+					    	<c:if test="${user.id > 1 && user.isAdmin != 1}">
 					    		<tr>
 							    	<td class="text-center">
 								    	<div class="checkbox">

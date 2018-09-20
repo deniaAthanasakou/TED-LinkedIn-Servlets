@@ -19,4 +19,5 @@ public interface JobDAO {
     public List<Job> getSessionJobs(int userId);
     
     public List<Job> getConnectionsJobs(int userId);
+    
 }

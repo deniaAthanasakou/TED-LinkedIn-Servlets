@@ -44,9 +44,11 @@ public class JobHandle extends HttpServlet {
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
 				request.setAttribute("redirectJobs", "StopLoopJobs");
-				
-				//get session's jobs
 				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
+				//get session's no of applied jobs
+				int noApplied = jobAppDao.countAppliedJobs(userId);
+				request.setAttribute("noApplied",noApplied);
+				//get session's jobs
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
 				for(Job job: sessionJobs) {
 					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));

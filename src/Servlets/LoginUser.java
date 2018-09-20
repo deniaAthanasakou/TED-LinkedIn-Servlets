@@ -67,6 +67,7 @@ public class LoginUser extends HttpServlet {
 			session.setAttribute("name",loggedInUser.getName());
 			session.setAttribute("surname",loggedInUser.getSurname());
 			session.setAttribute("image",loggedInUser.getPhotoURL());
+			session.setAttribute("isAdmin",loggedInUser.getIsAdmin());
 			
 			//go to home or admin page
 			RequestDispatcher displayPage;
