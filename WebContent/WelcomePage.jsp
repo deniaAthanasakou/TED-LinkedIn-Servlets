@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" session="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -40,11 +41,11 @@
 								<h3>Sign in</h3>
 								<form role="Form" method="POST" action="${pageContext.request.contextPath}/LoginUser" accept-charset="UTF-8">
 								
-									<% if ( request.getAttribute( "loginError" ) != null ) { %>
+									<c:if test="${requestScope.loginError != null}">
 										<div class="alert alert-danger">
-  											<strong>Error!</strong> <%=request.getAttribute( "loginError" )%>
+  											<strong>Error!</strong> ${requestScope.loginError}
 										</div>
-									<% } %>
+									</c:if>
 									
 									<div class="form-group">
 										<input type="text" name="email" placeholder="Email..." class="form-control" required>

@@ -1,5 +1,3 @@
-
-
 .myRow{
 	height: 200px;
 }
@@ -9,12 +7,14 @@
 	overflow-y: auto;
     overflow-x: auto;
     background-color: rgba(255, 255, 255, 0.85); 
-    padding-bottom: 80px;
+	margin-top: 20px;
+    margin-left: 50px;
+    margin-rigth: 50px;
+    margin-bottom: 100px;
 }
 
 
 .myContainerPublicNetwork{
-	
 	margin-top:70px;
 	padding: 50px;
 	overflow-y: auto;
