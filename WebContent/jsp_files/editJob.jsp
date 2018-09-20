@@ -17,34 +17,34 @@
 			<div class="createJobInfo">
 				<form method="post" action="${pageContext.request.contextPath}/JobHandle?action=editJob&jobId=${job.id.jobId}" accept-charset="utf-8">
 					<div class="infoLabel">
-						<h3>Κύρια Χαρακτηριστικά Αγγελίας</h3>
+						<h3>Main information</h3>
 					</div>
 					
 					<div class="jobInfoSection">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-								    <label class="sr-only" for="jobTitle">Τίτλος Αγγελίας</label>
-								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Τίτλος Αγγελίας" value="${job.title}" maxlength="60" required>
+								    <label class="sr-only" for="jobTitle">Job title</label>
+								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Job title" value="${job.title}" maxlength="60" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-								    <label class="sr-only" for="jobIndustry">Εταιρεία</label>
-								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Εταιρεία" value="${job.company}" maxlength="45" required>
+								    <label class="sr-only" for="jobIndustry">Company</label>
+								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Company" value="${job.company}" maxlength="45" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-								    <label class="sr-only" for="jobLocation">Τοποθεσία</label>
-								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Τοποθεσία" maxlength="200" value="${job.location}" required>
+								    <label class="sr-only" for="jobLocation">Location</label>
+								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Location" maxlength="200" value="${job.location}" required>
 								</div>
 							</div>
 						</div>
 					</div>
 					
 					<div class="infoLabel">
-						<h3>Επιπλέον Χαρακτηριστικά</h3>
+						<h3>Add more details</h3>
 					</div>
 					
 					<div class="jobInfoSection">
@@ -53,52 +53,52 @@
 								<div class="form-group">
 									<c:if test="${requestScope.jobFunctionError != null }">
 										<div class="alert alert-danger">
-  											<strong>Σφάλμα!</strong> ${requestScope.jobFunctionError}
+  											<strong>Error!</strong> ${requestScope.jobFunctionError}
 										</div>
 									</c:if>
-								    <label for="jobFunction">Λειτουργίες εργασίας(Επιλέξτε μέχρι 3)*</label>
+								    <label for="jobFunction">Job function (Select up to 3)*</label>
 								    <select multiple class="form-control" id="jobFunction" name="jobFunction" required>
-								    	<option value="">Παρακαλώ επιλέξτε...</option>
-									    <option value="Λογιστική">Λογιστική</option>
-									    <option value="Διοικητικό">Διοικητικό</option>
-									    <option value="Τέχνες και Σχεδιασμός">Τέχνες και Σχεδιασμός</option>
-									    <option value="Ανάπτυξη Επιχειρήσεων">Ανάπτυξη Επιχειρήσεων</option>
-									    <option value="Κοινωνικές και κοινωνικές υπηρεσίες">Κοινωνικές και κοινωνικές υπηρεσίες</option>
-									    <option value="Συμβουλευτική">Συμβουλευτική</option>
-									    <option value="Εκπαίδευση">Εκπαίδευση</option>
-									    <option value="Μηχανική">Μηχανική</option>
-									    <option value="Επιχειρηματικότητα">Επιχειρηματικότητα</option>
-									    <option value="Χρηματοδοτική">Χρηματοδοτική</option>
-									    <option value="Υπηρεσίες Υγείας">Υπηρεσίες Υγείας</option>
-									    <option value="Ανθρώπινο Δυναμικό">Ανθρώπινο Δυναμικό</option>
-									    <option value="Πληροφορική">Πληροφορική</option>
-									    <option value="Νομική">Νομική</option>
-									    <option value="Μάρκετινγκ">Μάρκετινγκ</option>
-									    <option value="Μέσα & Επικοινωνίες">Μέσα & Επικοινωνίες</option>
-									    <option value="Στρατιωτικές και Προστατευτικές Υπηρεσίες">Στρατιωτικές και Προστατευτικές Υπηρεσίες</option>
-									    <option value="Λειτουργίες">Λειτουργίες</option>
-									    <option value="Διαχείριση προϊόντων">Διαχείριση προϊόντων</option>
-									    <option value="Προγράμματα & Διαχείριση Προϊόντων">Προγράμματα & Διαχείριση Προϊόντων</option>
-									    <option value="Αγορών">Αγορών</option>
-									    <option value="Διασφάλιση ποιότητας">Διασφάλιση ποιότητας</option>
-									    <option value="Ακίνητα">Ακίνητα</option>
-									    <option value="Έρευνα">Έρευνα</option>
-									    <option value="Πωλήσεις">Πωλήσεις</option>
-									    <option value="Υποστήριξη">Υποστήριξη</option>
+								    	<option value="">Choose one...</option>
+									    <option value="Accounting">Accounting</option>
+									    <option value="Administrative">Administrative</option>
+									    <option value="Arts and Design">Arts and Design</option>
+									    <option value="Business Development">Business Development</option>
+									    <option value="Community & Social Services">Community &amp; Social Services</option>
+									    <option value="Consulting">Consulting</option>
+									    <option value="Education">Education</option>
+									    <option value="Engineering">Engineering</option>
+									    <option value="Entrepreneurship">Entrepreneurship</option>
+									    <option value="Finance">Finance</option>
+									    <option value="Healthcare Services">Healthcare Services</option>
+									    <option value="Human Resources">Human Resources</option>
+									    <option value="Information Technology">Information Technology</option>
+									    <option value="Legal">Legal</option>
+									    <option value="Marketing">Marketing</option>
+									    <option value="Media & Communications">Media &amp; Communications</option>
+									    <option value="Military & Protective Services">Military &amp; Protective Services</option>
+									    <option value="Operations">Operations</option>
+									    <option value="Product Management">Product Management</option>
+									    <option value="Program & Product Management">Program &amp; Product Management</option>
+									    <option value="Purchasing">Purchasing</option>
+									    <option value="Quality Assurance">Quality Assurance</option>
+									    <option value="Real Estate">Real Estate</option>
+									    <option value="Rersearch">Rersearch</option>
+									    <option value="Sales">Sales</option>
+									    <option value="Support">Support</option>
 							    	</select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-								    <label for="employmentType">Τύπος εργασίας*</label>
+								    <label for="employmentType">Employment type*</label>
 								    <select class="form-control" id="employmentType" name="employmentType" required>
-								    	<option value="">Παρακαλώ επιλέξτε...</option>
-									    <option value="Πλήρης Απασχόληση">Πλήρης Απασχόληση</option>
-									    <option value="Μερική Απασχόληση">Μερική Απασχόληση</option>
-									    <option value="Με σύμβαση">Με σύμβαση</option>
-									    <option value="Προσωρινή">Προσωρινή</option>
-									    <option value="Εθελοντική">Εθελοντική</option>
-									    <option value="Πρακτική">Πρακτική</option>
+								    	<option value="">Choose one...</option>
+									    <option value="Full-time">Full-time</option>
+									    <option value="Part-time">Part-time</option>
+									    <option value="Contract">Contract</option>
+									    <option value="Temporary">Temporary</option>
+									    <option value="Volunteer">Volunteer</option>
+									    <option value="Internship">Internship</option>
 							    	</select>
 								</div>
 							</div>
@@ -108,173 +108,173 @@
 								<div class="form-group">
 									<c:if test="${requestScope.companyTypesError != null }">
 										<div class="alert alert-danger">
-  											<strong>Σφάλμα!</strong> ${requestScope.companyTypesError}
+  											<strong>Error!</strong> ${requestScope.companyTypesError}
 										</div>
 									</c:if>
-								    <label for="companyIndustry">Είδος εταιρείας(Επιλέξτε μέχρι 3)*</label>
+								    <label for="companyIndustry">Company industry (Select up to 3)*</label>
 								    <select multiple class="form-control" id="companyIndustry" name="companyIndustry" required>
-								    	<option value="">Παρακαλώ επιλέξτε...</option>
-								    	<option value="Λογιστική">Λογιστική</option>
-										<option value="Αεροπορικές εταιρείες / Αεροπορία">Αεροπορικές εταιρείες / Αεροπορία</option>
-										<option value="Εναλλακτική επίλυση διαφορών">Εναλλακτική επίλυση διαφορών</option>
-										<option value="ναλλακτικό φάρμακο">Εναλλακτικό φάρμακο</option>
-										<option value="Κινουμένων σχεδίων">Κινουμένων σχεδίων</option>
-										<option value="Ένδυση & Μόδα">Ένδυση & Μόδα</option>
-										<option value="Αρχιτεκτονική & Σχεδιασμός">Αρχιτεκτονική & Σχεδιασμός</option>
-										<option value="Τέχνες και χειροτεχνίες">Τέχνες και χειροτεχνίες</option>
-										<option value="Αυτοκίνητο">Αυτοκίνητο</option>
-										<option value="Αεροπορία & Αεροδιαστημική">Αεροπορία & Αεροδιαστημική</option>
-										<option value="Τραπεζικές εργασίες">Τραπεζικές εργασίες</option>
-										<option value="Βιοτεχνολογία">Βιοτεχνολογία</option>
-										<option value="Μέσα εκπομπής">Μέσα εκπομπής</option>
-										<option value="Οικοδομικά υλικά">Οικοδομικά υλικά</option>
-										<option value="Επιχειρησιακά αναλώσιμα και εξοπλισμός">Επιχειρησιακά αναλώσιμα και εξοπλισμός</option>
-										<option value="Κεφαλαιαγορές">Κεφαλαιαγορές</option>
-										<option value="Χημικές ουσίες">Χημικές ουσίες</option>
-										<option value="Κοινωνική και Κοινωνική Οργάνωση">Κοινωνική και Κοινωνική Οργάνωση</option>
-										<option value="Πολιτική Μηχανική">Πολιτική Μηχανική</option>
-										<option value="Εμπορική ακίνητη περιουσία">Εμπορική ακίνητη περιουσία</option>
-										<option value="Ασφάλεια υπολογιστών και δικτύων">Ασφάλεια υπολογιστών και δικτύων</option>
-										<option value="Παιχνίδια υπολογιστών">Παιχνίδια υπολογιστών</option>
-										<option value="Υλικό υπολογιστή">Υλικό υπολογιστή</option>
-										<option value="Δικτύωση υπολογιστών">Δικτύωση υπολογιστών</option>
-										<option value="Λογισμικό Ηλεκτρονικών Υπολογιστών">Λογισμικό Ηλεκτρονικών Υπολογιστών</option>
-										<option value="Κατασκευή">Κατασκευή</option>
-										<option value="Καταναλωτική Ηλεκτρονική">Καταναλωτική Ηλεκτρονική</option>
-										<option value="Καταναλωτικά αγαθά">Καταναλωτικά αγαθά</option>
-										<option value="Υπηρεσίες καταναλωτών">Υπηρεσίες καταναλωτών</option>
-										<option value="Καλλυντικά">Καλλυντικά</option>
-										<option value="Γαλακτοκομικά">Γαλακτοκομικά</option>
-										<option value="Άμυνα & Διάστημα">Άμυνα & Διάστημα</option>
-										<option value="Σχέδιο">Σχέδιο</option>
-										<option value="Διαχείριση εκπαίδευσης">Διαχείριση εκπαίδευσης</option>
-										<option value="Ηλεκτρονική μάθηση">Ηλεκτρονική μάθηση</option>
-										<option value="Ηλεκτρολογικής και Ηλεκτρονικής Βιομηχανίας">Ηλεκτρολογικής και Ηλεκτρονικής Βιομηχανίας</option>
-										<option value="Ψυχαγωγία">Ψυχαγωγία</option>
-										<option value="Περιβαλλοντικές υπηρεσίες">Περιβαλλοντικές υπηρεσίες</option>
-										<option value="Υπηρεσίες εκδηλώσεων">Υπηρεσίες εκδηλώσεων</option>
-										<option value="Εκτελεστικό Γραφείο">Εκτελεστικό Γραφείο</option>
-										<option value="Εγκαταστάσεις Υπηρεσίες">Εγκαταστάσεις Υπηρεσίες</option>
-										<option value="Καλλιέργεια">Καλλιέργεια</option>
-										<option value="Χρηματοπιστωτικές υπηρεσίες">Χρηματοπιστωτικές υπηρεσίες</option>
-										<option value="Καλές τέχνες">Καλές τέχνες</option>
-										<option value="Αλιεία">Αλιεία</option>
-										<option value="Τρόφιμα & Ποτά">Τρόφιμα & Ποτά</option>
-										<option value="Παραγωγή φαγητού">Παραγωγή φαγητού</option>
-										<option value="Έρανος">Έρανος</option>
-										<option value="Επιπλα">Επιπλα</option>
-										<option value="Τυχερά παιχνίδια και καζίνο">Τυχερά παιχνίδια και καζίνο</option>
-										<option value="Γυαλί, Κεραμικά & Σκυρόδεμα">Γυαλί, Κεραμικά & Σκυρόδεμα</option>
-										<option value="Κυβέρνηση">Κυβέρνηση</option>
-										<option value="Κυβερνητικές Σχέσεις">Κυβερνητικές Σχέσεις</option>
-										<option value="Γραφικό σχέδιο">Γραφικό σχέδιο</option>
-										<option value="Υγεία, Wellness & Fitness">Υγεία, Wellness & Fitness</option>
-										<option value="Ανώτερη εκπαίδευση">Ανώτερη εκπαίδευση</option>
-										<option value="Νοσοκομειακή φροντίδα">Νοσοκομειακή φροντίδα</option>
-										<option value="Φιλοξενία">Φιλοξενία</option>
-										<option value="Ανθρώπινο δυναμικό">Ανθρώπινο δυναμικό</option>
-										<option value="Εισαγωγή-εξαγωγή">Εισαγωγή-εξαγωγή</option>
-										<option value="Ατομικές και οικογενειακές υπηρεσίες">Ατομικές και οικογενειακές υπηρεσίες</option>
-										<option value="Βιομηχανικός αυτοματισμός">Βιομηχανικός αυτοματισμός</option>
-										<option value="Υπηρεσίες πληροφοριών">Υπηρεσίες πληροφοριών</option>
-										<option value="Πληροφορική & Υπηρεσίες">Πληροφορική & Υπηρεσίες</option>
-										<option value="Ασφάλιση">Ασφάλιση</option>
-										<option value="Διεθνείς σχέσεις">Διεθνείς σχέσεις</option>
-										<option value="Διεθνές εμπόριο και ανάπτυξη">Διεθνές εμπόριο και ανάπτυξη</option>
-										<option value="Διαδίκτυο">Διαδίκτυο</option>
-										<option value="Επενδυτική Τραπεζική / Venture">Επενδυτική Τραπεζική / Venture</option>
-										<option value="Διαχείριση επενδύσεων">Διαχείριση επενδύσεων</option>
-										<option value="Δικαστήρια">Δικαστήρια</option>
-										<option value="Επιβολή του νόμου">Επιβολή του νόμου</option>
-										<option value="Νομική Πρακτική">Νομική Πρακτική</option>
-										<option value="Νομικές υπηρεσίες">Νομικές υπηρεσίες</option>
-										<option value="Νομοθετικό γραφείο">Νομοθετικό γραφείο</option>
-										<option value="Ταξίδι αναψυχής">Ταξίδι αναψυχής</option>
-										<option value="Βιβλιοθήκες">Βιβλιοθήκες</option>
-										<option value="Εφοδιαστική αλυσίδα και αλυσίδα εφοδιασμού">Εφοδιαστική αλυσίδα και αλυσίδα εφοδιασμού</option>
-										<option value="Πολυτελή Είδη & Κοσμήματα">Πολυτελή Είδη & Κοσμήματα</option>
-										<option value="Μηχανήματα">Μηχανήματα</option>
-										<option value="Συμβουλευτικές υπηρεσίες διαχείρισης">Συμβουλευτικές υπηρεσίες διαχείρισης</option>
-										<option value="Θαλάσσιος">Θαλάσσιος</option>
-										<option value="Μάρκετινγκ & Διαφήμιση">Μάρκετινγκ & Διαφήμιση</option>
-										<option value="Έρευνα αγοράς">Έρευνα αγοράς</option>
-										<option value="Μηχανική ή Βιομηχανική Μηχανική">Μηχανική ή Βιομηχανική Μηχανική</option>
-										<option value=">Παραγωγή πολυμέσων">Παραγωγή πολυμέσων</option>
-										<option value="Ιατρική συσκευή">Ιατρική συσκευή</option>
-										<option value="Ιατρική πρακτική">Ιατρική πρακτική</option>
-										<option value="Ψυχική Υγεία">Ψυχική Υγεία</option>
-										<option value="Στρατός">Στρατός</option>
-										<option value="Μεταλλεία & Μέταλλα">Μεταλλεία & Μέταλλα</option>
-										<option value="Κινούμενες εικόνες και ταινίες">Κινούμενες εικόνες και ταινίες</option>
-										<option value="Μουσεία & Ιδρύματα">Μουσεία & Ιδρύματα</option>
-										<option value="Μουσική">Μουσική</option>
-										<option value="Νανοτεχνολογία">Νανοτεχνολογία</option>
-										<option value="Εφημερίδες">Εφημερίδες</option>
-										<option value="Μη κερδοσκοπική οργάνωση">Μη κερδοσκοπική οργάνωση</option>
-										<option value="Πετρέλαιο & Ενέργεια">Πετρέλαιο & Ενέργεια</option>
-										<option value="Ηλεκτρονική δημοσίευση">Ηλεκτρονική δημοσίευση</option>
-										<option value="Outsourcing / Offshoring">Outsourcing / Offshoring</option>
-										<option value="Πακέτο / Παράδοση εμπορευμάτων">Πακέτο / Παράδοση εμπορευμάτων</option>
-										<option value="Συσκευασία & εμπορευματοκιβώτια">Συσκευασία & εμπορευματοκιβώτια</option>
-										<option value="Χαρτικά και δασικά προϊόντα">Χαρτικά και δασικά προϊόντα</option>
-										<option value="Τέχνες του θεάματος">Τέχνες του θεάματος</option>
-										<option value="Φαρμακευτικά προϊόντα">Φαρμακευτικά προϊόντα</option>
-										<option value="Φιλανθρωπία">Φιλανθρωπία</option>
-										<option value="Φωτογραφία">Φωτογραφία</option>
-										<option value="Πλαστικά είδη">Πλαστικά είδη</option>
-										<option value="Πολιτικός Οργανισμός">Πολιτικός Οργανισμός</option>
-										<option value="Πρωτοβάθμια / Δευτεροβάθμια Εκπαίδευση">Πρωτοβάθμια / Δευτεροβάθμια Εκπαίδευση</option>
-										<option value="Εκτύπωση">Εκτύπωση</option>
-										<option value="Επαγγελματική εκπαίδευση">Επαγγελματική εκπαίδευση</option>
-										<option value="Ανάπτυξη προγράμματος">Ανάπτυξη προγράμματος</option>
-										<option value="Δημόσια πολιτική">Δημόσια πολιτική</option>
-										<option value="Δημόσιες σχέσεις">Δημόσιες σχέσεις</option>
-										<option value="Δημόσια ασφάλεια">Δημόσια ασφάλεια</option>
-										<option value="Εκδόσεις">Εκδόσεις</option>
-										<option value="Κατασκευή σιδηροδρόμων">Κατασκευή σιδηροδρόμων</option>
-										<option value="Εκτροφή">Εκτροφή</option>
-										<option value="Ακίνητα">Ακίνητα</option>
-										<option value="Ψυχαγωγία">Ψυχαγωγία</option>
-										<option value="Εγκαταστάσεις & Υπηρεσίες">Εγκαταστάσεις & Υπηρεσίες</option>
-										<option value="Θρησκευτικά Ιδρύματα">Θρησκευτικά Ιδρύματα</option>
-										<option value="Ανανεώσιμες Πηγές Ενέργειας & Περιβάλλον">Ανανεώσιμες Πηγές Ενέργειας & Περιβάλλον</option>
-										<option value="Έρευνα">Έρευνα</option>
-										<option value="Εστιατόρια">Εστιατόρια</option>
-										<option value="Λιανεμπόριο">Λιανεμπόριο</option>
-										<option value="Ασφάλεια και έρευνες">Ασφάλεια και έρευνες</option>
-										<option value="Ημιαγωγοί">Ημιαγωγοί</option>
-										<option value="Ναυπηγική">Ναυπηγική</option>
-										<option value="Αθλητικά είδη">Αθλητικά είδη</option>
-										<option value="Αθλητισμός">Αθλητισμός</option>
-										<option value="Στελέχωση και πρόσληψη">Στελέχωση και πρόσληψη</option>
-										<option value="Σούπερ μάρκετ">Σούπερ μάρκετ</option>
-										<option value="Τηλεπικοινωνίες">Τηλεπικοινωνίες</option>
-										<option value="Υφάσματα">Υφάσματα</option>
-										<option value="Δεξαμενές σκέψης">Δεξαμενές σκέψης</option>
-										<option value="Καπνός">Καπνός</option>
-										<option value="Μετάφραση & Εντοπισμός">Μετάφραση & Εντοπισμός</option>
-										<option value="Μεταφορές / Σιδηρόδρομος">Μεταφορές / Σιδηρόδρομος</option>
-										<option value="Βοηθητικά προγράμματα">Βοηθητικά προγράμματα</option>
-										<option value="Επιχειρηματικών κεφαλαίων">Επιχειρηματικών κεφαλαίων</option>
-										<option value="Κτηνιατρεία">Κτηνιατρεία</option>
-										<option value="Αποθήκευση">Αποθήκευση</option>
-										<option value="Χονδρικό εμπόριο">Χονδρικό εμπόριο</option>
-										<option value="Κρασί και οινοπνευματώδη ποτά">Κρασί και οινοπνευματώδη ποτά</option>
-										<option value="Ασύρματος">Ασύρματος</option>
+								    	<option value="">Choose one...</option>
+								    	<option value="Accounting">Accounting</option>
+										<option value="Airlines/Aviation">Airlines/Aviation</option>
+										<option value="Alternative Dispute Resolution">Alternative Dispute Resolution</option>
+										<option value="Alternative Medicine">Alternative Medicine</option>
+										<option value="Animation">Animation</option>
+										<option value="Apparel & Fashion">Apparel &amp; Fashion</option>
+										<option value="Architecture & Planning">Architecture &amp; Planning</option>
+										<option value="Arts and Crafts">Arts and Crafts</option>
+										<option value="Automotive">Automotive</option>
+										<option value="Aviation & Aerospace">Aviation &amp; Aerospace</option>
+										<option value="Banking">Banking</option>
+										<option value="Biotechnology">Biotechnology</option>
+										<option value="Building Materials">Broadcast Media</option>
+										<option value="Building Materials">Building Materials</option>
+										<option value="Business Supplies and Equipment">Business Supplies and Equipment</option>
+										<option value="Capital Markets">Capital Markets</option>
+										<option value="Chemicals">Chemicals</option>
+										<option value="Civic & Social Organization">Civic &amp; Social Organization</option>
+										<option value="Civil Engineering">Civil Engineering</option>
+										<option value="Commercial Real Estate">Commercial Real Estate</option>
+										<option value="Computer & Network Security">Computer &amp; Network Security</option>
+										<option value="Computer Games">Computer Games</option>
+										<option value="Computer Networking">Computer Networking</option>
+										<option value="Computer Software">Computer Software</option>
+										<option value="Computer Hardware">Computer Hardware</option>
+										<option value="Construction">Construction</option>
+										<option value="Consumer Electronics">Consumer Electronics</option>
+										<option value="Consumer Goods">Consumer Goods</option>
+										<option value="Consumer Services">Consumer Services</option>
+										<option value="Cosmetics">Cosmetics</option>
+										<option value="Dairy">Dairy</option>
+										<option value="Defense & Space">Defense &amp; Space</option>
+										<option value="Design">Design</option>
+										<option value="Education Management">Education Management</option>
+										<option value="E-Learning">E-Learning</option>
+										<option value="Electrical/Electronic Manufacturing">Electrical/Electronic Manufacturing</option>
+										<option value="Entertainment">Entertainment</option>
+										<option value="Environmental Services">Environmental Services</option>
+										<option value="Events Services">Events Services</option>
+										<option value="Executive Office">Executive Office</option>
+										<option value="Facilities Services">Facilities Services</option>
+										<option value="Farming">Farming</option>
+										<option value="Financial Services">Financial Services</option>
+										<option value="Fine Art">Fine Art</option>
+										<option value="Fishery">Fishery</option>
+										<option value="Food & Beverages">Food &amp; Beverages</option>
+										<option value="Food Production">Food Production</option>
+										<option value="Fund-Raising">Fund-Raising</option>
+										<option value="Furniture">Furniture</option>
+										<option value="Gambling & Casinos">Gambling &amp; Casinos</option>
+										<option value="Glass, Ceramics & Concrete">Glass, Ceramics &amp; Concrete</option>
+										<option value="Government Administration">Government Administration</option>
+										<option value="Government Relations">Government Relations</option>
+										<option value="Graphic Design">Graphic Design</option>
+										<option value="Health, Wellness and Fitness">Health, Wellness and Fitness</option>
+										<option value="Higher Education">Higher Education</option>
+										<option value="Hospital & Health Care">Hospital &amp; Health Care</option>
+										<option value="Hospitality">Hospitality</option>
+										<option value="Human Resources">Human Resources</option>
+										<option value="Import and Export">Import and Export</option>
+										<option value="Individual & Family Services">Individual &amp; Family Services</option>
+										<option value="Industrial Automation">Industrial Automation</option>
+										<option value="Information Services">Information Services</option>
+										<option value="Information Technology and Services">Information Technology and Services</option>
+										<option value="Insurance">Insurance</option>
+										<option value="International Affairs">International Affairs</option>
+										<option value="International Trade and Development">International Trade and Development</option>
+										<option value="Internet">Internet</option>
+										<option value="Investment Banking">Investment Banking</option>
+										<option value="Investment Management">Investment Management</option>
+										<option value="Judiciary">Judiciary</option>
+										<option value="Law Enforcement">Law Enforcement</option>
+										<option value="Law Practice">Law Practice</option>
+										<option value="Legal Services">Legal Services</option>
+										<option value="Legislative Office">Legislative Office</option>
+										<option value="Leisure, Travel & Tourism">Leisure, Travel &amp; Tourism</option>
+										<option value="Libraries">Libraries</option>
+										<option value="Logistics and Supply Chain">Logistics and Supply Chain</option>
+										<option value="Luxury Goods & Jewelry">Luxury Goods &amp; Jewelry</option>
+										<option value="Machinery">Machinery</option>
+										<option value="Management Consulting">Management Consulting</option>
+										<option value="Maritime">Maritime</option>
+										<option value="Market Research">Market Research</option>
+										<option value="Marketing and Advertising">Marketing and Advertising</option>
+										<option value="Mechanical or Industrial Engineering">Mechanical or Industrial Engineering</option>
+										<option value="Media Production">Media Production</option>
+										<option value="Medical Devices">Medical Devices</option>
+										<option value="Medical Practice">Medical Practice</option>
+										<option value="Mental Health Care">Mental Health Care</option>
+										<option value="Military">Military</option>
+										<option value="Mining & Metals">Mining &amp; Metals</option>
+										<option value="Motion Pictures and Film">Motion Pictures and Film</option>
+										<option value="Museums and Institutions">Museums and Institutions</option>
+										<option value="Music">Music</option>
+										<option value="Nanotechnology">Nanotechnology</option>
+										<option value="Newspapers">Newspapers</option>
+										<option value="Non-Profit Organization Management">Non-Profit Organization Management</option>
+										<option value="Oil & Energy">Oil &amp; Energy</option>
+										<option value="Online Media">Online Media</option>
+										<option value="Outsourcing/Offshoring">Outsourcing/Offshoring</option>
+										<option value="Package/Freight Delivery">Package/Freight Delivery</option>
+										<option value="Packaging and Containers">Packaging and Containers</option>
+										<option value="Paper & Forest Products">Paper &amp; Forest Products</option>
+										<option value="Performing Arts">Performing Arts</option>
+										<option value="Pharmaceuticals">Pharmaceuticals</option>
+										<option value="Philanthropy">Philanthropy</option>
+										<option value="Photography">Photography</option>
+										<option value="Plastics">Plastics</option>
+										<option value="Political Organization">Political Organization</option>
+										<option value="Primary/Secondary Education">Primary/Secondary Education</option>
+										<option value="Printing">Printing</option>
+										<option value="Professional Training & Coaching">Professional Training &amp; Coaching</option>
+										<option value="Program Development">Program Development</option>
+										<option value="Public Policy">Public Policy</option>
+										<option value="Public Relations and Communications">Public Relations and Communications</option>
+										<option value="Public Safety">Public Safety</option>
+										<option value="Publishing">Publishing</option>
+										<option value="Railroad Manufacture">Railroad Manufacture</option>
+										<option value="Ranching">Ranching</option>
+										<option value="Real Estate">Real Estate</option>
+										<option value="Recreational Facilities and Services">Recreational Facilities and Services</option>
+										<option value="Religious Institutions">Religious Institutions</option>
+										<option value="Renewables & Environment">Renewables &amp; Environment</option>
+										<option value="Research">Research</option>
+										<option value="Restaurants">Restaurants</option>
+										<option value="Retail">Retail</option>
+										<option value="Security and Investigations">Security and Investigations</option>
+										<option value="Semiconductors">Semiconductors</option>
+										<option value="Shipbuilding">Shipbuilding</option>
+										<option value="Sporting Goods">Sporting Goods</option>
+										<option value="Sports">Sports</option>
+										<option value="Staffing and Recruiting">Staffing and Recruiting</option>
+										<option value="Supermarkets">Supermarkets</option>
+										<option value="Telecommunications">Telecommunications</option>
+										<option value="Textiles">Textiles</option>
+										<option value="Think Tanks">Think Tanks</option>
+										<option value="Tobacco">Tobacco</option>
+										<option value="Translation and Localization">Translation and Localization</option>
+										<option value="Transportation/Trucking/Railroad">Transportation/Trucking/Railroad</option>
+										<option value="Utilities">Utilities</option>
+										<option value="Venture Capital & Private Equity">Venture Capital &amp; Private Equity</option>
+										<option value="Veterinary">Veterinary</option>
+										<option value="Warehousing">Warehousing</option>
+										<option value="Wholesale">Wholesale</option>
+										<option value="Wine and Spirits">Wine and Spirits</option>
+										<option value="Wireless">Wireless</option>
+										<option value="Writing and Editing">Writing and Editing</option>
 							    	</select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-								    <label for="seniorityLevel">Είδος εμπειρίας*</label>
+								    <label for="seniorityLevel">Seniority level*</label>
 								    <select class="form-control" id="seniorityLevel" name="seniorityLevel" required>
-								    	<option value="">Παρακαλώ επιλέξτε...</option>
-									    <option value="Πρακτική">Πρακτική</option>
-									    <option value="Αρχάριο Επίπεδο">Αρχάριο Επίπεδο</option>
-									    <option value="Συνέταιρος">Συνέταιρος</option>
-									    <option value="Μεσαία-Ανώτερη Βαθμίδα">Μεσαία-Ανώτερη Βαθμίδα</option>
-									    <option value="Διεθυντής">Διεθυντής</option>
-									    <option value="Εκτελεστικός">Εκτελεστικός</option>
+								    	<option value="">Choose one...</option>
+									    <option value="Internship">Internship</option>
+									    <option value="Entry level">Entry level</option>
+									    <option value="Associate">Associate</option>
+									    <option value="Mid-Senior level">Mid-Senior level</option>
+									    <option value="Director">Director</option>
+									    <option value="Executive">Executive</option>
 							    	</select>
 								</div>
 							</div>
@@ -282,7 +282,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="jobDescription">Περιγραφή εργασίας*</label>
+									<label for="jobDescription">Job description*</label>
 									<textarea class="form-control" rows="3" name="jobDescription" id="jobDescription" maxlength="10000" required>${job.description}</textarea>
 								</div>
 							</div>
@@ -290,7 +290,7 @@
 					</div>
 					
 					<div class="infoLabel">
-						<h3>Δεξιότητες και Εμπειρία</h3>
+						<h3>Skills &amp; Experience</h3>
 					</div>
 					
 					<div class="jobInfoSection">
@@ -299,11 +299,11 @@
 								<div class="form-group">
 									<c:if test="${requestScope.skillsError != null }">
 										<div class="alert alert-danger">
-  											<strong>Σφάλμα!</strong> ${requestScope.skillsError}
+  											<strong>Error!</strong> ${requestScope.skillsError}
 										</div>
 									</c:if>
-								    <label for="skills">Δεξιότητες(Χωρίστε τις δεξιότητες με κόμμα, επιλέξτε μέχρι 10)*</label>
-								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Δεξιότητες..." maxlength="1000" required>${job.skills}</textarea>
+								    <label for="skills">What are some of the skills needed for this job? (Select up to 10)*</label>
+								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Skills..." maxlength="1000" required>${job.skills}</textarea>
 								</div>
 							</div>
 						</div>
@@ -311,7 +311,7 @@
 							<div class="col-md-12">
 								<c:if test="${requestScope.experienceFromToError != null }">
 									<div class="alert alert-danger">
-										<strong>Σφάλμα!</strong> ${requestScope.experienceFromToError}
+										<strong>Error!</strong> ${requestScope.experienceFromToError}
 									</div>
 								</c:if>
 							</div>
@@ -319,13 +319,13 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">	
-									<label for="fromYears">Εμπειρία από έτη*</label>
+									<label for="fromYears">What range of relevant experience are you looking for? From*</label>
 									<input type="number" class="form-control" id="fromYears" name="fromYears" value="${job.experienceFrom}" min="0" max="50" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">	
-									<label for="toYears">Μέχρι*</label>
+									<label for="toYears">To*</label>
 									<input type="number" class="form-control" id="toYears" name="toYears" value="${job.experienceTo}" min="0" max="50" required>
 								</div>
 							</div>
@@ -335,20 +335,20 @@
 								<div class="form-group">
 									<c:if test="${requestScope.educationLevelError != null }">
 										<div class="alert alert-danger">
-  											<strong>Σφάλμα!</strong> ${requestScope.educationLevelError}
+  											<strong>Error!</strong> ${requestScope.educationLevelError}
 										</div>
 									</c:if>
-								    <label for="educationLevel">Επίπεδο εκπαίδευσης(Επιλέξτε μέχρι 5)*</label>
+								    <label for="educationLevel">What level of education are you looking for? (Select up to 5)*</label>
 								    <select multiple class="form-control" id="educationLevel" name="educationLevel" required>
-								    	<option value="">Παρακαλώ επιλέξτε...</option>
-									    <option value="Απολυτήριο Λυκείου">Απολυτήριο Λυκείου</option>
-									    <option value="Πτυχίο Συνεργάτη">Πτυχίο Συνεργάτη</option>
-									    <option value="Μεταπτυχιακό">Μεταπτυχιακό</option>
-									    <option value="Μεταπτυχιακό στην Διοίκηση Επιχειρήσεων">Μεταπτυχιακό στην Διοίκηση Επιχειρήσεων</option>
-									    <option value="Δόκτορας της Φιλοσοφίας">Δόκτορας της Φιλοσοφίας</option>
-									    <option value="Δόκτορας">Δόκτορας</option>
-									    <option value=">Δόκτορας του νόμου">Δόκτορας του νόμου</option>
-									    <option value="Πτυχίο">Πτυχίο</option>
+								    	<option value="">Choose one...</option>
+									    <option value="High School Diploma">High School Diploma</option>
+									    <option value="Associate's Degree">Associate's Degree</option>
+									    <option value="Bachelor's Degree">Bachelor's Degree</option>
+									    <option value="Master's Degree">Master's Degree</option>
+									    <option value="Master of Business Administration">Master of Business Administration</option>
+									    <option value="Doctor of Philosophy">Doctor of Philosophy</option>
+									    <option value="Doctor of Medicine">Doctor of Medicine</option>
+									    <option value="Doctor of Law">Doctor of Law</option>
 							    	</select>
 								</div>
 							</div>
@@ -356,14 +356,14 @@
 					</div>
 					
 					<div class="infoLabel">
-						<h3>Χρηματικό Ποσό</h3>
+						<h3>Set your budget</h3>
 					</div>
 					
 					<div class="jobInfoSection">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="dailyMoney">Ημερήσια πληρωμή σε EUR*</label>
+									<label for="dailyMoney">Daily budget in EUR*</label>
 									<input type="number" step=0.01 class="form-control" id="dailyMoney" name="dailyMoney" value="${job.dailySalary}" min="0" required>
 								</div>
 							</div>
@@ -371,10 +371,10 @@
 					</div>
 					
 					<div class="pull-left" style="margin-left:10px;">
-						<button type="button" class="btn btn-danger" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/jobs.jsp'"><i class="glyphicon glyphicon-remove"></i> Ακύρωση</button>
-						<button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Καθαρισμός</button>
+						<button type="button" class="btn btn-danger" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/jobs.jsp'"><i class="glyphicon glyphicon-remove"></i> Cancel</button>
+						<button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Clear</button>
 					</div>
-					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Ολοκλήρωση Επεξεργασίας</button>
+					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Submit edit</button>
 				</form>
 			</div>
 		</div>

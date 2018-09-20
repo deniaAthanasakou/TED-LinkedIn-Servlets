@@ -33,5 +33,10 @@ public class FileLocationContextListener implements ServletContextListener {
     	ctx.setAttribute("FILES_DIR_POSTS", fullPostsPath);
     }
 
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		
+	}
+
 
 }

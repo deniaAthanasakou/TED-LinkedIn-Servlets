@@ -20,18 +20,18 @@
 			<div class="createJob">
 				<div class="applied_stats">
 					<p style="color:#E1E1E1;">0</p>
-					<h4 style="color:#939393;">Αιτηθέντες Αγγελίες</h4>
+					<h4 style="color:#939393;">Applied jobs</h4>
 				</div>
 				<div class="newJob">
-					<h4 style="color:#939393;">Ψάχνεις για ταλέντο;</h4>
-					<a href="${pageContext.request.contextPath}/jsp_files/createJob.jsp"><button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Δημιουργία Αγγελίας</button></a>
+					<h4 style="color:#939393;">Looking for talent?</h4>
+					<a href="${pageContext.request.contextPath}/jsp_files/createJob.jsp"><button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Post a job</button></a>
 				</div>
 			</div>
 			
 			<div class="displayJobs">
 				<!-- from my applications -->
 				<div class="jobsLabel">
-					<h4>Οι αγγελίες μου</h4>
+					<h4>My jobs</h4>
 				</div>
 				
 				<div class="jobsSection">
@@ -54,7 +54,7 @@
 			
 				<!-- from connections -->
 				<div class="jobsLabel">
-					<h4>Από τις συνδέσεις</h4>
+					<h4>From connections</h4>
 				</div>
 				
 				<div class="jobsSection">
@@ -75,7 +75,7 @@
 				
 				<!-- from skills -->
 				<div class="jobsLabel">
-					<h4>Βασισμένο σε δεξιότητες προφίλ</h4>
+					<h4>Based on skills</h4>
 				</div>
 				
 				<div class="jobsSection">
@@ -98,7 +98,7 @@
 				
 				<!-- from network -->
 				<div class="jobsLabel">
-					<h4>Βασισμένο σε δεδομένα</h4>
+					<h4>Based on data</h4>
 				</div>
 				
 				<div class="jobsSection">

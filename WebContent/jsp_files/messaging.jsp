@@ -6,11 +6,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-			<!-- custom -->
-			
-			<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/messaging.css" type="text/css">
-			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-			
+		<!-- custom -->
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/messaging.css" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+		<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Messaging</title>
 	</head>
@@ -110,7 +110,7 @@
 				
 						  <c:if test="${noConversations != null}">
 						  	  <div class="alert alert-warning" role="alert">
-								  ${noConversations}
+								  No conversations <i class="em em-cry"></i> Go to a friend and start one!
 							  </div>
 					          <div class="row send">
 					          	<form action="${pageContext.request.contextPath}/MessageHandler" method="POST">

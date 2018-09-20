@@ -45,13 +45,13 @@
 								<div class="row">
 									<div class="col-md-6">
 										<form method="post" action="${pageContext.request.contextPath}/JobHandle" accept-charset="UTF-8">
-											<button type="submit" class="btn btn-success btn-lg" name="edit" value="${job.id.jobId}">Επεξεργασία</button>
+											<button type="submit" class="btn btn-success btn-lg" name="edit" value="${job.id.jobId}">Edit</button>
 										</form>
 									</div>
 									<div class="col-md-6">
 										<form method="post" action="${pageContext.request.contextPath}/JobApplicationHandle" accept-charset="UTF-8">
 											<input type="hidden" name="jobId" value="${job.id.jobId}">
-											<button type="submit" class="btn btn-info btn-lg" name="list" value="${job.id.jobId}">Αιτηθέντες</button>
+											<button type="submit" class="btn btn-info btn-lg" name="list" value="${job.id.jobId}">Appliers</button>
 										</form>
 									</div>
 								</div>
@@ -65,31 +65,31 @@
 			<div class="additionalInfo">
 				<div class="row" id="switchContent">
 					<div class="col-md-9">
-						<h3>Περιγραφή Εργασίας</h3>
+						<h3>Job description</h3>
 						<p>${job.description}</p>
 					</div>
 					<div class="col-md-3">
-						<h4 style="padding-bottom:5px;">Πώς ταιριάζεις</h4>
-						<h5 style="text-decoration:underline;">Δεξιότητες</h5>
+						<h4 style="padding-bottom:5px;">How you match</h4>
+						<h5 style="text-decoration:underline;">Skills</h5>
 						<ul style="font-size: 15px;color: gray;">
 							<c:forEach items="${job.skillsArray}" var="skill">
 								<li>${skill}</li>
 							</c:forEach>
 						</ul>
-						<h5 style="text-decoration:underline;">Επίπεδο εκπαίδευσης</h5>
+						<h5 style="text-decoration:underline;">Education level</h5>
 						<p style="border-bottom: 1px solid #ccc;padding-bottom:10px;font-size: 15px;">${job.educationLevelStr}</p>
-						<h4 style="padding-bottom:5px;">Λεπτομέρειες εργασίας</h4>
-						<h5 style="text-decoration:underline;">Είδος εμπειρίας</h5>
+						<h4 style="padding-bottom:5px;">Job details</h4>
+						<h5 style="text-decoration:underline;">Experience level</h5>
 						<p style="font-size: 15px;">${job.experience}</p>
-						<h5 style="text-decoration:underline;">Είδος εταιρείας</h5>
+						<h5 style="text-decoration:underline;">Company type</h5>
 						<p style="font-size: 15px;">${job.companyTypeStr}</p>
-						<h5 style="text-decoration:underline;">Τύπος εργασίας</h5>
+						<h5 style="text-decoration:underline;">Job type</h5>
 						<p style="font-size: 15px;">${job.jobType}</p>
-						<h5 style="text-decoration:underline;">Λειτουργίες εργασίας</h5>
+						<h5 style="text-decoration:underline;">Job functions</h5>
 						<p style="font-size: 15px;">${job.jobFunctionStr}</p>
-						<h5 style="text-decoration:underline;">Χρόνια εμπειρίας</h5>
-						<p style="font-size: 15px;">${job.experienceFrom} έως ${job.experienceTo}</p>
-						<h5 style="text-decoration:underline;">Ημερήσιος μισθός</h5>
+						<h5 style="text-decoration:underline;">Years of experience</h5>
+						<p style="font-size: 15px;">${job.experienceFrom} to ${job.experienceTo}</p>
+						<h5 style="text-decoration:underline;">Daily salary</h5>
 						<p style="font-size: 15px;">${job.dailySalary}</p>
 					</div>
 				</div>

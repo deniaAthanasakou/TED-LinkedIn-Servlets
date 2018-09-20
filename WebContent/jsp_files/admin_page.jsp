@@ -18,7 +18,7 @@
 		
 		<div class="main">
 			<div class="list_users">
-				<h2 id="titleList">Λίστα χρηστών</h2>
+				<h2 id="titleList">List of users</h2>
 				<c:if test="${requestScope.noUsersSelected != null }">
 					<div class="alert alert-danger">
   						${requestScope.noUsersSelected}
@@ -32,11 +32,11 @@
 					<table class="table table-hover">
 						<thead>
 						    <tr>
-							    <th class="text-center">Επιλογή</th>
-							    <th class="text-center">Εικόνα</th>
-							    <th class="text-center">Όνομα</th>
-							    <th class="text-center">Επώνυμο</th>
-							    <th class="text-center">Προφίλ</th>
+							    <th class="text-center">Selection</th>
+							    <th class="text-center">Image</th>
+							    <th class="text-center">Name</th>
+							    <th class="text-center">Surname</th>
+							    <th class="text-center">Profile</th>
 						    </tr>
 					    </thead>
 					    <tbody>
@@ -54,14 +54,14 @@
 							        <td class="text-center">${user.name}</td>
 							        <td class="text-center">${user.surname}</td>
 							        <td class="text-center">
-							        	<button type="submit" name="actionProfile" value="${user.id}" class="btn btn-primary btn-md">Προφίλ <i class="glyphicon glyphicon-chevron-right"></i></button>
+							        	<button type="submit" name="actionProfile" value="${user.id}" class="btn btn-primary btn-md">Profile <i class="glyphicon glyphicon-chevron-right"></i></button>
 							        </td>
 								</tr>
 							</c:if>
 						</c:forEach>
 						</tbody>
 					</table>
-				<button type="submit" name="actionDownload" value="actionDownload" class="btn btn-primary"><i class="glyphicon glyphicon-download-alt"></i> Κατέβασμα XMLs</button>
+				<button type="submit" name="actionDownload" value="actionDownload" class="btn btn-primary"><i class="glyphicon glyphicon-download-alt"></i> Download XMLs</button>
 				</form>
 			</div>
 		</div>	<!-- main -->

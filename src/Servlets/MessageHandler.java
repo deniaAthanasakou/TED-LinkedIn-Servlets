@@ -35,7 +35,7 @@ public class MessageHandler extends HttpServlet {
 			List<Conversation> conversations = connDAO.findAllConversations(Integer.valueOf((String) request.getSession().getAttribute("id")));
 			request.setAttribute("conversations", conversations);
 			if(conversations.size() == 0) {
-				request.setAttribute("noConversations", "No conversations :( . Go to a friend and start one!");
+				request.setAttribute("noConversations", "not empty");
 			}
 			if(request.getParameter("action").equals("getMessages")) {
 				request.setAttribute("redirect", "stopRedirectMessages");
