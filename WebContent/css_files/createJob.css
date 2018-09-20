@@ -1,0 +1,37 @@
+.createJobInfo{
+	background-color: white;
+	height: auto;
+	border: 1px gray solid;
+	border-radius: 3px;
+	box-shadow: 0 0 1px black;
+	width: 900px;
+	min-width: 300px;
+  	margin-top: 50px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	align: center;
+  	margin-bottom: 100px;
+  	padding-bottom: 80px;
+}
+
+.infoLabel{
+	width: auto;
+	text-decoration: underline;
+	float: left;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.jobInfoSection{
+	display: inline-block;
+	width: 880px;
+	align: center;
+	height: auto;
+	border-bottom: 1px solid #ccc;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.btn{
+	margin-top: 20px;
+}

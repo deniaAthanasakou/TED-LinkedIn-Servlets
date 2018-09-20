@@ -1,0 +1,150 @@
+
+
+
+.container{
+	padding: 50px;
+	overflow-y: auto;
+    overflow-x: auto;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding-bottom: 50px;
+    margin: 50px;
+}
+
+.profileImage{
+	height:200px;
+	width:200px;
+	border-radius: 50%;
+	border: 1px solid #DCDCDC;
+	object-fit: contain;
+}
+
+.table{
+	border: 1px solid #B6AFAF;
+	border-radius: 5px;
+	border-collapse: separate
+	
+}
+
+.imageTd{
+	width:300px;
+	border: 1px solid #B6AFAF;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.readonly{
+	width:100px;
+}
+#img-upload{
+    width: 100%;
+}
+
+#uploadedImageDiv{
+	padding:5%;
+	text-align:center;
+	margin-bottom:30px;
+	margin-top:30px;
+}
+
+.browse{
+	text-align:center;
+}
+
+.remove{
+	margin-top:30px;
+}
+
+.submit{
+	float: left;
+}
+
+.cancel{
+	float: right;
+	background-color: #D09CA8;
+	color: white;
+}
+
+.buttons{
+	margin-top: 50px;
+}
+
+.info{
+	border:1px solid #B6AFAF;	
+	padding: 10px;
+	margin-top: 50px;
+	border-radius: 5px;
+}
+
+.editDiv{
+	margin-top:30px;
+	
+}
+
+.editButton
+{
+  width:100%;
+}
+
+.choosePrivate{
+	border:1px solid #B6AFAF;	
+	padding: 10px;
+	margin-top: 50px;
+	border-radius: 5px;
+}
+
+.chat{
+	float:right;
+	margin-bottom:30px;
+}
+
+.chat-button{
+	width: 130px;
+}
+
+.pending-button{
+	
+}
+
+.networkDiv{
+	float: left;
+	margin-bottom:30px;
+	font-size: large;
+}
+
+.reject-button{
+	float:left;
+}
+
+.accept-button{
+	margin-left:20px;
+	float:right;
+}
+
+.deleteFriend{
+	margin-right: 50px;
+}
+
+
+
+
+
+
