@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.entities.User;
@@ -42,26 +43,28 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	
 	@Override
 	public List<User> searchByName(String name, int user_id) {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		PreparedStatement statement4 = null;
+		PreparedStatement statement5 = null;
+		ResultSet resultSet = null;
+		
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-        		
-    		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-        	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
-            PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
-        		
-        		
-    		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
-
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME, false, name);
-           
-        		
-        ) {
+        try 
+        {
+        	connection = factory.getConnection();	
+    		statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
+        	statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
+            statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
+    		statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
+        	statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME, false, name);
+      
         	 statement2.executeUpdate();		//isConnected=1
         	 statement3.executeUpdate();		//isPending=1
         	 statement4.executeUpdate();		//sentConnectionRequest=1
-        	 ResultSet resultSet = statement.executeQuery();	
+        	 resultSet = statement.executeQuery();	
         	
             while (resultSet.next()) {
             	users.add(mapEverything(resultSet));
@@ -70,6 +73,15 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeStmt(statement4);
+            VariousFunctions.closeStmt(statement5);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return users;
@@ -77,27 +89,28 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	
 	@Override
 	public List<User> searchBySurname(String surname, int user_id) {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		PreparedStatement statement4 = null;
+		PreparedStatement statement5 = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
+        try 
+        {
+			 connection = factory.getConnection();
+			 statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
+			 statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
+			 statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
+			 statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
+			 statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_SURNAME, false, surname);
+   
         		
-        		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-            	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
-                PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
-            		
-            		
-        		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
-
-
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_SURNAME, false, surname);
-           
-        		
-        ) {
-        	statement2.executeUpdate();		//isConnected=1
+            statement2.executeUpdate();		//isConnected=1
         	statement3.executeUpdate();		//isPending=1
         	statement4.executeUpdate();		//sentConnectionRequest=1
-       	 	ResultSet resultSet = statement.executeQuery();	
+       	 	resultSet = statement.executeQuery();	
        	
            while (resultSet.next()) {
            	users.add(mapEverything(resultSet));
@@ -107,32 +120,43 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeStmt(statement4);
+            VariousFunctions.closeStmt(statement5);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
 
         return users;
 	}
 	
 	@Override
 	public List<User> searchByNameAndSurname(String name, String surname, int user_id) {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		PreparedStatement statement4 = null;
+		PreparedStatement statement5 = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-
-    		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-        	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
-            PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
-        		
-        		
-    		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
-        	
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME_AND_SURNAME, false, name, surname);
-           
-        		
-        ) {
+        try 
+        {
+            connection = factory.getConnection();
+    		statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
+        	statement3 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);
+            statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
+    		statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);	
+        	statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_NAME_AND_SURNAME, false, name, surname);
+ 
         	statement2.executeUpdate();		//isConnected=1
         	statement3.executeUpdate();		//isPending=1
         	statement4.executeUpdate();		//sentConnectionRequest=1
-       	 	ResultSet resultSet = statement.executeQuery();	
+       	 	resultSet = statement.executeQuery();	
        	
            while (resultSet.next()) {
            	users.add(mapEverything(resultSet));
@@ -141,6 +165,15 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeStmt(statement4);
+            VariousFunctions.closeStmt(statement5);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return users;
@@ -148,14 +181,15 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	
 	@Override
 	public List<User> getConnections(int user_id){
+		Connection connection = null;
+		PreparedStatement statement = null;		
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
-
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_GET_CONNECTIONS_OF_USER, false, user_id, user_id);
-            ResultSet resultSet = statement.executeQuery();	
-        		
-        ) {
+        try 
+        {
+            connection = factory.getConnection();
+        	statement = DAOUtil.prepareStatement(connection, SQL_GET_CONNECTIONS_OF_USER, false, user_id, user_id);
+            resultSet = statement.executeQuery();	
             while (resultSet.next()) {
             	users.add(mapEverything(resultSet));
             }
@@ -163,28 +197,40 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 	
 	@Override
 	public List<User> listWithConnectedPendingField(int user_id){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		PreparedStatement statement4 = null;
+		PreparedStatement statement5 = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
+        try 
+        {
+           connection = factory.getConnection();
 
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
-        		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);	
-        		PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
-        		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);)
-		{
+        	statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, user_id, user_id);
+        	statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, user_id, user_id);	
+        	statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, user_id);	//shows which user sent the request
+        	statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);
 						
 			statement.executeUpdate();		//isConnected=1
 			statement2.executeUpdate();		//isPending=1
 			statement4.executeUpdate();		//sentConnectionRequest=1
 			
-        	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_LIST_ORDER_BY_NAME, false);
-            ResultSet resultSet = statement3.executeQuery();	
+        	statement3 = DAOUtil.prepareStatement(connection, SQL_LIST_ORDER_BY_NAME, false);
+            resultSet = statement3.executeQuery();	
             while (resultSet.next()) {
             	users.add(mapEverything(resultSet));
             }
@@ -193,18 +239,31 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeStmt(statement4);
+            VariousFunctions.closeStmt(statement5);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 	
 	@Override
 	public int connectToUser(int user_id1, int user_id2) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
 		int ret=0;
 		//get current time
 		Date dNow = new Date();
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT_INTO_CONNECTION, true, user_id1, user_id2, dNow);) 
-		{			
+		try 
+		{
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_INSERT_INTO_CONNECTION, true, user_id1, user_id2, dNow); 	
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -217,6 +276,10 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 			System.err.println("SQLException: Creating user failed.");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		
 		return ret;
 		
@@ -226,58 +289,78 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	
 	@Override
 	public List<User> existingListWithConnectedField(int user_id, List<User> users){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		ResultSet resultSet = null;
+		ResultSet resultSet2 = null;
+		ResultSet resultSet3 = null;
 		byte trueStmt=1;
 		try {
-			Connection connection = factory.getConnection();
+			connection = factory.getConnection();
 			
 			for (User user:users){
 				
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_ARE_USERS_CONNECTED, false,  user_id, user.getId(), user_id, user.getId());
-				ResultSet resultSet = statement.executeQuery();
+				statement = DAOUtil.prepareStatement(connection, SQL_ARE_USERS_CONNECTED, false,  user_id, user.getId(), user_id, user.getId());
+				resultSet = statement.executeQuery();
 				
 				if (resultSet.next() ) {		//found connection
 					user.setIsConnected(trueStmt);
 				}
 				
-				PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_IS_CONNECTION_PENDING, false,  user_id, user.getId(), user_id, user.getId());
-				ResultSet resultSet2 = statement2.executeQuery();
+				statement2 = DAOUtil.prepareStatement(connection, SQL_IS_CONNECTION_PENDING, false,  user_id, user.getId(), user_id, user.getId());
+				resultSet2 = statement2.executeQuery();
 				
 				if (resultSet2.next() ) {		//found connection
 					user.setIsPending(trueStmt);
 				}
 				
-				PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_SENT_CONNECTION_REQUEST, false,   user.getId(), user_id);
-				ResultSet resultSet3 = statement3.executeQuery();
+				statement3 = DAOUtil.prepareStatement(connection, SQL_SENT_CONNECTION_REQUEST, false,   user.getId(), user_id);
+				resultSet3 = statement3.executeQuery();
 				
 				if (resultSet3.next() ) {		//found connection
 					user.setSentConnectionRequest(trueStmt);
 				}
 			}
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 
 	@Override
 	public int countConnections(long user_id) {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size = 0;
 		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_COUNT_CONNECTIONS, false, user_id, user_id);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_COUNT_CONNECTIONS, false, user_id, user_id);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return size;
@@ -300,29 +383,37 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	 
 	@Override
 	public int rejectConnection(int user_id1, int user_id2) {
-		 try (
-            Connection connection = factory.getConnection();
-    		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_CONNECTION_REJECT, false, user_id1, user_id2, user_id1, user_id2);
-        ) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		 try 
+		 {
+            connection = factory.getConnection();
+    	    statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_CONNECTION_REJECT, false, user_id1, user_id2, user_id1, user_id2);
+        
         	statement.executeUpdate();		//approved=1
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+		 finally {
+	            VariousFunctions.closeConnection(connection);
+	            VariousFunctions.closeStmt(statement);
+	     }
 		 return 1;
 	}
 	
 	@Override
 	public List<User> getConnectionRequestsPending(int user_id){
-		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
-        try (
-            Connection connection = factory.getConnection();
+        try 
+        {
+            connection = factory.getConnection();
 
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONNECTIONS_PENDING, false, user_id);
-            ResultSet resultSet = statement.executeQuery();	
-        		
-        ) {
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONNECTIONS_PENDING, false, user_id);
+            resultSet = statement.executeQuery();	
             while (resultSet.next()) {
             	users.add(mapEverything(resultSet));
             }
@@ -330,28 +421,41 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 	
 	@Override
 	public User checkConnected(int userId, int sessionId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
+		PreparedStatement statement3 = null;
+		PreparedStatement statement4 = null;
+		PreparedStatement statement5 = null;
+		ResultSet resultSet = null;
 		User user = null;
-        try (
-            Connection connection = factory.getConnection();
+        try
+        {
+             connection = factory.getConnection();
 
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, sessionId, sessionId);
-        		PreparedStatement statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, sessionId, sessionId);	
-        		PreparedStatement statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, sessionId);	//shows which user sent the request
-        		PreparedStatement statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);)
-		{
+             statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_CONNECTED_FIELD, false, sessionId, sessionId);
+        	 statement2 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_PENDING_FIELD, false, sessionId, sessionId);	
+        	 statement4 = DAOUtil.prepareStatement(connection, SQL_UPDATE_USERS_SENT_CONNECTION_REQUEST_FIELD, false, sessionId);	//shows which user sent the request
+        	 statement5 = connection.prepareStatement(SQL_UPDATE_USERS_DEFAULT_CONNECTED_PENDING_SENT_CONNECTION_REQUEST_FIELD);
+		
 						
 			statement.executeUpdate();		//isConnected=1
 			statement2.executeUpdate();		//isPending=1
 			statement4.executeUpdate();		//sentConnectionRequest=1
 			
-        	PreparedStatement statement3 = DAOUtil.prepareStatement(connection, SQL_CHECK_CONNECTED, false, sessionId, userId, userId, sessionId);
-            ResultSet resultSet = statement3.executeQuery();	
+            statement3 = DAOUtil.prepareStatement(connection, SQL_CHECK_CONNECTED, false, sessionId, userId, userId, sessionId);
+            resultSet = statement3.executeQuery();	
             if (resultSet.next()) {
             	user = mapEverything(resultSet);
             }
@@ -359,6 +463,15 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeStmt(statement5);
+            VariousFunctions.closeStmt(statement2);
+            VariousFunctions.closeStmt(statement3);
+            VariousFunctions.closeStmt(statement4);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return user;

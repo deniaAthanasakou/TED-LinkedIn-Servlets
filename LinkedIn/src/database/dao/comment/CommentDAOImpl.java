@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.dao.user.UserDAO;
@@ -31,18 +32,27 @@ public class CommentDAOImpl implements CommentDAO
 	@Override
 	public List<Comment> list() {		//get all comments
 		List<Comment> comments = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_LIST);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
                 comments.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return comments;
@@ -51,21 +61,27 @@ public class CommentDAOImpl implements CommentDAO
 	@Override
 	public int create(Comment comment, int userId, int postId) 	//create comment
 	{
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
 		int ret = -1;
 		//get values from comment entity
 		Object[] values = {DAOUtil.toSqlTimestamp(comment.getDatePosted()), comment.getText(), postId, userId};
 
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
+		try 
 		{
-						
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+				
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
 				return ret;
 			}
-			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+			try 
+			{
+				generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next()) {
 					comment.setCommentId(generatedKeys.getInt(1));
 					return ret;
@@ -75,23 +91,33 @@ public class CommentDAOImpl implements CommentDAO
 					return -1;
 				}
 			}
+			finally {
+	            VariousFunctions.closeResultSet(generatedKeys);
+	        }
 		} 
 		catch (SQLException e) {
 			System.err.println("SQLException: Creating comment failed, no generated key obtained.");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+       }
 	}
 	
 	@Override			//count how many comments exist
 	public int count() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
 		int size = 0;
-		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_COUNT);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -99,25 +125,39 @@ public class CommentDAOImpl implements CommentDAO
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return size;
 	}
 	
 	@Override
 	public List<Comment> findComments(int id) {			//find comments of post
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Comment> comments = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_COMMENTS, false, id);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_COMMENTS, false, id);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	comments.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return comments;

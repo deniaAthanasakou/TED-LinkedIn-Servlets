@@ -1,6 +1,7 @@
 package JavaFiles;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
@@ -19,6 +20,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import database.entities.Post;
 import database.entities.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class VariousFunctions {
 	
@@ -149,4 +154,46 @@ public class VariousFunctions {
         }
         return sortedMap;
 	}
+	
+	public static void closeConnection(Connection connection) {
+		try {
+            if (connection != null) {
+            	connection.close();
+            }
+        } catch (SQLException error) {
+        	System.err.println(error.getMessage());
+        }
+	}
+	
+	public static void closeStmt(PreparedStatement ps) {
+		try {
+            if (ps != null) {
+            	ps.close();
+            }
+        } catch (SQLException error) {
+        	System.err.println(error.getMessage());
+        }
+	}
+	
+	public static void closeResultSet(ResultSet rs) {
+		try {
+            if (rs != null) {
+            	rs.close();
+            }
+        } catch (SQLException error) {
+        	System.err.println(error.getMessage());
+        }
+	}
+
+	
 }
+
+
+
+
+
+
+
+
+
+

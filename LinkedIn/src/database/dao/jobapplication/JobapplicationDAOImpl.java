@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.dao.job.JobDAO;
@@ -36,13 +37,16 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 
 	@Override
 	public List<Jobapplication> list() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Jobapplication> jobApplications = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_LIST);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	jobApplications.add(map(resultSet));
             }
@@ -50,18 +54,27 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return jobApplications;
 	}
 
 	@Override
 	public int create(int jobId, int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int ret = -1;
 		Object[] values = {userId, jobId, 0};
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
-		{			
+		try 
+		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+				
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -73,18 +86,27 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 			System.err.println("SQLException: Creating jobApplication failed");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
+
 		return ret;
 	}
 
 	@Override
 	public int count() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
 		int size = 0;
 		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try {
+             connection = factory.getConnection();
+             statement = connection.prepareStatement(SQL_COUNT);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -92,19 +114,27 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return size;
 	}
 
 	@Override
 	public List<Jobapplication> findApplications(int jobId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Jobapplication> jobApplications = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_JOB_ID, false, jobId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection, SQL_FIND_BY_JOB_ID, false, jobId);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	jobApplications.add(map(resultSet));
             }
@@ -112,17 +142,25 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return jobApplications;
 	}
 
 	@Override
 	public int updateJobApplication(int jobId, int userId, byte approved) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_APPROVAL, false, approved, jobId, userId);)
+		try {
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_APPROVAL, false, approved, jobId, userId);
 		
-		{
+		
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Updating jobApplication failed, no rows affected.");
@@ -133,19 +171,26 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 			e.printStackTrace();
 			return affectedRows;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		return affectedRows;
 	}
 	
 	@Override
 	public int checkApplied(int jobId, int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size=0;
-        try (
-            Connection connection = factory.getConnection();
-        		PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_CHECK_APPLY, false, jobId, userId);
-        		ResultSet resultSet = statement.executeQuery();
-            ) {
-                while (resultSet.next()) {
-                	size = resultSet.getInt("COUNT(*)");
+        try {
+        	connection = factory.getConnection();
+    		statement = DAOUtil.prepareStatement(connection, SQL_CHECK_APPLY, false, jobId, userId);
+    		resultSet = statement.executeQuery();
+       
+            while (resultSet.next()) {
+            	size = resultSet.getInt("COUNT(*)");
                 }
         	if(size==1) {
         		return 1;
@@ -155,16 +200,22 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return -1;
 	}
 	
 	@Override
 	public int declineApplicant(int jobId, int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_DELETE_APPLICANT, false, jobId, userId);)
-		
-		{
+		try { 
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_DELETE_APPLICANT, false, jobId, userId);
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Deleting from jobApplication failed, no rows affected.");
@@ -175,6 +226,10 @@ public class JobapplicationDAOImpl implements JobapplicationDAO {
 			e.printStackTrace();
 			return affectedRows;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		return affectedRows;
 	}
 	

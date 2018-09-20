@@ -27,7 +27,6 @@ public class ConversationHandler extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("in get conv");
 		if(request.getParameter("action") != null) {
 			if(request.getParameter("action").equals("conversation")) {
 				
@@ -43,7 +42,6 @@ public class ConversationHandler extends HttpServlet {
 				}
 				//display page
 				request.setAttribute("conversation", checkConv);
-				System.out.println("haha");
 				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
 				displayPage.forward(request, response);
 				return;

@@ -33,13 +33,17 @@ public class ConversationDAOImpl implements ConversationDAO{
     }
 	@Override
 	public List<Conversation> list() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Conversation> conversations = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try 
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_LIST);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	conversations.add(map(resultSet));
             }
@@ -47,18 +51,27 @@ public class ConversationDAOImpl implements ConversationDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return conversations;
 	}
 
 	@Override
 	public int create(int sessionId, int clickedId, Date lastDate) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int ret = -1;
 		Object[] values = {sessionId, clickedId, DAOUtil.toSqlTimestamp(lastDate)};
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
-		{			
+		try 
+		{
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+					
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
@@ -70,17 +83,25 @@ public class ConversationDAOImpl implements ConversationDAO{
 			System.err.println("SQLException: Creating conversation failed");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		return ret;
 	}
 
 	@Override
 	public int count() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size = 0;
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try 
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_COUNT);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -88,18 +109,27 @@ public class ConversationDAOImpl implements ConversationDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return size;
 	}
 
 	@Override
 	public Conversation findConversation(int sessionId, int clickedId) {
 		Conversation conversation = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATION, false, sessionId, clickedId, clickedId, sessionId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATION, false, sessionId, clickedId, clickedId, sessionId);
+            resultSet = statement.executeQuery();
+        
             if (resultSet.next()) {
             	conversation = map(resultSet);
             }
@@ -107,18 +137,27 @@ public class ConversationDAOImpl implements ConversationDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return conversation;
 	}
 	
 	@Override
 	public List<Conversation> findAllConversations(int userId) {
 		List<Conversation> conversations = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATIONS, false, userId,userId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATIONS, false, userId,userId);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	conversations.add(mapAll(resultSet));
             }
@@ -126,16 +165,23 @@ public class ConversationDAOImpl implements ConversationDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return conversations;
 	}
 
 	@Override
 	public int updateLastDate(Date date, int userId1, int userId2) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_CONVERSATION, false, DAOUtil.toSqlTimestamp(date), userId1, userId2, userId2, userId1);)
-		
+		try 
 		{
+			connection = factory.getConnection();
+		    statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_CONVERSATION, false, DAOUtil.toSqlTimestamp(date), userId1, userId2, userId2, userId1);
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Updating conversation failed, no rows affected.");
@@ -147,6 +193,10 @@ public class ConversationDAOImpl implements ConversationDAO{
 			e.printStackTrace();
 			return affectedRows;
 		}
+		 finally {
+	            VariousFunctions.closeConnection(connection);
+	            VariousFunctions.closeStmt(statement);
+		 }	
 		
 		return affectedRows;
 	}

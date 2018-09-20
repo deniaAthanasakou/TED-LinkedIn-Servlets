@@ -31,7 +31,6 @@ public class MessageHandler extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//get to conversations
-		System.out.println("get message handler");
 		if(request.getParameter("action") != null) {
 			List<Conversation> conversations = connDAO.findAllConversations(Integer.valueOf((String) request.getSession().getAttribute("id")));
 			request.setAttribute("conversations", conversations);

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.entities.Job;
@@ -31,19 +32,28 @@ public class JobDAOImpl implements JobDAO{
 
 	@Override
 	public List<Job> list() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Job> jobs = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_LIST);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	jobs.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return jobs;
@@ -52,20 +62,29 @@ public class JobDAOImpl implements JobDAO{
 	@Override
 	public int create(Job job, int id) 
 	{
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
 		int ret = -1;
 		//get values from post entity
 		Object[] values = {job.getTitle(), job.getCompany(), job.getLocation(), job.getJobFunction(), job.getJobType(), job.getJobCompanyType(), job.getExperience(), job.getDescription(), job.getSkills(), job.getExperienceFrom(), job.getExperienceTo(), job.getEducationLevel(), job.getDailySalary(), DAOUtil.toSqlTimestamp(job.getDatePosted()), id};
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
-		{			
+		try 
+		{
+			 connection = factory.getConnection();
+	
+			 statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+				
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
 				System.err.println("Creating post failed, no rows affected.");
 				return ret;
 			}
-			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+			try 
+			{
+				generatedKeys = statement.getGeneratedKeys();
+			
 				if (generatedKeys.next()) {
 					JobPK jobPk = new JobPK();
 					jobPk.setJobId(generatedKeys.getInt(1));
@@ -77,23 +96,33 @@ public class JobDAOImpl implements JobDAO{
 					return -1;
 				}
 			}
+			finally {
+	            VariousFunctions.closeResultSet(generatedKeys);
+	        }
 		} 
 		catch (SQLException e) {
 			System.err.println("SQLException: Creating job failed, no generated key obtained.");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 	}
 	
 	@Override
 	public int count() {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size = 0;
 		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_COUNT);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -101,36 +130,54 @@ public class JobDAOImpl implements JobDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return size;
 	}
 	
 	@Override
 	public Job findJob(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		Job job = null;
 		
-		try (
-			Connection connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID, false, id);
-	        ResultSet resultSet = statement.executeQuery();)
+		try
 		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID, false, id);
+	         resultSet = statement.executeQuery();
+		
 	        if (resultSet.next()) 
 	            job = map(resultSet);
 		} 
 		catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
      
         return job;
 	}
 	
 	@Override
 	public int updateJob(Job job, int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE, false,  job.getTitle(), job.getCompany(), job.getLocation(), job.getJobFunction(), job.getJobType(), job.getJobCompanyType(), job.getExperience(), job.getDescription(), job.getSkills(), job.getExperienceFrom(), job.getExperienceTo(), job.getEducationLevel(), job.getDailySalary(), DAOUtil.toSqlTimestamp(job.getDatePosted()), id);)
-		
+		try
 		{
+			connection = factory.getConnection();
+		    statement = DAOUtil.prepareStatement(connection, SQL_UPDATE, false,  job.getTitle(), job.getCompany(), job.getLocation(), job.getJobFunction(), job.getJobType(), job.getJobCompanyType(), job.getExperience(), job.getDescription(), job.getSkills(), job.getExperienceFrom(), job.getExperienceTo(), job.getEducationLevel(), job.getDailySalary(), DAOUtil.toSqlTimestamp(job.getDatePosted()), id);
+
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Updating job failed, no rows affected.");
@@ -141,18 +188,28 @@ public class JobDAOImpl implements JobDAO{
 			e.printStackTrace();
 			return affectedRows;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+     
 		return affectedRows;
 	}
 	
 	@Override
 	public List<Job> getSessionJobs(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Job> jobs = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_USER_ID,false,userId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_USER_ID,false,userId);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	jobs.add(map(resultSet));
             }
@@ -160,26 +217,40 @@ public class JobDAOImpl implements JobDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return jobs;
 	}
 
 	@Override
 	public List<Job> getConnectionsJobs(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Job> jobs = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_JOBS_CONN,false,userId,userId);
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection,SQL_FIND_JOBS_CONN,false,userId,userId);
         	
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	jobs.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return jobs;

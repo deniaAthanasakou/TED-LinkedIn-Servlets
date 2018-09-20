@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import JavaFiles.VariousFunctions;
 import database.dao.ConnectionFactory;
 import database.dao.DAOUtil;
 import database.entities.User;
@@ -40,38 +41,56 @@ public class UserDAOImpl implements UserDAO
 
 	@Override
 	public User find(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		User user = null;
 		
-		try (
-			Connection connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID, false, id);
-	        ResultSet resultSet = statement.executeQuery();)
+		try
 		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID, false, id);
+	         resultSet = statement.executeQuery();
+		
 	        if (resultSet.next()) 
 	            user = map(resultSet);
 		} 
 		catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
      
         return user;
 	}
 
 	@Override
 	public List<User> list() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST_ORDER_BY_ID);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+             connection = factory.getConnection();
+             statement = connection.prepareStatement(SQL_LIST_ORDER_BY_ID);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
                 users.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return users;
@@ -80,15 +99,20 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public int create(User user) 
 	{
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
 		int ret = -1;
 		//get values from user entity
 		Object[] values = { user.getIsAdmin(), user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(),
 				DAOUtil.toSqlDate(user.getDateOfBirth()), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry(), user.getWorkPos(), user.getInstitution(), user.getPrivateWorkPos(), user.getPrivateInstitution()  };
 		
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
+		try
 		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+
 						
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
@@ -96,7 +120,9 @@ public class UserDAOImpl implements UserDAO
 				System.err.println("Creating user failed, no rows affected.");
 				return ret;
 			}
-			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+			try
+			{
+				generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next()) {
 					user.setId(generatedKeys.getInt(1));
 					return ret;
@@ -106,24 +132,34 @@ public class UserDAOImpl implements UserDAO
 					return -1;
 				}
 			}
+			finally {
+	            VariousFunctions.closeResultSet(generatedKeys);
+	        }
 		} 
 		catch (SQLException e) {
 			System.err.println("SQLException: Creating user failed, no generated key obtained.");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 	}
 	
 	
 	@Override
 	public int count() {
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size = 0;
 		
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+             connection = factory.getConnection();
+             statement = connection.prepareStatement(SQL_COUNT);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -131,6 +167,12 @@ public class UserDAOImpl implements UserDAO
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
 
         return size;
 	}
@@ -140,20 +182,28 @@ public class UserDAOImpl implements UserDAO
 	
 	@Override
 	public User matchUserLogin(String email,String password) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		User user = null;
 		
-		try (
-			Connection connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_EMAIL_PASSWORD, false, email,password);
-	        ResultSet resultSet = statement.executeQuery();)
+		try
 		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_EMAIL_PASSWORD, false, email,password);
+	         resultSet = statement.executeQuery();
+		
 	        if (resultSet.next()) 
 	            user = map(resultSet);
 		} 
 		catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
-     
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return user;
 	}
 	
@@ -161,22 +211,31 @@ public class UserDAOImpl implements UserDAO
 	
 	@Override
 	public int updateSettings(int user_id, String email, String password) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_EMAIL_PASSWORD, false, email, password, user_id);)
-		
+		try
 		{
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_EMAIL_PASSWORD, false, email, password, user_id);
+		
+		
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Updating user failed, no rows affected.");
 				return affectedRows;
 			}
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			System.err.println("SQLException: Updating user failed.");
 			e.printStackTrace();
 			return affectedRows;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		
 		return affectedRows;
  		
@@ -184,30 +243,43 @@ public class UserDAOImpl implements UserDAO
 	
 	@Override
 	public User getUserProfile(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		User user = null;
 		
-		try (
-			Connection connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID_PROFILE, false, id);
-	        ResultSet resultSet = statement.executeQuery();)
+		try
 		{
+			 connection = factory.getConnection();
+			 statement = DAOUtil.prepareStatement(connection,SQL_FIND_BY_ID_PROFILE, false, id);
+	         resultSet = statement.executeQuery();
+		
 	        if (resultSet.next()) 
 	            user = mapEverything(resultSet);
 		} 
 		catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
      
         return user;
 	}
 	
 	@Override
 	public int updateUser(User user, int user_id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		int affectedRows=0;
-		try (Connection	connection = factory.getConnection();
-			PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USER, false,  user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(), user.getDateOfBirth(), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry(), user.getWorkPos(), user.getInstitution(), user.getPrivateWorkPos(), user.getPrivateInstitution(), user_id);)
-		
+		try 
 		{
+			connection = factory.getConnection();
+			statement = DAOUtil.prepareStatement(connection, SQL_UPDATE_USER, false,  user.getName(), user.getSurname(), user.getTel(), user.getPhotoURL(), user.getDateOfBirth(), user.getGender(), user.getCity(), user.getCountry(), user.getHasImage(), user.getProfExp(), user.getEducation(), user.getSkills(), user.getPrivateTelephone(), user.getPrivateEmail(), user.getPrivateGender(), user.getPrivateDateOfBirth(), user.getPrivateProfExp(), user.getPrivateSkills(), user.getPrivateEducation(), user.getPrivateCity(), user.getPrivateCountry(), user.getWorkPos(), user.getInstitution(), user.getPrivateWorkPos(), user.getPrivateInstitution(), user_id);
+		
+		
 	 		affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
 				System.err.println("Updating user failed, no rows affected.");
@@ -219,12 +291,20 @@ public class UserDAOImpl implements UserDAO
 			e.printStackTrace();
 			return affectedRows;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 		
 		return affectedRows;
 	}
 	
 	@Override
 	public List<User> getSelectedUsers(String[] ids){		//gets selected users from admin page in order to generate xml
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
 		//build statement
 		StringBuilder builder = new StringBuilder();
 
@@ -236,11 +316,12 @@ public class UserDAOImpl implements UserDAO
 		
 		List<User> users = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, stmt, false, ids);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection, stmt, false, ids);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
                 users.add(map(resultSet));
             }
@@ -248,12 +329,20 @@ public class UserDAOImpl implements UserDAO
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 	
 	@Override
 	public List<User> getLikesAndComments(int user_id){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
 		
 		//date 3 months ago
@@ -262,11 +351,12 @@ public class UserDAOImpl implements UserDAO
 	
 		Date olderDate = cal.getTime();
 				
-        try (
-            Connection connection = factory.getConnection();
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES_AND_COMMENTS, false, user_id,olderDate, user_id, olderDate);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+             connection = factory.getConnection();
+        	 statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES_AND_COMMENTS, false, user_id,olderDate, user_id, olderDate);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
                 users.add(mapForNotifications(resultSet));
             }
@@ -274,19 +364,28 @@ public class UserDAOImpl implements UserDAO
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return users;
 	}
 	
 	@Override
 	public List<User> getJobApplicants(int jobId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<User> users = new ArrayList<>();
 		
-		 try (
-            Connection connection = factory.getConnection();
-        	PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_APPLICANTS, false, jobId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+		 try
+		 {
+             connection = factory.getConnection();
+        	 statement = DAOUtil.prepareStatement(connection,SQL_GET_APPLICANTS, false, jobId);
+             resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
                 users.add(mapForApplicant(resultSet));
             }
@@ -294,25 +393,38 @@ public class UserDAOImpl implements UserDAO
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+		 finally {
+	            VariousFunctions.closeConnection(connection);
+	            VariousFunctions.closeStmt(statement);
+	            VariousFunctions.closeResultSet(resultSet);
+	     }
 
         return users;
 	}
 	
 	@Override
 	public String getUserSkills(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		String str = null;
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection,SQL_GET_SKILLS,false, userId);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection,SQL_GET_SKILLS,false, userId);
+             resultSet = statement.executeQuery();
+        
             if (resultSet.next()) {
                 str = resultSet.getString("skills");
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
 
         return str;

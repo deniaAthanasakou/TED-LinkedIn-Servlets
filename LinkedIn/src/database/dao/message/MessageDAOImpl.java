@@ -31,13 +31,17 @@ public class MessageDAOImpl implements MessageDAO{
 
 	@Override
 	public List<Message> list() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		List<Message> messages = new ArrayList<>();
 
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_LIST);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	messages.add(map(resultSet));
             }
@@ -45,25 +49,38 @@ public class MessageDAOImpl implements MessageDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
 
         return messages;
 	}
 
 	@Override
 	public int create(Message message) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
 		int ret = -1;
 		Object[] values = { message.getText(), DAOUtil.toSqlTimestamp(message.getDate()), message.getConversation().getId().getUserId1(), message.getConversation().getId().getUserId2(), message.getSender()};
 		//connect to DB
-		try (Connection connection = factory.getConnection();
-				PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);) 
-		{			
+		try 
+		{
+			connection = factory.getConnection();
+		     statement = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
+					
 			int affectedRows = statement.executeUpdate();
 			ret = affectedRows;
 			if (ret == 0) {
 				System.err.println("Creating message failed, no rows affected.");
 				return ret;
 			}
-			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+			try 
+			{
+				generatedKeys = statement.getGeneratedKeys();
+			
 				if (generatedKeys.next()) {
 					message.setMessageId(generatedKeys.getInt(1));
 					return ret;
@@ -73,21 +90,32 @@ public class MessageDAOImpl implements MessageDAO{
 					return -1;
 				}
 			}
+			finally {
+	            VariousFunctions.closeResultSet(generatedKeys);
+	        }
 		} 
 		catch (SQLException e) {
 			System.err.println("SQLException: Creating message failed, no generated key obtained.");
 			return ret;
 		}
+		finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+        }
 	}
 
 	@Override
 	public int count() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		int size = 0;
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+        try
+        {
+            connection = factory.getConnection();
+            statement = connection.prepareStatement(SQL_COUNT);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	size = resultSet.getInt("COUNT(*)");
             }
@@ -95,24 +123,38 @@ public class MessageDAOImpl implements MessageDAO{
         catch (SQLException e) {
         	System.err.println(e.getMessage());
         }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
         return size;
 	}
 
 	@Override
 	public List<Message> findMessages(int userId1, int userId2){
 		List<Message> messages = new ArrayList<>();
-
-        try (
-            Connection connection = factory.getConnection();
-            PreparedStatement statement = DAOUtil.prepareStatement(connection, SQL_FIND_MESSAGES, false, userId1, userId2, userId1, userId2,userId2, userId1, userId2, userId1);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+        try {
+        	
+        
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_MESSAGES, false, userId1, userId2, userId1, userId2,userId2, userId1, userId2, userId1);
+            resultSet = statement.executeQuery();
+        
             while (resultSet.next()) {
             	messages.add(map(resultSet));
             }
         } 
         catch (SQLException e) {
         	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
         }
         return messages;
 	}
