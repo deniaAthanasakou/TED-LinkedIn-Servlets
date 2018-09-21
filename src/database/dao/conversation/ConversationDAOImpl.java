@@ -23,7 +23,7 @@ public class ConversationDAOImpl implements ConversationDAO{
 	private static final String SQL_INSERT = "INSERT INTO Conversation (user_id1, user_id2, lastDate) VALUES  (?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Conversation";
 	private static final String SQL_FIND_CONVERSATION = "SELECT user_id1, user_id2, lastDate FROM Conversation WHERE (user_id1 = ? AND user_id2 = ?) OR (user_id1 = ? AND user_id2 = ?)";
-	private static final String SQL_FIND_CONVERSATIONS = "SELECT DISTINCT id,name,surname,photoURL,Conversation.user_id1,Conversation.user_id2,lastDate FROM Conversation,User,Message WHERE ((Conversation.user_id1 = ? AND Conversation.user_id2 = user.id) OR (Conversation.user_id2 = ? AND Conversation.user_id1 = user.id)) ORDER BY lastDate DESC";	
+	private static final String SQL_FIND_CONVERSATIONS = "SELECT DISTINCT id,name,surname,photoURL,Conversation.user_id1,Conversation.user_id2,lastDate FROM Conversation,User WHERE ((Conversation.user_id1 = ? AND Conversation.user_id2 = user.id) OR (Conversation.user_id2 = ? AND Conversation.user_id1 = user.id)) ORDER BY lastDate DESC";	
 	private static final String SQL_UPDATE_CONVERSATION = "UPDATE Conversation SET lastDate = ? WHERE (user_id1 = ? AND user_id2 = ?) OR (user_id1 = ? AND user_id2 = ?)";
 	private ConnectionFactory factory;
     
@@ -157,7 +157,6 @@ public class ConversationDAOImpl implements ConversationDAO{
             connection = factory.getConnection();
             statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONVERSATIONS, false, userId,userId);
             resultSet = statement.executeQuery();
-        
             while (resultSet.next()) {
             	conversations.add(mapAll(resultSet));
             }

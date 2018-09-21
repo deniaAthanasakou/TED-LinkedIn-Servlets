@@ -48,7 +48,6 @@ public class MessageHandler extends HttpServlet {
 					user2 = null;
 				}
 				if(user1 != null && user2!= null) {
-					
 					//get specific conversation
 					int userId1 = Integer.valueOf((String)request.getParameter("user1"));
 					int userId2 = Integer.valueOf((String)request.getParameter("user2"));
