@@ -1,0 +1,49 @@
+.notifications {
+    background-color: gray; /* Add an active/current color for nav bar */
+}
+
+
+.container{
+	padding: 30px;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding-bottom: 50px;
+    margin-top: 50px;
+   	margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 100px;
+    height:auto;
+}
+
+
+.friendRequests {
+	height:40vh;
+	overflow-y: auto;
+	border-radius: 5px;
+	border: 1px solid #B6AFAF;
+}
+
+.likesComments{
+	 height:40vh;
+	 margin-bottom:20px;
+	 border-radius: 5px;
+	 border: 1px solid 	#B6AFAF;
+	 overflow-y: auto;
+	 overflow-x: hidden;
+}
+
+
+
+.requestTable{
+	height:100%;
+	width:100%;
+	margin: 0px auto;
+    float: none;
+    border: 1px solid #cecece;
+    
+    
+}
+
+.notificationInfo{	
+	color: 	#585858;
+	font-size: 16px;
+}

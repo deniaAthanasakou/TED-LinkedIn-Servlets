@@ -1,0 +1,29 @@
+.icon-bar {
+    float: right;
+    height: 50px;
+    display: flex;
+}
+
+.icon-bar div {
+    padding: 10px 5px 5px 5px;
+    transition: all 0.3s ease; /* Add transition for hover effects */
+    color: white;
+    font-size: 11px;
+}
+
+.icon-bar div:hover {
+    background-color: #000;
+    color: gray;
+}
+
+div.item {
+    display: inline-block;
+    text-align: center;
+    width: 90px;
+    cursor:pointer;
+}
+
+.caption {
+    display: block;
+    text-align: center;
+}
