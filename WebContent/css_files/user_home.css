@@ -180,3 +180,24 @@ textarea:-ms-input-placeholder {
 	font-size: 12px;
 	color: gray;
 }
+
+#uploadedFiles{
+	font-size: 10px;
+	color: #ccc;
+	list-style-type: none;
+	margin: 0 !important;
+	padding: 0;
+}
+
+#uploadedFiles li{
+	width: 100%;
+	border: 1px solid #ccc;
+	background-color: black;
+	padding: 5px;
+}
+
+#uploadedFiles li:hover{
+	cursor:pointer;
+	background-color: white;
+	color: black;
+}

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.Comment;
 
 public class CommentDAOImpl implements CommentDAO 
@@ -170,6 +170,8 @@ public class CommentDAOImpl implements CommentDAO
         comment.setText(resultSet.getString("text"));
         UserDAO userDao = new UserDAOImpl(true);
         comment.setUser(userDao.find(resultSet.getInt("user_id")));
+        //local variables
+        comment.setDateInterval(VariousFunctions.getDateInterval(comment.getDatePosted()));
 	    return comment;
 	}
 }

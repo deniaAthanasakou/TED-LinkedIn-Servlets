@@ -2,19 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
--- -----------------------------------------------------
--- Schema ted
--- -----------------------------------------------------
+/*schema ted*/
 
--- -----------------------------------------------------
--- Schema ted
--- -----------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `ted` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `ted` DEFAULT CHARACTER SET utf8 ;
 USE `ted` ;
 
--- -----------------------------------------------------
--- Table `ted`.`user`
--- -----------------------------------------------------
+/*table ted.user*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`user` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `isAdmin` INT(11) NOT NULL,
@@ -51,14 +45,11 @@ CREATE TABLE IF NOT EXISTS `ted`.`user` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `iduser_UNIQUE` (`id` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `ted`.`connection`
--- -----------------------------------------------------
+/*table ted.connection*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`connection` (
   `user_id` INT(11) NOT NULL,
   `connectedUser_id` INT(11) NOT NULL,
@@ -77,13 +68,11 @@ CREATE TABLE IF NOT EXISTS `ted`.`connection` (
     REFERENCES `ted`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `ted`.`post`
--- -----------------------------------------------------
+/*table ted.post*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`post` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `text` VARCHAR(5000) NULL DEFAULT NULL,
@@ -92,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `ted`.`post` (
   `hasAudio` TINYINT(4) NOT NULL,
   `hasImages` TINYINT(4) NOT NULL,
   `hasVideos` TINYINT(4) NOT NULL,
-  `likes` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_post_user_idx` (`user_id` ASC),
@@ -101,13 +89,11 @@ CREATE TABLE IF NOT EXISTS `ted`.`post` (
     REFERENCES `ted`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `ted`.`comment`
--- -----------------------------------------------------
+/*table ted.comment*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`comment` (
   `comment_id` INT NOT NULL AUTO_INCREMENT,
   `date_posted` DATETIME NOT NULL,
@@ -126,13 +112,10 @@ CREATE TABLE IF NOT EXISTS `ted`.`comment` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ted`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
+/*table ted.like*/
 
--- -----------------------------------------------------
--- Table `ted`.`like`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted`.`like` (
   `user_id` INT(11) NOT NULL,
   `post_id` INT(11) NOT NULL,
@@ -150,13 +133,11 @@ CREATE TABLE IF NOT EXISTS `ted`.`like` (
     REFERENCES `ted`.`post` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `ted`.`job`
--- -----------------------------------------------------
+/*table ted.job*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`job` (
   `job_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(60) NOT NULL,
@@ -180,13 +161,10 @@ CREATE TABLE IF NOT EXISTS `ted`.`job` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ted`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
+/*table ted.jobApplication*/
 
--- -----------------------------------------------------
--- Table `ted`.`jobApplication`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted`.`jobApplication` (
   `user_id` INT(11) NOT NULL,
   `job_id` INT NOT NULL,
@@ -204,13 +182,11 @@ CREATE TABLE IF NOT EXISTS `ted`.`jobApplication` (
     REFERENCES `ted`.`job` (`job_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `ted`.`conversation`
--- -----------------------------------------------------
+/*table ted.conversation*/
+
 CREATE TABLE IF NOT EXISTS `ted`.`conversation` (
   `user_id1` INT(11) NOT NULL,
   `user_id2` INT(11) NOT NULL,
@@ -226,13 +202,10 @@ CREATE TABLE IF NOT EXISTS `ted`.`conversation` (
     FOREIGN KEY (`user_id2`)
     REFERENCES `ted`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
+/*table ted.message*/
 
--- -----------------------------------------------------
--- Table `ted`.`message`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted`.`message` (
   `message_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATETIME NOT NULL,
@@ -246,9 +219,7 @@ CREATE TABLE IF NOT EXISTS `ted`.`message` (
     FOREIGN KEY (`user_id1` , `user_id2`)
     REFERENCES `ted`.`conversation` (`user_id1` , `user_id2`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+    ON UPDATE NO ACTION);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

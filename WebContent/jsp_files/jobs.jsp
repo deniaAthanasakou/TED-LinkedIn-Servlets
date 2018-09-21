@@ -42,7 +42,7 @@
 									<div onclick="document.getElementById('mine${job.id.jobId}').submit();">
 										<img src="${pageContext.request.contextPath}/images/company-name.png">
 										<h3><c:out value="${job.title}"/></h3>
-										<h4><c:out value="${job.copmpany}"/></h4>
+										<h4><c:out value="${job.company}"/></h4>
 										<h5><c:out value="${job.location}"/></h5>
 										<p>${job.dateInterval}</p>
 									</div>
@@ -64,7 +64,7 @@
 								<div onclick="document.getElementById('conn${job.id.jobId}').submit();">
 									<img src="${pageContext.request.contextPath}/images/company-name.png">
 									<h3><c:out value="${job.title}"/></h3>
-									<h4><c:out value="${job.copmpany}"/></h4>
+									<h4><c:out value="${job.company}"/></h4>
 									<h5><c:out value="${job.location}"/></h5>
 									<p>${job.dateInterval}</p>
 								</div>
@@ -86,7 +86,7 @@
 									<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
 										<img src="${pageContext.request.contextPath}/images/company-name.png">
 										<h3><c:out value="${job.title}"/></h3>
-										<h4><c:out value="${job.copmpany}"/></h4>
+										<h4><c:out value="${job.company}"/></h4>
 										<h5><c:out value="${job.location}"/></h5>
 										<p>${job.dateInterval}</p>
 									</div>
@@ -108,7 +108,7 @@
 								<div onclick="document.getElementById('data${job.id.jobId}').submit();">
 									<img src="${pageContext.request.contextPath}/images/company-name.png">
 									<h3><c:out value="${job.title}"/></h3>
-									<h4><c:out value="${job.copmpany}"/></h4>
+									<h4><c:out value="${job.company}"/></h4>
 									<h5><c:out value="${job.location}"/></h5>
 									<p>${job.dateInterval}</p>
 								</div>

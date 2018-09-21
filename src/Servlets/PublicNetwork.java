@@ -14,9 +14,6 @@ import database.dao.connection.ConnectionDAO;
 import database.dao.connection.ConnectionDAOImpl;
 import database.entities.User;
 
-/**
- * Servlet implementation class PublicNetwork
- */
 @WebServlet("/PublicNetwork")
 public class PublicNetwork extends HttpServlet {
 	private static final long serialVersionUID = 1L;

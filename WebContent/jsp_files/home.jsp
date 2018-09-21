@@ -13,6 +13,7 @@
 		
 		<title>Home</title>
 		
+	
 	</head>
 	<body>
 		<c:if test="${requestScope.redirectPosts == null}">
@@ -42,7 +43,7 @@
 				</div>
 				<div class="loader" id="loader"></div>
 				<div class="form_post" id="form_post">
-					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle" accept-charset="UTF-8" enctype="multipart/form-data" onsubmit="return enableLoading()">
+					<form role="Form" method="POST" action="${pageContext.request.contextPath}/PostHandle" accept-charset="UTF-8" enctype="multipart/form-data" onsubmit="return enableLoading()" onreset="removeUploadList('all');">
 						<c:if test="${requestScope.postError != null}">
 							<div class="alert alert-danger">
 								${requestScope.postError}
@@ -56,29 +57,30 @@
 							<div style="height:0px;width:0px;overflow:hidden;">
 								<input type="file" id="inputImages" accept="image/png,image/jpg,image/jpeg" name ="imagesUpload" multiple/>
 							</div>
-					        <button type="button" class="btn btn-secondary" onclick="chooseImagesInput()"><i class="glyphicon glyphicon-camera"></i> Images</button>            
+					        <button type="button" id="uploadImagesButton" class="btn btn-secondary" onclick="chooseImagesInput()"><i class="glyphicon glyphicon-camera"></i> Images</button>            
 				        </div>
 				        <div style="display:inline-block;">
 					        <div style="height:0px;width:0px;overflow:hidden">
 								<input type="file" id="inputVideo" accept="video/mp4" name ="videoUpload" multiple/>
 							</div>           
-					        <button type="button" class="btn btn-secondary" onclick="chooseVideoInput()"><i class="glyphicon glyphicon-facetime-video"></i> Video</button>
+					        <button type="button" id="uploadVideosButton" class="btn btn-secondary" onclick="chooseVideoInput()"><i class="glyphicon glyphicon-facetime-video"></i> Video</button>
 						</div>
 						<div style="display:inline-block;">
 						  	<div style="height:0px;width:0px;overflow:hidden">
 								<input type="file" id="inputAudio" accept="audio/mp3" name ="audioUpload" multiple/>
 							</div> 
-						  	<button type="button" class="btn btn-secondary" onclick="chooseAudioInput()"><i class="glyphicon glyphicon-music"></i> Audio</button>
+						  	<button type="button" id="uploadAudiosButton" class="btn btn-secondary" onclick="chooseAudioInput()"><i class="glyphicon glyphicon-music"></i> Audio</button>
 					  	</div>
 					  	<button class="btn btn-danger" type="reset"><i class="glyphicon glyphicon-remove"></i> Reset</button>
 					  	<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-ok"></i> Post</button>
 					</form>
 				</div>
 				<p id="info_text">Image format: .png, .jpg, .jpeg. Video format: .mp4. Audio format: .mp3.
+				<ol id="uploadedFiles" class="list-group"></ol>
 			</div>
 			
 			<div class="posts">
-				<c:forEach items="${posts}" var="post"> 
+				<c:forEach items="${posts}" var="post">
 					<c:set var="post" value="${post}" scope="request"/>
 					<c:import url="PostItem.jsp"/>
 				</c:forEach>
@@ -86,6 +88,7 @@
 		</div>
 		
 		<jsp:include page="Footer.jsp"/>
-	
+
+		<script src="${pageContext.request.contextPath}/js_files/displayUploadedFiles.js"></script>
 	</body>
 </html>

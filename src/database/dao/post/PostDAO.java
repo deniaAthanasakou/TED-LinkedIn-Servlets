@@ -14,14 +14,6 @@ public interface PostDAO {
     
     public List<Post> findPosts(int id);
     
-    public void insertLike(int userId, int postId);
-    
-    public void deleteLike(int userId, int postId);
-    
-    public int checkLiked(int userId, int postId);
-    
-    public int countLikes(int postId);
-    
     public Post getPost (int id);
     
 }

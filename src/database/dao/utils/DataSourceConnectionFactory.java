@@ -1,14 +1,14 @@
-package database.dao;
+package database.dao.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-public class DataSourceConnectionFactoryDB extends ConnectionFactoryCreateDB {
+public class DataSourceConnectionFactory extends ConnectionFactory {
 
 	private DataSource dataSource;
 
-	DataSourceConnectionFactoryDB(DataSource dataSource) {
+    DataSourceConnectionFactory(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

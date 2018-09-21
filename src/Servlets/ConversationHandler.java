@@ -13,9 +13,6 @@ import database.dao.conversation.ConversationDAO;
 import database.dao.conversation.ConversationDAOImpl;
 import database.entities.Conversation;
 
-/**
- * Servlet implementation class Conversation
- */
 @WebServlet("/ConversationHandler")
 public class ConversationHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,7 +26,6 @@ public class ConversationHandler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("action") != null) {
 			if(request.getParameter("action").equals("conversation")) {
-				
 				//get conversation if exists, else create
 				int idClicked = Integer.valueOf((String) request.getParameter("id"));
 				int sessionId = Integer.valueOf((String) request.getSession().getAttribute("id"));

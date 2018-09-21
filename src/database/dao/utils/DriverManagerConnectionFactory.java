@@ -1,16 +1,16 @@
-package database.dao;
+package database.dao.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DriverManagerConnectionFactoryDB extends ConnectionFactoryCreateDB {
+public class DriverManagerConnectionFactory extends ConnectionFactory {
 
 	private String url;
     private String username;
     private String password;
     
-	public DriverManagerConnectionFactoryDB(String url, String username, String password) {
+	public DriverManagerConnectionFactory(String url, String username, String password) {
 		this.url = url;
 		this.password = password;
 		this.username = username;

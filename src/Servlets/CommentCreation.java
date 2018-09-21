@@ -12,9 +12,6 @@ import database.dao.comment.CommentDAO;
 import database.dao.comment.CommentDAOImpl;
 import database.entities.Comment;
 
-/**
- * Servlet implementation class CommentCreation
- */
 @WebServlet("/CommentCreation")
 public class CommentCreation extends HttpServlet {
 	private static final long serialVersionUID = 1L;

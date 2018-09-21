@@ -15,9 +15,6 @@ import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
 
-/**
- * Servlet implementation class PrivateProfile
- */
 @WebServlet("/PrivateProfile")
 public class PrivateProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;

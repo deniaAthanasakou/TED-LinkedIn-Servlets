@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
 import database.dao.job.JobDAO;
 import database.dao.job.JobDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.Jobapplication;
 import database.entities.JobapplicationPK;
 

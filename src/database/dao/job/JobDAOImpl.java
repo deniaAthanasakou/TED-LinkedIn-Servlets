@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.Job;
 import database.entities.JobPK;
 
@@ -276,6 +276,12 @@ public class JobDAOImpl implements JobDAO{
 		job.setEducationLevel(resultSet.getString("education_level"));
 		job.setDailySalary(resultSet.getDouble("daily_salary"));
 		job.setDatePosted(new java.util.Date(resultSet.getTimestamp("date_posted").getTime()));
+		//local fields
+		job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
+		job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
+		job.setEducationLevelStr(VariousFunctions.arrayStrToStr(job.getEducationLevel()));
+		job.setCompanyTypeStr(VariousFunctions.arrayStrToStr(job.getJobCompanyType()));
+		job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
 	    return job;
 	}
 }

@@ -5,21 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import JavaFiles.AESCrypt;
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
+import database.dao.comment.CommentDAO;
+import database.dao.comment.CommentDAOImpl;
+import database.dao.like.LikeDAO;
+import database.dao.like.LikeDAOImpl;
 import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.Post;
 
 public class PostDAOImpl implements PostDAO 
 {
 	//prepared Statements
-	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id FROM Post";
-	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, likes, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_LIST = "SELECT id, text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id FROM Post";
+	private static final String SQL_INSERT = "INSERT INTO Post (text, date_posted, path_files, hasAudio, hasImages, hasVideos, user_id) VALUES  (?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Post";
 	private static final String SQL_FIND_POSTS = "SELECT* FROM(\r\n" + 
 			"	SELECT * FROM post WHERE post.user_id IN(\r\n" + 
@@ -47,10 +51,6 @@ public class PostDAOImpl implements PostDAO
 			"	)\r\n" + 
 			") posts ORDER BY posts.date_posted DESC";
 
-	private static final String SQL_INSERT_LIKE = "INSERT INTO ted.like (user_id,post_id, date_liked) VALUES (?,?, ?)";
-	private static final String SQL_DELETE_LIKE = "DELETE FROM ted.like WHERE user_id = ? AND post_id = ?";
-	private static final String SQL_CHECK_LIKE = "SELECT COUNT(*) FROM ted.like WHERE user_id = ? AND post_id = ?";
-	private static final String SQL_COUNT_LIKES = "SELECT COUNT(*) FROM ted.like WHERE post_id = ?";	
 	private static final String GET_POST = "SELECT * FROM Post WHERE id = ?";
 
     
@@ -97,7 +97,7 @@ public class PostDAOImpl implements PostDAO
 		ResultSet generatedKeys = null;
 		int ret = -1;
 		//get values from post entity
-		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getLikes(), post.getUser().getId()};
+		Object[] values = { post.getText(), DAOUtil.toSqlTimestamp(post.getDatePosted()), post.getPathFiles(), post.getHasAudio(), post.getHasImages(), post.getHasVideos(), post.getUser().getId()};
 
 		//connect to DB
 		try 
@@ -195,113 +195,6 @@ public class PostDAOImpl implements PostDAO
 	}
 	
 	@Override
-	public void insertLike(int userId, int postId) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		
-		//get current time
-		Date dNow = new Date();
-        try {
-             connection = factory.getConnection();
-        	 statement = DAOUtil.prepareStatement(connection, SQL_INSERT_LIKE, false, userId, postId, dNow);
-        
-        	int rowsChanged = statement.executeUpdate();
-        	if(rowsChanged==0) {
-        		System.err.println("Error in liking a post.");
-        	}
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-        finally {
-            VariousFunctions.closeConnection(connection);
-            VariousFunctions.closeStmt(statement);
-            VariousFunctions.closeResultSet(resultSet);
-        }
-	}
-	
-	@Override
-	public void deleteLike(int userId, int postId) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-        try {
-             connection = factory.getConnection();
-        	 statement = DAOUtil.prepareStatement(connection, SQL_DELETE_LIKE, false, userId, postId);
-        
-        	int rowsChanged = statement.executeUpdate();
-        	if(rowsChanged==0) {
-        		System.err.println("Error in deleting like of post.");
-        	}
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-		finally {
-            VariousFunctions.closeConnection(connection);
-            VariousFunctions.closeStmt(statement);
-        }
-	}
-	
-	@Override
-	public int checkLiked(int userId, int postId) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		int size=0;
-        try {
-    		 connection = factory.getConnection();
-    		 statement = DAOUtil.prepareStatement(connection, SQL_CHECK_LIKE, false, userId, postId);
-    		 resultSet = statement.executeQuery();
-        
-            while (resultSet.next()) {
-            	size = resultSet.getInt("COUNT(*)");
-            }
-        	if(size==1) {
-        		return 1;
-        	}
-        	return 0;
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-        finally {
-            VariousFunctions.closeConnection(connection);
-            VariousFunctions.closeStmt(statement);
-            VariousFunctions.closeResultSet(resultSet);
-        }
-        return -1;
-	}
-	
-	@Override
-	public int countLikes(int postId) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		int size = 0;
-		
-        try {
-             connection = factory.getConnection();
-        	 statement = DAOUtil.prepareStatement(connection, SQL_COUNT_LIKES, false, postId);
-             resultSet = statement.executeQuery();
-        
-            while (resultSet.next()) {
-            	size = resultSet.getInt("COUNT(*)");
-            }
-        } 
-        catch (SQLException e) {
-        	System.err.println(e.getMessage());
-        }
-        finally {
-            VariousFunctions.closeConnection(connection);
-            VariousFunctions.closeStmt(statement);
-            VariousFunctions.closeResultSet(resultSet);
-        }
-
-        return size;
-	}
-	
-	@Override
 	public Post getPost (int id) {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -337,9 +230,20 @@ public class PostDAOImpl implements PostDAO
         post.setHasAudio(resultSet.getByte("hasAudio"));
         post.setHasImages(resultSet.getByte("hasImages"));
         post.setHasVideos(resultSet.getByte("hasVideos"));
-        post.setLikes(resultSet.getInt("likes"));
         UserDAO userDao = new UserDAOImpl(true);
         post.setUser(userDao.find(resultSet.getInt("user_id")));
+        CommentDAO commentDao = new CommentDAOImpl(true);
+        post.setComments(commentDao.findComments(post.getId()));
+        //local variables
+        post.setNoComments(post.getComments().size());
+        post.setDateInterval(VariousFunctions.getDateInterval(post.getDatePosted()));
+        if(post.getPathFiles() != null) {
+        	String folderPath = AESCrypt.decrypt(post.getPathFiles());
+        	VariousFunctions.setFilePathsFromFolders(folderPath,post);
+        }
+        
+        LikeDAO likeDao = new LikeDAOImpl(true);
+        post.setLikes(likeDao.countLikes(post.getId()));
 	    return post;
 	}
 }

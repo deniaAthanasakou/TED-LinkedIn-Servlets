@@ -24,9 +24,6 @@ import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.Job;
 
-/**
- * Servlet implementation class JobHandle
- */
 @WebServlet("/JobHandle")
 public class JobHandle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,16 +47,10 @@ public class JobHandle extends HttpServlet {
 				request.setAttribute("noApplied",noApplied);
 				//get session's jobs
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
-				for(Job job: sessionJobs) {
-					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				}
 				request.setAttribute("sessionJobs", sessionJobs);
 				
 				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
-				for(Job job: connJobs) {
-					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				}
 				request.setAttribute("connJobs", connJobs);
 				
 				//get jobs sorted by most skills
@@ -68,10 +59,7 @@ public class JobHandle extends HttpServlet {
 				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
 				if(skills != null) {
 					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
-					for(Job job: skillJobs) {
-						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
-						
+					for(Job job: skillJobs) {						
 						//compare lists and count differences
 						int differences = 0;
 						for (int i = 0; i < job.getSkillsArray().size(); i++) {
@@ -92,7 +80,6 @@ public class JobHandle extends HttpServlet {
 					for(Job job: skillJobs) {
 						for(Integer key: mapKeys) {
 							if(key == job.getId().getJobId()) {
-								
 								skillJobsList.add(job);
 							}
 						}
@@ -107,11 +94,6 @@ public class JobHandle extends HttpServlet {
 				//get specific job
 				int id = Integer.valueOf( (String) request.getParameter("id"));
 				Job job = dao.findJob(id);
-				job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				job.setEducationLevelStr(VariousFunctions.arrayStrToStr(job.getEducationLevel()));
-				job.setCompanyTypeStr(VariousFunctions.arrayStrToStr(job.getJobCompanyType()));
-				job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
-				job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
 				request.setAttribute("job", job);
 				
 				//check if apply already done
@@ -147,16 +129,10 @@ public class JobHandle extends HttpServlet {
 				//get session's jobs
 				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 				List<Job> sessionJobs = dao.getSessionJobs(userId);
-				for(Job job: sessionJobs) {
-					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				}
 				request.setAttribute("sessionJobs", sessionJobs);
 				
 				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
-				for(Job job: connJobs) {
-					job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				}
 				request.setAttribute("connJobs", connJobs);
 				
 				//get jobs sorted by most skills
@@ -166,9 +142,6 @@ public class JobHandle extends HttpServlet {
 				if(skills != null) {
 					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
 					for(Job job: skillJobs) {
-						job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-						job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
-						
 						//compare lists and count differences
 						int differences = 0;
 						for (int i = 0; i < job.getSkillsArray().size(); i++) {
@@ -203,11 +176,6 @@ public class JobHandle extends HttpServlet {
 				//get specific job
 				int id = Integer.valueOf( (String) request.getParameter("id"));
 				Job job = dao.findJob(id);
-				job.setDateInterval(VariousFunctions.getDateInterval(job.getDatePosted()));
-				job.setEducationLevelStr(VariousFunctions.arrayStrToStr(job.getEducationLevel()));
-				job.setCompanyTypeStr(VariousFunctions.arrayStrToStr(job.getJobCompanyType()));
-				job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
-				job.setSkillsArray(VariousFunctions.strToArray(job.getSkills()));
 				request.setAttribute("job", job);
 				
 				//check if apply already done
@@ -350,11 +318,6 @@ public class JobHandle extends HttpServlet {
 				
 				//find job
 				Job jobUpdated = dao.findJob(id);
-				jobUpdated.setDateInterval(VariousFunctions.getDateInterval(jobUpdated.getDatePosted()));
-				jobUpdated.setEducationLevelStr(VariousFunctions.arrayStrToStr(jobUpdated.getEducationLevel()));
-				jobUpdated.setCompanyTypeStr(VariousFunctions.arrayStrToStr(jobUpdated.getJobCompanyType()));
-				jobUpdated.setJobFunctionStr(VariousFunctions.arrayStrToStr(jobUpdated.getJobFunction()));
-				jobUpdated.setSkillsArray(VariousFunctions.strToArray(jobUpdated.getSkills()));
 				
 				//go to jobItem
 				request.setAttribute("job", jobUpdated);

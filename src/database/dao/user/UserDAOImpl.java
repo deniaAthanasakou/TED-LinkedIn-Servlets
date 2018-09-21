@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.User;
 
 public class UserDAOImpl implements UserDAO 

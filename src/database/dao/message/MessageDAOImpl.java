@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
-import database.dao.ConnectionFactory;
-import database.dao.DAOUtil;
+import database.dao.utils.ConnectionFactory;
+import database.dao.utils.DAOUtil;
 import database.entities.Conversation;
 import database.entities.ConversationPK;
 import database.entities.Message;

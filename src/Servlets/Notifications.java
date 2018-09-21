@@ -15,9 +15,6 @@ import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
 
-/**
- * Servlet implementation class Notifications
- */
 @WebServlet("/Notifications")
 public class Notifications extends HttpServlet {
 	private static final long serialVersionUID = 1L;

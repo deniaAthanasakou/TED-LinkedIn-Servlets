@@ -21,9 +21,6 @@ import database.dao.user.UserDAOImpl;
 import database.entities.Job;
 import database.entities.User;
 
-/**
- * Servlet implementation class JobApplicationHandle
- */
 @WebServlet("/JobApplicationHandle")
 public class JobApplicationHandle extends HttpServlet {
 	private static final long serialVersionUID = 1L;

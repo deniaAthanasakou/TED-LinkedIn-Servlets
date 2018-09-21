@@ -15,9 +15,6 @@ import database.dao.user.UserDAO;
 import database.dao.user.UserDAOImpl;
 import database.entities.User;
 
-/**
- * Servlet implementation class AdminPage
- */
 @WebServlet("/AdminPage")
 public class AdminPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +41,6 @@ public class AdminPage extends HttpServlet {
 		} else if (actionDownload != null) {
 			String[] selectedUserIds = request.getParameterValues("selected");
 			if(selectedUserIds != null) {
-				
 				//get selected users
 				List<User> users = dao.getSelectedUsers(selectedUserIds);
 				//generate xml file
