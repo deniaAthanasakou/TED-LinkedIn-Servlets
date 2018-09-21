@@ -8,7 +8,7 @@
 	<body>
 		<div class="footer">
 			<div class="copyright">
-				<p> Copyright 2018 <b>NetWorkers</b> – All Rights Reserved</p>
+				<p> Copyright 2018 <b>NetWorkers</b> – All Rights Reserved - Antonia Athanasakou - Stefania Patsou </p>
 			</div>
 		</div>
 	

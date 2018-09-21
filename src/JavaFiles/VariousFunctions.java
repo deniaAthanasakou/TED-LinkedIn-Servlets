@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import database.entities.Post;
@@ -117,9 +118,17 @@ public class VariousFunctions {
 	}
 	
 	public static String generateXML(List<User> users) throws IOException {
+		JacksonXmlModule xmlModule = new JacksonXmlModule();
+	    xmlModule.setDefaultUseWrapper(false);
+
 	    XmlMapper xmlMapper = new XmlMapper();
 	    xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-	    return xmlMapper.writeValueAsString(users);
+	    xmlMapper.registerModule(xmlModule);
+	    
+	    Wrapper wrapper = new Wrapper();
+	    wrapper.setUsers(users);
+	    String xml = xmlMapper.writer().writeValueAsString(wrapper).trim();
+	    return xml;
 	}
 	
 	public static String arrayStrToStr(String str) {
