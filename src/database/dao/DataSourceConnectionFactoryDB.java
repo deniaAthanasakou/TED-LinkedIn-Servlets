@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-public class DataSourceConnectionFactory extends ConnectionFactory {
+public class DataSourceConnectionFactoryDB extends ConnectionFactoryCreateDB {
 
 	private DataSource dataSource;
 
-    DataSourceConnectionFactory(DataSource dataSource) {
+	DataSourceConnectionFactoryDB(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

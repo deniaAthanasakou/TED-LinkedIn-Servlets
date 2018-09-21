@@ -15,7 +15,7 @@
 	<body>
 		<div class="post">
 			<div class="info_post" id="info_post">
-				<img class="image_circle_view" alt="thumbnail" src="${post.user.photoURL}">
+				<img class="image_circle_view" alt="thumbnail" src="<c:out value="${post.user.photoURL}" />">
 				<h5><b>${post.user.name} ${post.user.surname}</b></h5>
 				<p style="color:#999999;">${requestScope.post.dateInterval}</p>
 			</div>
@@ -43,12 +43,12 @@
 						<c:forEach items="${post.listImages}" var="image" varStatus="stat"> 
 							<c:if test="${stat.first}">
 								<div class="item active">
-									<img src="${image}" style="width:100%;">
+									<img src="<c:out value="${image}" />" style="width:100%;">
 								</div>
 						    </c:if>
 						    <c:if test="${!stat.first}">
 						        <div class="item">
-									<img src="${image}" style="width:100%;">
+									<img src="<c:out value="${image}" />" style="width:100%;">
 								</div>
 						    </c:if>
 						</c:forEach>
@@ -146,7 +146,7 @@
 					</div>
 				</c:if>
 				<div class="commenterImage">
-	            	<img src="${sessionScope.image}" />
+					<img src="<c:out value="${sessionScope.image}" />">
 	            </div>
 		        <form class="form-inline" role="form" method="POST" id="commentForm" action="${pageContext.request.contextPath}/PostView?action=comment" accept-charset="UTF-8">
 		            <div class="form-group">
@@ -158,10 +158,10 @@
 			        <c:forEach items="${post.comments}" var="comment"> 
 						<li>
 			                <div class="commenterImage">
-			                  <img src="${comment.user.photoURL}" />
+			                	<img src="<c:out value="${comment.user.photoURL}" />">
 			                </div>
 			                <div class="commentText">
-			                    <p class="">${comment.text}</p> <span class="date sub-text">${comment.dateInterval}</span>
+			                    <p class=""><c:out value="${comment.text}"/></p> <span class="date sub-text">${comment.dateInterval}</span>
 			                </div>
 		            	</li>
 					</c:forEach>

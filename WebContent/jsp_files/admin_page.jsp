@@ -49,10 +49,10 @@
 										</div>
 									</td>
 							        <td class="text-center">
-							        	<img class="image_circle" alt="thumbnail" src="${user.photoURL}" style="width:40px;height:40px">
+							        	<img class="image_circle" alt="thumbnail" src="<c:out value="${user.photoURL}"/>" style="width:40px;height:40px">
 									</td>
-							        <td class="text-center">${user.name}</td>
-							        <td class="text-center">${user.surname}</td>
+							        <td class="text-center"><c:out value="${user.name}"/></td>
+							        <td class="text-center"><c:out value="${user.surname}"/></td>
 							        <td class="text-center">
 							        	<button type="submit" name="actionProfile" value="${user.id}" class="btn btn-primary btn-md">Profile <i class="glyphicon glyphicon-chevron-right"></i></button>
 							        </td>

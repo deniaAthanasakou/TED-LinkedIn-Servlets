@@ -44,15 +44,15 @@
 					
 						<div class="form-group">
 							<label for="emailInput">Email address</label>
-							<input type="text" name="email" id="emailInput" placeholder="Email..." class="form-control" value="${user.email}" maxlength="60" required>
+							<input type="text" name="email" id="emailInput" placeholder="Email..." class="form-control" value="<c:out value="${user.email}"/>" maxlength="60" required>
 						</div>
 						<div class="form-group">
 							<label for="passwordInput">Password</label>
-							<input type="password" name="password" id="passwordInput" placeholder="Password..." class="form-control" value="${user.password}" maxlength="70" required>
+							<input type="password" name="password" id="passwordInput" placeholder="Password..." class="form-control" value="<c:out value="${user.password}"/>" maxlength="70" required>
 						</div>
 						<div class="form-group">
 							<label for="passwordVerInput">Password Verification</label>
-							<input type="password" name="password2" id="passwordVerInput" placeholder="Verify password..." class="form-control" value="${user.password}" maxlength="70" required>
+							<input type="password" name="password2" id="passwordVerInput" placeholder="Verify password..." class="form-control" value="<c:out value="${user.password}"/>" maxlength="70" required>
 						</div>
 						
 						<div class="form-group row buttons">

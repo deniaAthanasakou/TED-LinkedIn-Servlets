@@ -74,6 +74,8 @@ public abstract class ConnectionFactory {
 
 	        return instance;
 	    }
+	    
+	    
 
 	    public abstract Connection getConnection() throws SQLException;
 	}

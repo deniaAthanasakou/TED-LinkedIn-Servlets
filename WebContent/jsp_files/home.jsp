@@ -25,9 +25,9 @@
 			<div class="leftdiv">
 				<div class="item_profile" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/profile.jsp'">
 					<div>
-						<img class="image_circle" alt="thumbnail" src="${sessionScope.image}" style="width:80px;height:80px">
+						<img class="image_circle" alt="thumbnail" src="<c:out value="${sessionScope.image}"/>" style="width:80px;height:80px">
 					</div>
-					<h4>${sessionScope.name} ${sessionScope.surname}</h4>
+					<h4><c:out value="${sessionScope.name}"/> <c:out value="${sessionScope.surname}"/></h4>
 				</div>
 				<div class="item_network"  onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/network.jsp'">
 					<p id="connections_number">${requestScope.noConnections}</p>
@@ -37,8 +37,8 @@
 			
 			<div class="create_post">
 				<div class="info_post" id="info_post">
-					<img class="image_circle_view" alt="thumbnail" src="${sessionScope.image}">
-					<h5><b>${sessionScope.name} ${sessionScope.surname}</b></h5>
+					<img class="image_circle_view" alt="thumbnail" src="<c:out value="${sessionScope.image}"/>">
+					<h5><b><c:out value="${sessionScope.name}"/> <c:out value="${sessionScope.surname}"/></b></h5>
 				</div>
 				<div class="loader" id="loader"></div>
 				<div class="form_post" id="form_post">

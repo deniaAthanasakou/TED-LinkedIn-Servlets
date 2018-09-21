@@ -8,13 +8,14 @@ import java.sql.Statement;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import database.dao.ConnectionFactory;
+import database.dao.ConnectionFactoryCreateDB;
 
 @WebListener
 public class HandleDB implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
+		System.out.println("database");
     	//drop,create database and insert
-		/*String s = new String();
+		String s = new String();
         StringBuffer sb = new StringBuffer();
         String relativeWebPath = "/sql";
         String absoluteDiskPath = servletContextEvent.getServletContext().getRealPath(relativeWebPath);
@@ -30,7 +31,7 @@ public class HandleDB implements ServletContextListener{
             // here is our splitter ! We use ";" as a delimiter for each request
             // then we are sure to have well formed statements
             String[] inst = sb.toString().split(";");
-            ConnectionFactory factory = ConnectionFactory.getInstance(true);
+            ConnectionFactoryCreateDB factory = ConnectionFactoryCreateDB.getInstance(false);
             Connection c = factory.getConnection();
             Statement st = c.createStatement();
  
@@ -45,9 +46,7 @@ public class HandleDB implements ServletContextListener{
         }
         catch(Exception e){
             e.printStackTrace();
-        }*/
+        }
     }
 
-	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-	}
 }

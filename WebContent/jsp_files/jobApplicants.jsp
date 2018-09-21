@@ -19,10 +19,10 @@
 					<div class="applicant">
 						<div class="row equal">
 							<div class="col-md-3">
-								<img src="${applicant.photoURL}" width="80px" height="80px" style="border-radius:50%;">
+								<img src="<c:out value="${applicant.photoURL}"/>" width="80px" height="80px" style="border-radius:50%;">
 							</div>
 							<div class="col-md-4">
-								<h3>${applicant.name} ${applicant.surname}</h3>
+								<h3><c:out value="${applicant.name}"/> <c:out value="${applicant.surname}"/></h3>
 							</div>
 							<div class="col-md-5">
 								<input type="hidden" name="userId" value="${applicant.id}">

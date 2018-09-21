@@ -19,9 +19,9 @@
 						<img src="${pageContext.request.contextPath}/images/company-name.png">
 					</div>
 					<div class="col-md-8">
-						<h2>${job.title}</h2>
-						<h3>${job.company}</h3>
-						<h5 style="color:#777777">${job.location}</h5>
+						<h2><c:out value="${job.title}"/></h2>
+						<h3><c:out value="${job.company}"/></h3>
+						<h5 style="color:#777777"><c:out value="${job.location}"/></h5>
 						<p style="color:#ccc">${job.dateInterval}</p>
 					</div>
 				</div>
@@ -66,27 +66,27 @@
 				<div class="row" id="switchContent">
 					<div class="col-md-9">
 						<h3>Job description</h3>
-						<p>${job.description}</p>
+						<p><c:out value="${job.description}"/></p>
 					</div>
 					<div class="col-md-3">
 						<h4 style="padding-bottom:5px;">How you match</h4>
 						<h5 style="text-decoration:underline;">Skills</h5>
 						<ul style="font-size: 15px;color: gray;">
 							<c:forEach items="${job.skillsArray}" var="skill">
-								<li>${skill}</li>
+								<li><c:out value="${skill}"/></li>
 							</c:forEach>
 						</ul>
 						<h5 style="text-decoration:underline;">Education level</h5>
-						<p style="border-bottom: 1px solid #ccc;padding-bottom:10px;font-size: 15px;">${job.educationLevelStr}</p>
+						<p style="border-bottom: 1px solid #ccc;padding-bottom:10px;font-size: 15px;"><c:out value="${job.educationLevelStr}"/></p>
 						<h4 style="padding-bottom:5px;">Job details</h4>
 						<h5 style="text-decoration:underline;">Experience level</h5>
-						<p style="font-size: 15px;">${job.experience}</p>
+						<p style="font-size: 15px;"><c:out value="${job.experience}"/></p>
 						<h5 style="text-decoration:underline;">Company type</h5>
-						<p style="font-size: 15px;">${job.companyTypeStr}</p>
+						<p style="font-size: 15px;"><c:out value="${job.companyTypeStr}"/></p>
 						<h5 style="text-decoration:underline;">Job type</h5>
-						<p style="font-size: 15px;">${job.jobType}</p>
+						<p style="font-size: 15px;"><c:out value="${job.jobType}"/></p>
 						<h5 style="text-decoration:underline;">Job functions</h5>
-						<p style="font-size: 15px;">${job.jobFunctionStr}</p>
+						<p style="font-size: 15px;"><c:out value="${job.jobFunctionStr}"/></p>
 						<h5 style="text-decoration:underline;">Years of experience</h5>
 						<p style="font-size: 15px;">${job.experienceFrom} to ${job.experienceTo}</p>
 						<h5 style="text-decoration:underline;">Daily salary</h5>

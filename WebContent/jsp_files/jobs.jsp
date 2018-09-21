@@ -41,9 +41,9 @@
 								<form method="post" id="mine${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 									<div onclick="document.getElementById('mine${job.id.jobId}').submit();">
 										<img src="${pageContext.request.contextPath}/images/company-name.png">
-										<h3>${job.title}</h3>
-										<h4>${job.company}</h4>
-										<h5>${job.location}</h5>
+										<h3><c:out value="${job.title}"/></h3>
+										<h4><c:out value="${job.copmpany}"/></h4>
+										<h5><c:out value="${job.location}"/></h5>
 										<p>${job.dateInterval}</p>
 									</div>
 								</form>
@@ -63,9 +63,9 @@
 							<form method="post" id="conn${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 								<div onclick="document.getElementById('conn${job.id.jobId}').submit();">
 									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>${job.title}</h3>
-									<h4>${job.company}</h4>
-									<h5>${job.location}</h5>
+									<h3><c:out value="${job.title}"/></h3>
+									<h4><c:out value="${job.copmpany}"/></h4>
+									<h5><c:out value="${job.location}"/></h5>
 									<p>${job.dateInterval}</p>
 								</div>
 							</form>
@@ -85,9 +85,9 @@
 								<form method="post" id="skills${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 									<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
 										<img src="${pageContext.request.contextPath}/images/company-name.png">
-										<h3>${job.title}</h3>
-										<h4>${job.company}</h4>
-										<h5>${job.location}</h5>
+										<h3><c:out value="${job.title}"/></h3>
+										<h4><c:out value="${job.copmpany}"/></h4>
+										<h5><c:out value="${job.location}"/></h5>
 										<p>${job.dateInterval}</p>
 									</div>
 								</form>
@@ -107,9 +107,9 @@
 							<form method="post" id="data${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 								<div onclick="document.getElementById('data${job.id.jobId}').submit();">
 									<img src="${pageContext.request.contextPath}/images/company-name.png">
-									<h3>${job.title}</h3>
-									<h4>${job.company}</h4>
-									<h5>${job.location}</h5>
+									<h3><c:out value="${job.title}"/></h3>
+									<h4><c:out value="${job.copmpany}"/></h4>
+									<h5><c:out value="${job.location}"/></h5>
 									<p>${job.dateInterval}</p>
 								</div>
 							</form>
