@@ -1,6 +1,8 @@
 package database.dao.connection;
 
 import java.util.List;
+
+import database.entities.Connection;
 import database.entities.User;
 
 public interface ConnectionDAO {
@@ -28,4 +30,6 @@ public interface ConnectionDAO {
     public List<User> getConnectionRequestsPending(int user_id);
     
     public User checkConnected(int userId, int sessionId);
+    
+    public List<Connection> findConnections(int userId);
 }

@@ -2,6 +2,12 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,34 +24,45 @@ public class Post implements Serializable {
 	@Id
 	private int id;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_posted")
 	private Date datePosted;
 
+	@JsonIgnore
 	private byte hasAudio;
 
+	@JsonIgnore
 	private byte hasImages;
 
+	@JsonIgnore
 	private byte hasVideos;
 
+	@JsonIgnore
 	@Column(name="path_files")
 	private String pathFiles;
 
 	private String text;
 
 	//bi-directional many-to-one association to Comment
+	@JacksonXmlProperty(localName = "Comment")
+	@JacksonXmlElementWrapper(localName = "Comments")
 	@OneToMany(mappedBy="post")
 	private List<Comment> comments;
 
 	//bi-directional many-to-one association to Like
+	@JacksonXmlProperty(localName = "Like")
+	@JacksonXmlElementWrapper(localName = "Likes")
 	@OneToMany(mappedBy="post")
 	private List<Like> likesSet;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 
 	//bi-directional many-to-many association to User
+	@JsonIgnore
 	@ManyToMany(mappedBy="posts2")
 	private List<User> users;
 
@@ -190,6 +207,7 @@ public class Post implements Serializable {
 		this.noComments = noComments;
 	}
 
+	@JsonIgnore
 	@Transient
 	private String dateInterval;
 
@@ -202,10 +220,18 @@ public class Post implements Serializable {
 	}
 
 
+	@JacksonXmlProperty(localName = "listImage")
+	@JacksonXmlElementWrapper(localName = "listImages")
 	@Transient
 	private List<String> listImages;
+	
+	@JacksonXmlProperty(localName = "listVideo")
+	@JacksonXmlElementWrapper(localName = "listVideos")
 	@Transient
 	private List<String> listVideos;
+	
+	@JacksonXmlProperty(localName = "listAudio")
+	@JacksonXmlElementWrapper(localName = "listAudios")
 	@Transient
 	private List<String> listAudios;
 
@@ -233,6 +259,7 @@ public class Post implements Serializable {
 		this.listAudios = listAudios;
 	}
 
+	@JsonIgnore
 	@Transient
 	private List<String> listAudiosNames;
 
@@ -244,6 +271,7 @@ public class Post implements Serializable {
 		this.listAudiosNames = listAudiosNames;
 	}	
 
+	@JsonIgnore
 	@Transient
 	private int liked;
 
@@ -264,5 +292,16 @@ public class Post implements Serializable {
 
 	public void setLikes(int likes) {
 		this.likes = likes;
+	}
+	
+	@Transient
+	private String pathOfFiles;
+
+	public String getPathOfFiles() {
+		return pathOfFiles;
+	}
+
+	public void setPathOfFiles(String pathOfFiles) {
+		this.pathOfFiles = pathOfFiles;
 	}
 }

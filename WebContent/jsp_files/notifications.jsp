@@ -106,10 +106,10 @@
 			    <div class="likesComments">
 					<c:choose>
 						<c:when test="${requestScope.postNotifications != null && requestScope.postNotifications == 'noPostNotifications'}">
-							<h4>&nbsp; No new Likes & Comments</h4><br>
+							<h4>&nbsp; No new Likes &amp; Comments</h4><br>
 						</c:when>
 						<c:otherwise>
-							<h4>&nbsp; Likes & Comments</h4><br>
+							<h4>&nbsp; Likes &amp; Comments</h4><br>
 						</c:otherwise>
 					</c:choose>
 			        

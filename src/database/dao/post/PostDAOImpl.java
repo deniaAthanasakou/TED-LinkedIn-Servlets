@@ -239,11 +239,13 @@ public class PostDAOImpl implements PostDAO
         post.setDateInterval(VariousFunctions.getDateInterval(post.getDatePosted()));
         if(post.getPathFiles() != null) {
         	String folderPath = AESCrypt.decrypt(post.getPathFiles());
+        	post.setPathOfFiles(folderPath);
         	VariousFunctions.setFilePathsFromFolders(folderPath,post);
         }
         
         LikeDAO likeDao = new LikeDAOImpl(true);
         post.setLikes(likeDao.countLikes(post.getId()));
+        post.setLikesSet(likeDao.getLikesPost(post.getId()));
 	    return post;
 	}
 }

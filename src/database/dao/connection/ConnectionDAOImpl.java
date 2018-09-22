@@ -11,6 +11,7 @@ import java.util.List;
 import JavaFiles.VariousFunctions;
 import database.dao.utils.ConnectionFactory;
 import database.dao.utils.DAOUtil;
+import database.entities.ConnectionPK;
 import database.entities.User;
 
 public class ConnectionDAOImpl implements ConnectionDAO {
@@ -33,6 +34,7 @@ public class ConnectionDAOImpl implements ConnectionDAO {
 	private static final String SQL_UPDATE_CONNECTION_REJECT = "DELETE FROM connection WHERE ((connection.connectedUser_id=? AND connection.user_id=?) OR (connection.user_id=? AND connection.connectedUser_id=?))";
 	private static final String SQL_FIND_CONNECTIONS_PENDING = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, isPending, sentConnectionRequest, prof_exp, education, skills, privateTelephone, privateEmail, privateGender, privateDateOfBirth, privateProfExp, privateSkills, privateEducation, privateCity, privateCountry, workPos, institution, privateWorkPos, privateInstitution FROM User, connection WHERE connection.connectedUser_id=? AND connection.user_id=user.id AND connection.approved=0 ORDER BY dateSent DESC";
 	private static final String SQL_CHECK_CONNECTED = "SELECT id, isAdmin, email, password, name, surname, tel, photoURL, dateOfBirth, gender, city, country, hasImage, isConnected, prof_exp, education, skills, privateEmail, privateDateOfBirth, privateTelephone, privateGender, privateCountry, privateCity, privateProfExp, privateEducation, privateSkills, workPos, institution, privateWorkPos, privateInstitution, isPending, sentConnectionRequest FROM User, Connection WHERE (user_id = ? AND User.id = ?) OR (User.id = ? AND connectedUser_id = ? )";
+	private static final String SQL_FIND_CONNECTIONS = "SELECT user_id, connectedUser_id, approved, dateSent FROM Connection WHERE user_id = ? OR connectedUser_id = ?";
 	
 	private ConnectionFactory factory;
 	
@@ -477,6 +479,33 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         return user;
 	}
 	
+	@Override
+	public List<database.entities.Connection> findConnections(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;		
+		ResultSet resultSet = null;
+		List<database.entities.Connection> connections = new ArrayList<>();
+        try 
+        {
+            connection = factory.getConnection();
+        	statement = DAOUtil.prepareStatement(connection, SQL_FIND_CONNECTIONS, false, userId, userId);
+            resultSet = statement.executeQuery();	
+            while (resultSet.next()) {
+            	connections.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return connections;
+	}
+	
 	private static User mapEverything(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
@@ -514,4 +543,14 @@ public class ConnectionDAOImpl implements ConnectionDAO {
         user.setPrivateInstitution(resultSet.getByte("privateInstitution"));
         return user;
     }
+	
+	private static database.entities.Connection map(ResultSet resultSet) throws SQLException {
+		database.entities.Connection connection = new database.entities.Connection();
+        ConnectionPK pk = new ConnectionPK();
+        pk.setUserId(resultSet.getInt("user_id"));
+        pk.setConnectedUser_id(resultSet.getInt("connectedUser_id"));
+        connection.setId(pk);
+        connection.setDateSent(new java.util.Date(resultSet.getTimestamp("dateSent").getTime()));
+        return connection;
+	}
 }

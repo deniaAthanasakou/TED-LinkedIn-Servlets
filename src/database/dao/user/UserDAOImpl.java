@@ -10,6 +10,16 @@ import java.util.Date;
 import java.util.List;
 
 import JavaFiles.VariousFunctions;
+import database.dao.comment.CommentDAO;
+import database.dao.comment.CommentDAOImpl;
+import database.dao.connection.ConnectionDAO;
+import database.dao.connection.ConnectionDAOImpl;
+import database.dao.job.JobDAO;
+import database.dao.job.JobDAOImpl;
+import database.dao.like.LikeDAO;
+import database.dao.like.LikeDAOImpl;
+import database.dao.post.PostDAO;
+import database.dao.post.PostDAOImpl;
 import database.dao.utils.ConnectionFactory;
 import database.dao.utils.DAOUtil;
 import database.entities.User;
@@ -313,17 +323,18 @@ public class UserDAOImpl implements UserDAO
 		}
 		builder.setCharAt( builder.length() -1, ')');
 		String stmt = SQL_SELECTED_USERS + builder.toString();
-		
+				
 		List<User> users = new ArrayList<>();
+		
 
         try
         {
              connection = factory.getConnection();
-             statement = DAOUtil.prepareStatement(connection, stmt, false, ids);
+             statement = DAOUtil.prepareStatement(connection, stmt, false, (Object[]) ids);
              resultSet = statement.executeQuery();
         
             while (resultSet.next()) {
-                users.add(map(resultSet));
+                users.add(mapForXml(resultSet));
             }
         } 
         catch (SQLException e) {
@@ -509,6 +520,65 @@ public class UserDAOImpl implements UserDAO
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
         user.setPhotoURL(resultSet.getString("photoURL"));
+        return user;
+    }
+	
+	private static User mapForXml(ResultSet resultSet) throws SQLException {
+		User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setIsAdmin(resultSet.getInt("isAdmin"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setTel(resultSet.getString("tel"));
+        user.setPhotoURL(resultSet.getString("photoURL"));
+        user.setDateOfBirth(resultSet.getDate("dateOfBirth"));
+        user.setGender(resultSet.getInt("gender"));
+        user.setCity(resultSet.getString("city"));
+        user.setCountry(resultSet.getString("country"));
+        user.setHasImage(resultSet.getByte("hasImage"));
+        user.setIsConnected(resultSet.getByte("isConnected"));
+        user.setProfExp(resultSet.getString("prof_exp"));
+        user.setEducation(resultSet.getString("education"));
+        user.setSkills(resultSet.getString("skills"));
+        user.setWorkPos(resultSet.getString("workPos"));
+        user.setInstitution(resultSet.getString("institution"));
+        user.setIsPending(resultSet.getByte("isPending"));
+        user.setSentConnectionRequest(resultSet.getByte("sentConnectionRequest"));
+        
+        user.setPrivateCity(resultSet.getByte("privateCity"));
+        user.setPrivateCountry(resultSet.getByte("privateCountry"));
+        user.setPrivateEmail(resultSet.getByte("privateEmail"));
+        user.setPrivateTelephone(resultSet.getByte("privateTelephone"));
+        user.setPrivateGender(resultSet.getByte("privateGender"));
+        user.setPrivateDateOfBirth(resultSet.getByte("privateDateOfBirth"));
+        user.setPrivateProfExp(resultSet.getByte("privateProfExp"));
+        user.setPrivateEducation(resultSet.getByte("privateEducation"));
+        user.setPrivateSkills(resultSet.getByte("privateSkills"));
+        user.setPrivateWorkPos(resultSet.getByte("privateWorkPos"));
+        user.setPrivateInstitution(resultSet.getByte("privateInstitution"));
+        
+        //get user's posts
+        PostDAO postDao = new PostDAOImpl(true);
+        user.setPosts1(postDao.findPosts(user.getId()));
+        
+        //get user's job posts
+        JobDAO jobDao = new JobDAOImpl(true);
+        user.setJobs(jobDao.getSessionJobs(user.getId()));
+        
+        //get user's likes on posts
+        LikeDAO likeDao = new LikeDAOImpl(true);
+        user.setLikes(likeDao.getLikes(user.getId()));
+        
+        //get user's comments
+        CommentDAO commentDao = new CommentDAOImpl(true);
+        user.setComments(commentDao.findCommentsOfUser(user.getId()));
+        
+        //get user's connections
+        ConnectionDAO connectionDao = new ConnectionDAOImpl(true);
+        user.setConnections1(connectionDao.findConnections(user.getId()));
+        
         return user;
     }
 

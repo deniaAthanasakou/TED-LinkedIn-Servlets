@@ -2,6 +2,10 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 
@@ -18,6 +22,7 @@ public class Comment implements Serializable {
 	@Column(name="comment_id")
 	private int commentId;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_posted")
 	private Date datePosted;
@@ -25,10 +30,12 @@ public class Comment implements Serializable {
 	private String text;
 
 	//bi-directional many-to-one association to Post
+	@JsonIgnore
 	@ManyToOne
 	private Post post;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 
@@ -75,6 +82,7 @@ public class Comment implements Serializable {
 		this.user = user;
 	}
 
+	@JsonIgnore
 	@Transient
 	private String dateInterval;
 
@@ -86,4 +94,16 @@ public class Comment implements Serializable {
 		this.dateInterval = dateInterval;
 	}
 
+	@Transient
+	private int postId;
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+	
+	
 }

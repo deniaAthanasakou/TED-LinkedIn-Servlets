@@ -2,6 +2,10 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class Job implements Serializable {
 	@Column(name="daily_salary")
 	private double dailySalary;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_posted")
 	private Date datePosted;
@@ -56,6 +61,7 @@ public class Job implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 
@@ -190,6 +196,7 @@ public class Job implements Serializable {
 		this.user = user;
 	}
 	
+	@JsonIgnore
 	@Transient
 	private String dateInterval;
 
@@ -201,12 +208,15 @@ public class Job implements Serializable {
 		this.dateInterval = dateInterval;
 	}
 
+	@JsonIgnore
 	@Transient
 	private String educationLevelStr;
 
+	@JsonIgnore
 	@Transient
 	private String companyTypeStr;
 
+	@JsonIgnore
 	@Transient
 	private String jobFunctionStr;
 
@@ -234,6 +244,7 @@ public class Job implements Serializable {
 		this.jobFunctionStr = jobFunctionStr;
 	}
 
+	@JsonIgnore
 	@Transient
 	private List<String> skillsArray;
 

@@ -20,6 +20,7 @@
 	overflow-y: auto;
 	border-radius: 5px;
 	border: 1px solid #B6AFAF;
+	overflow-x: hidden;
 }
 
 .likesComments{

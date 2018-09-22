@@ -3,6 +3,11 @@ package database.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +16,7 @@ import java.util.List;
  * The persistent class for the user database table.
  * 
  */
+
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
@@ -23,6 +29,7 @@ public class User implements Serializable {
 
 	private String country;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
@@ -32,14 +39,18 @@ public class User implements Serializable {
 
 	private int gender;
 
+	@JsonIgnore
 	private byte hasImage;
 
 	private String institution;
 
+	@JsonIgnore
 	private int isAdmin;
 
+	@JsonIgnore
 	private byte isConnected;
 
+	@JsonIgnore
 	private byte isPending;
 
 	private String name;
@@ -48,31 +59,43 @@ public class User implements Serializable {
 
 	private String photoURL;
 
+	@JsonIgnore
 	private byte privateCity;
 
+	@JsonIgnore
 	private byte privateCountry;
 
+	@JsonIgnore
 	private byte privateDateOfBirth;
 
+	@JsonIgnore
 	private byte privateEducation;
 
+	@JsonIgnore
 	private byte privateEmail;
 
+	@JsonIgnore
 	private byte privateGender;
 
+	@JsonIgnore
 	private byte privateInstitution;
 
+	@JsonIgnore
 	private byte privateProfExp;
 
+	@JsonIgnore
 	private byte privateSkills;
 
+	@JsonIgnore
 	private byte privateTelephone;
 
+	@JsonIgnore
 	private byte privateWorkPos;
 
 	@Column(name="prof_exp")
 	private String profExp;
 
+	@JsonIgnore
 	private byte sentConnectionRequest;
 
 	private String skills;
@@ -84,10 +107,14 @@ public class User implements Serializable {
 	private String workPos;
 
 	//bi-directional many-to-one association to Comment
+	@JacksonXmlProperty(localName = "Comment")
+	@JacksonXmlElementWrapper(localName = "Comments")
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
 
 	//bi-directional many-to-one association to Connection
+	@JacksonXmlProperty(localName = "Connection")
+	@JacksonXmlElementWrapper(localName = "Connections")
 	@OneToMany(mappedBy="user1")
 	private List<Connection> connections1;
 
@@ -96,14 +123,20 @@ public class User implements Serializable {
 	private List<Connection> connections2;
 
 	//bi-directional many-to-one association to Job
+	@JacksonXmlProperty(localName = "Job")
+	@JacksonXmlElementWrapper(localName = "Jobs")
 	@OneToMany(mappedBy="user")
 	private List<Job> jobs;
 
 	//bi-directional many-to-one association to Like
+	@JacksonXmlProperty(localName = "Like")
+	@JacksonXmlElementWrapper(localName = "Likes")
 	@OneToMany(mappedBy="user")
 	private List<Like> likes;
 
 	//bi-directional many-to-one association to Post
+	@JacksonXmlProperty(localName = "Post")
+	@JacksonXmlElementWrapper(localName = "Posts")
 	@OneToMany(mappedBy="user")
 	private List<Post> posts1;
 
@@ -620,6 +653,7 @@ public class User implements Serializable {
 		this.users4 = users4;
 	}
 	
+	@JsonIgnore
 	@Transient
 	private int postId;
 
@@ -631,6 +665,7 @@ public class User implements Serializable {
 		this.postId = postId;
 	}
 
+	@JsonIgnore
 	@Transient
 	private int isComment;
 

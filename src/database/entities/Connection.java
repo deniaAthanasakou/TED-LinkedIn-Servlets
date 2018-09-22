@@ -2,6 +2,10 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 
@@ -19,15 +23,18 @@ public class Connection implements Serializable {
 
 	private byte approved;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateSent;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user1;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="connectedUser_id")
 	private User user2;

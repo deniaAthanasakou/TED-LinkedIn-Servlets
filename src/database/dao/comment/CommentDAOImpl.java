@@ -21,7 +21,8 @@ public class CommentDAOImpl implements CommentDAO
 	private static final String SQL_INSERT = "INSERT INTO Comment (date_posted, text, post_id, user_id) VALUES (?, ?, ?, ?)";
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Comment";
 	private static final String SQL_FIND_COMMENTS = "SELECT comment_id, text, date_posted, post_id, user_id FROM Comment WHERE post_id = ? ORDER BY date_posted DESC";
-	
+	private static final String SQL_FIND_COMMENTS_OF_USER = "SELECT comment_id, text, date_posted, post_id, user_id FROM Comment WHERE user_id = ? ORDER BY date_posted";
+
     private ConnectionFactory factory;
     
     public CommentDAOImpl(boolean pool)
@@ -163,6 +164,36 @@ public class CommentDAOImpl implements CommentDAO
         return comments;
 	}
 	
+	@Override
+	public List<Comment> findCommentsOfUser(int id) {			//find comments of user
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Comment> comments = new ArrayList<>();
+
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection, SQL_FIND_COMMENTS_OF_USER, false, id);
+            resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	comments.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return comments;
+	}
+	
+	
 	private static Comment map(ResultSet resultSet) throws SQLException {
 		Comment comment = new Comment();
         comment.setCommentId(resultSet.getInt("comment_id"));
@@ -172,6 +203,7 @@ public class CommentDAOImpl implements CommentDAO
         comment.setUser(userDao.find(resultSet.getInt("user_id")));
         //local variables
         comment.setDateInterval(VariousFunctions.getDateInterval(comment.getDatePosted()));
+        comment.setPostId(resultSet.getInt("post_id"));
 	    return comment;
 	}
 }

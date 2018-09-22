@@ -2,6 +2,10 @@ package database.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 
@@ -17,15 +21,18 @@ public class Like implements Serializable {
 	@EmbeddedId
 	private LikePK id;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_liked")
 	private Date dateLiked;
 
 	//bi-directional many-to-one association to Post
+	@JsonIgnore
 	@ManyToOne
 	private Post post;
 
 	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 

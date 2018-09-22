@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import JavaFiles.VariousFunctions;
 import database.dao.utils.ConnectionFactory;
 import database.dao.utils.DAOUtil;
+import database.entities.Like;
+import database.entities.LikePK;
 
 public class LikeDAOImpl implements LikeDAO{
 	
@@ -17,7 +21,9 @@ public class LikeDAOImpl implements LikeDAO{
 	private static final String SQL_DELETE_LIKE = "DELETE FROM ted.like WHERE user_id = ? AND post_id = ?";
 	private static final String SQL_CHECK_LIKE = "SELECT COUNT(*) FROM ted.like WHERE user_id = ? AND post_id = ?";
 	private static final String SQL_COUNT_LIKES = "SELECT COUNT(*) FROM ted.like WHERE post_id = ?";	
-
+	private static final String SQL_GET_LIKES = "SELECT user_id, post_id, date_liked FROM ted.like WHERE user_id = ?";
+	private static final String SQL_GET_LIKES_POST = "SELECT user_id, post_id, date_liked FROM ted.like WHERE post_id = ?";
+	
 	private ConnectionFactory factory;
     
     public LikeDAOImpl(boolean pool)
@@ -130,6 +136,74 @@ public class LikeDAOImpl implements LikeDAO{
         }
 
         return size;
+	}
+
+	@Override
+	public List<Like> getLikes(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Like> likes = new ArrayList<>();
+
+        try
+        {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES,false,userId);
+             resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	likes.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return likes;
+	}
+	
+	@Override
+	public List<Like> getLikesPost(int postId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Like> likes = new ArrayList<>();
+
+        try
+        {
+             connection = factory.getConnection();
+             statement = DAOUtil.prepareStatement(connection,SQL_GET_LIKES_POST,false,postId);
+             resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	likes.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return likes;
+	}
+	
+	private static Like map(ResultSet resultSet) throws SQLException {
+        Like like = new Like();
+        LikePK pk = new LikePK();
+        pk.setUserId(resultSet.getInt("user_id"));
+        pk.setPostId(resultSet.getInt("post_id"));
+        like.setId(pk);
+        like.setDateLiked(new java.util.Date(resultSet.getTimestamp("date_liked").getTime()));
+        return like;
 	}
 
 }
