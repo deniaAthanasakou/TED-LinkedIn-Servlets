@@ -26,8 +26,7 @@ public class PublicNetwork extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//show connnections	of connected user
-		String displayPage="/jsp_files/publicNetwork.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/publicNetwork.jsp";
 
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
 		List<User> ulist = dao.getConnections(user_id);

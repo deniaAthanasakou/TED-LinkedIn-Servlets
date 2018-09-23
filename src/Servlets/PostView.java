@@ -32,8 +32,7 @@ public class PostView extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String displayPage="/jsp_files/postPage.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/postPage.jsp";
 		
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		int post_id=Integer.valueOf((String) request.getParameter("post_id"));
@@ -49,7 +48,6 @@ public class PostView extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("redirect", "null");	
 		
 		//get post id
 		int postId = Integer.valueOf(request.getParameter("post_id"));

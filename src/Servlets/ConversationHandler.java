@@ -2,7 +2,6 @@ package Servlets;
 
 import java.io.IOException;
 import java.util.Date;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +36,7 @@ public class ConversationHandler extends HttpServlet {
 					checkConv = dao.findConversation(sessionId, idClicked);
 				}
 				//display page
-				request.setAttribute("conversation", checkConv);
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
-				displayPage.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/MessageHandler?action=getMessages&user1="+ checkConv.getId().getUserId1() + "&user2=" + checkConv.getId().getUserId2());
 				return;
 			}
 		}

@@ -9,11 +9,6 @@
 		<title>Jobs</title>
 	</head>
 	<body>
-
-		<c:if test="${requestScope.redirectJobs == null}">
-			<jsp:forward page="/JobHandle?action=getJobs" />
-		</c:if>
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">

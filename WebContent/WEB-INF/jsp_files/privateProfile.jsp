@@ -18,18 +18,6 @@
 		
 	</head>
 	<body>
-		
-		<c:set var="user_id" value="${param.id}" />
-		<c:set var="pending" value="${param.pending}" />
-		<c:set var="sentRequest" value="${param.sentRequest}" />
-
-		<c:if test="${requestScope.redirect == null || requestScope.redirect == 'null'}">
-			<jsp:forward page="/PrivateProfile">
-				<jsp:param name="id" value="${user_id}" ></jsp:param>
-				<jsp:param name="pending" value="${pending}" ></jsp:param>
-				<jsp:param name="sentRequest" value="${sentRequest}" ></jsp:param>
-			</jsp:forward>
-		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		

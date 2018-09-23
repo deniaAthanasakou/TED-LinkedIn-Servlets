@@ -105,7 +105,7 @@
 			</div>
 		</div>
 		
-		<jsp:include page="./jsp_files/Footer.jsp" />
+		<jsp:include page="WEB-INF/jsp_files/Footer.jsp" />
 
 	</body>
 </html>

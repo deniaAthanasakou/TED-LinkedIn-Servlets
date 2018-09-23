@@ -28,9 +28,7 @@ public class Network extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//show connections		
-		String displayPage="/jsp_files/network.jsp";
-		request.setAttribute("redirect", "StopLoop");	
-			
+		String displayPage="/WEB-INF/jsp_files/network.jsp";			
 		
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		List<User> ulist = dao.getConnections(user_id);
@@ -62,10 +60,8 @@ public class Network extends HttpServlet {
 		request.setAttribute("fromPrivateProfilePost", "null");
 		
 		String search = request.getParameter("search");
-		String displayPage="/jsp_files/network.jsp";
-		
-		request.setAttribute("redirect", "StopLoop");			
-		
+		String displayPage="/WEB-INF/jsp_files/network.jsp";
+			
 		VariousFunctions vf = new VariousFunctions();   
 		
 		//no input in search

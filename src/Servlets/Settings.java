@@ -27,8 +27,7 @@ public class Settings extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//show credentials
-		String displayPage="/jsp_files/settings.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/settings.jsp";
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		
 		User user = dao.find(user_id);
@@ -41,8 +40,6 @@ public class Settings extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//change credentials
-		request.setAttribute("redirect", "StopLoop");	
-
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
@@ -76,11 +73,8 @@ public class Settings extends HttpServlet {
 		}
 		else {
 			request.setAttribute("correctUpdate", "done");
-		}
-		
+		}	
 		doGet(request, response);
-		
-		
 		
 	}
 

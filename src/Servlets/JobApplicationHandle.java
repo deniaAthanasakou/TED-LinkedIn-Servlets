@@ -58,7 +58,7 @@ public class JobApplicationHandle extends HttpServlet {
 			
 			//check if apply already done
 			request.setAttribute("applied", dao.checkApplied(jobId, userId));
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobItem.jsp");
 			displayPage.forward(request,response);
 			return;
 		}else if(request.getParameter("list") != null) {
@@ -67,7 +67,7 @@ public class JobApplicationHandle extends HttpServlet {
 			int jobId = Integer.valueOf((String) request.getParameter("jobId"));
 			request.setAttribute("applicants", userDao.getJobApplicants(jobId));
 			request.setAttribute("jobId", jobId);
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobApplicants.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobApplicants.jsp");
 			displayPage.forward(request,response);
 			return;
 		}else if(request.getParameter("accept") != null) {
@@ -80,7 +80,7 @@ public class JobApplicationHandle extends HttpServlet {
 			request.setAttribute("applicants", userDao.getJobApplicants(jobId));
 			request.setAttribute("jobId", jobId);
 			request.setAttribute("approved", 1);
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobApplicants.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobApplicants.jsp");
 			displayPage.forward(request,response);
 			return;
 		}else if(request.getParameter("decline") != null) {
@@ -93,7 +93,7 @@ public class JobApplicationHandle extends HttpServlet {
 			dao.declineApplicant(jobId, userId);
 			request.setAttribute("applicants", userDao.getJobApplicants(jobId));
 			request.setAttribute("jobId", jobId);
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobApplicants.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobApplicants.jsp");
 			displayPage.forward(request,response);
 			return;
 		}else {
@@ -105,7 +105,7 @@ public class JobApplicationHandle extends HttpServlet {
 	    	
 	    	//if isConnected
 	    	if(getUser.getIsConnected()==1) {
-	    		String str = request.getContextPath() + "/jsp_files/publicProfile.jsp?id=" + userId;
+	    		String str = request.getContextPath() + "/PublicProfile?id=" + userId;
 	    		response.sendRedirect(str);
 	    		return;
 	    	}else { 
@@ -115,7 +115,7 @@ public class JobApplicationHandle extends HttpServlet {
 	    		}else {
 	    			strPending = "no";
 	    		}
-	    		String str = request.getContextPath() + "/jsp_files/privateProfile.jsp?id=" + userId + "&pending=" + strPending + "&sentRequest=" + getUser.getSentConnectionRequest();
+	    		String str = request.getContextPath() + "/PrivateProfile?id=" + userId + "&pending=" + strPending + "&sentRequest=" + getUser.getSentConnectionRequest();
 	    		response.sendRedirect(str);
 	    		return;
 	    	}

@@ -217,7 +217,7 @@ public class RegisterUser extends HttpServlet {
 				session.setAttribute("surname",newUser.getSurname());
 				session.setAttribute("image",newUser.getPhotoURL());
 				//go to home
-				response.sendRedirect(request.getContextPath() + "/jsp_files/home.jsp");
+				response.sendRedirect(request.getContextPath() + "/PostHandle?action=getPosts");
 			}
 		}
 	}

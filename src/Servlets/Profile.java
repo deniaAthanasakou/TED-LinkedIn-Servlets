@@ -25,8 +25,7 @@ public class Profile extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//show logged-in user's profile
-		String displayPage="/jsp_files/profile.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/profile.jsp";
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 
 		User user=dao.getUserProfile(user_id);
@@ -43,10 +42,10 @@ public class Profile extends HttpServlet {
 		int user_id = 0;
 		if(fromAdminId == null) {
 			user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
-			displayPage="/jsp_files/edit_profile.jsp";
+			displayPage="/WEB-INF/jsp_files/edit_profile.jsp";
 		}else {
 			user_id=Integer.valueOf((String) fromAdminId);
-			displayPage="/jsp_files/edit_profile_admin.jsp";
+			displayPage="/WEB-INF/jsp_files/edit_profile_admin.jsp";
 		}
 		
 		User user=dao.getUserProfile(user_id);

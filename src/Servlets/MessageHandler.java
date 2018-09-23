@@ -61,17 +61,15 @@ public class MessageHandler extends HttpServlet {
 					//get conversation
 					Conversation checkConv = connDAO.findConversation(userId1, userId2);
 					request.setAttribute("conversation", checkConv);
-					request.setAttribute("getSpecific", "get");
 				}else {
 					//just get last message and last conversation
 					if(conversations.size() > 0) {
 						request.setAttribute("conversation", conversations.get(0));
 					}
-					request.setAttribute("getSpecific", "get");
 					request.setAttribute("pressedConversation",0);
 				}
 			}
-			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/messaging.jsp");
 			displayPage.forward(request, response);
 			return;
 		}
@@ -124,11 +122,9 @@ public class MessageHandler extends HttpServlet {
 				request.setAttribute("pressedConversation",i);
 			}
 		}
-		request.setAttribute("getSpecific", "get");
 		
 		//display page
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/messaging.jsp");
-		displayPage.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/MessageHandler?action=getMessages&user1="+ checkConv.getId().getUserId1() + "&user2=" + checkConv.getId().getUserId2());
 		return;
 	}
 

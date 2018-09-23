@@ -6,52 +6,22 @@
 		<meta charset="utf-8">
 		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profile.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/networkNavBar.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">
 			
 		<link href="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.css" rel="stylesheet" />
 		<script src="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.js"></script>				
 
 		<script src="${pageContext.request.contextPath}/js_files/handleImage.js"></script>
-		
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-		<title>User's profile</title>
+		<title>Profile</title>
 		
 		
 	</head>
 	<body>
-
-		<c:set var="user_id" value="${param.id}" />
-		<c:if test="${requestScope.redirect == null || requestScope.redirect == 'null'}">
-			<jsp:forward page="/PublicProfile">
-				<jsp:param name="id" value="${user_id}" ></jsp:param>
-			</jsp:forward>
-		</c:if>
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
-			<div class="container">					
-				<div class="chat">
-					<form action="${pageContext.request.contextPath}/PrivateProfile" method="POST">
-						<input type="hidden" name="id" value="${user.id}">
-						<input type="hidden" name="pending" value="${user.isPending}">
-					    <input type="submit" name="rejectButton" value="Delete connection" class="btn btn-primary deleteFriend btn-lg reject-button"/>
-					</form>
-					<a href="${pageContext.request.contextPath}/ConversationHandler?action=conversation&id=${user_id}" type="button" class="btn btn-primary btn-lg chat-button">Chat</a>
-				</div>
-				
-				<c:if test="${requestScope.msg != null}">
-					<div class="alert alert-success">
-						${requestScope.msg}
-					</div>
-				</c:if>
-				
-				<div class="networkDiv">
-					<a href="${pageContext.request.contextPath}/jsp_files/publicNetwork.jsp?id=${user_id}">Network<i class="material-icons">people</i></a>
-				</div>
-	
-							
+			<div class="container">	
 					<table class="table">
 						<tbody>
 					    	<tr>
@@ -115,11 +85,9 @@
 						    </tr>
 					    </tbody>
 					 </table>
-					
-					 
 					 
 					 <div class="info">
-					 	<div class="row">
+						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
 							  <label>Work position:</label>
 							  <c:choose>
@@ -127,7 +95,7 @@
 					    		<c:otherwise><p><c:out value="${user.workPos}"/></p></c:otherwise>
 					    	 </c:choose>
 							</div>
-						</div>
+						 </div>
 						 <div class="row">
 							 <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
 							  <label>Employment institution:</label>
@@ -166,7 +134,76 @@
 						 </div>
 						
 					</div>
+		
 					
+					<div class="choosePrivate">
+						<label>Public (<span class="glyphicon glyphicon-ok"></span>) and private (<span class="glyphicon glyphicon-remove"></span>) information:</label>
+						<br><br>
+						<p><span class="glyphicon glyphicon-ok"></span> Full name</p>
+						<c:choose>
+				    		<c:when test="${user.privateEmail==1}"><p><span class="glyphicon glyphicon-remove"></span> Email</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Email</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateTelephone==1}"><p><span class="glyphicon glyphicon-remove"></span> Telephone</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Telephone</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateDateOfBirth==1}"><p><span class="glyphicon glyphicon-remove"></span> Date of birth</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Date of birth</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateGender==1}"><p><span class="glyphicon glyphicon-remove"></span> Gender</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Gender</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateCountry==1}"><p><span class="glyphicon glyphicon-remove"></span> Country of residence</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Country of residence</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateCity==1}"><p><span class="glyphicon glyphicon-remove"></span> City of residence</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> City of residence</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateWorkPos==1}"><p><span class="glyphicon glyphicon-remove"></span> Work position</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Work position</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateInstitution==1}"><p><span class="glyphicon glyphicon-remove"></span> Employment institution</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Employment institution</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateProfExp==1}"><p><span class="glyphicon glyphicon-remove"></span> Professional experience</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Professional experience</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateEducation==1}"><p><span class="glyphicon glyphicon-remove"></span> Education</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span>  Education</p></c:otherwise>
+				    	</c:choose>
+				    	
+				    	<c:choose>
+				    		<c:when test="${user.privateSkills==1}"><p><span class="glyphicon glyphicon-remove"></span> Skills</p></c:when>
+				    		<c:otherwise><p><span class="glyphicon glyphicon-ok"></span> Skills</p></c:otherwise>
+				    	</c:choose>
+
+					</div>
+					
+					<form role="Form" method="POST" action="${pageContext.request.contextPath}/Profile" accept-charset="UTF-8">
+						<div class="editDiv row">
+							<div class="col-xs-12 col-md-12 col-lg-12 col-sm-12 ">
+						 		<button type="submit" class="btn btn-primary editButton">Edit</button>
+						 	</div>
+						</div>
+					</form>
 				
 			</div>
 		</div>		

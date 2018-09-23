@@ -25,11 +25,10 @@ public class ListUsers extends HttpServlet {
 		
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getUsers")) {
-				request.setAttribute("redirectList", "StopLoopList");
 				request.setAttribute("users", dao.list());
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/admin_page.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/admin_page.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -39,11 +38,10 @@ public class ListUsers extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getUsers")) {
-				request.setAttribute("redirectList", "StopLoopList");
 				request.setAttribute("users", dao.list());
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/admin_page.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/admin_page.jsp");
 				displayPage.forward(request, response);
 				return;
 			}

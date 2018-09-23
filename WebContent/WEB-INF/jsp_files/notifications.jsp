@@ -13,12 +13,6 @@
 		
 	</head>
 	<body>
-	
-
-		<c:if test="${requestScope.redirect == null}">
-			<jsp:forward page="/Notifications" />
-		</c:if>
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
@@ -47,7 +41,7 @@
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 									<c:set var="pending" value="yes" />
 									<c:set var="sentRequest" value="yes" />
-									<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${sentRequest}" style="text-decoration:none;">
+									<a href="${pageContext.request.contextPath}/PrivateProfile?id=${user.id}&pending=${pending}&sentRequest=${sentRequest}" style="text-decoration:none;">
 								
 									<table class="requestTable">
 								    	<tr>
@@ -118,15 +112,15 @@
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 								<c:set var="pending" value="yes" />
 								<c:set var="sentRequest" value="yes" />
-								<a href="${pageContext.request.contextPath}/jsp_files/postPage.jsp?id=${userPost.postId}" style="text-decoration:none;">
+								<a href="${pageContext.request.contextPath}/PostView?post_id=${userPost.postId}" style="text-decoration:none;">
 							
 									<table class="requestTable">
 							    		<tr>
-								    		<td> <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><img  class="img-circle profileImage" src="<c:out value="${userPost.photoURL}" />"></a></td>
+								    		<td> <a href="${pageContext.request.contextPath}/PublicProfile?id=${userPost.id}"><img  class="img-circle profileImage" src="<c:out value="${userPost.photoURL}" />"></a></td>
 									    	<c:choose>
-									    		<c:when test="${userPost.isComment == 1}"><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> commented on your post</td>
+									    		<c:when test="${userPost.isComment == 1}"><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/PublicProfile?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> commented on your post</td>
 									    		</c:when>
-									    		<c:otherwise><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> liked your post</td>
+									    		<c:otherwise><td class="notificationInfo">User <a href="${pageContext.request.contextPath}/PublicProfile?id=${userPost.id}"><c:out value="${userPost.name}" /> <c:out value="${userPost.surname}" /></a> liked your post</td>
 									    		</c:otherwise>
 									    	</c:choose>
 									    </tr>	

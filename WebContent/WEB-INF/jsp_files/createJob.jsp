@@ -5,17 +5,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/createJob.css" type="text/css">
-		<title>Edit job</title>
-		
-		<script src="${pageContext.request.contextPath}/js_files/setSelected.js"></script>
+		<title>Create job</title>
 	</head>
 	<body>
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="createJobInfo">
-				<form method="post" action="${pageContext.request.contextPath}/JobHandle?action=editJob&jobId=${job.id.jobId}" accept-charset="utf-8">
+				<form method="post" action="${pageContext.request.contextPath}/JobHandle" accept-charset="utf-8">
 					<div class="infoLabel">
 						<h3>Main information</h3>
 					</div>
@@ -25,19 +22,19 @@
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobTitle">Job title</label>
-								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Job title" value="${job.title}" maxlength="60" required>
+								    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Job title" maxlength="60" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobIndustry">Company</label>
-								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Company" value="${job.company}" maxlength="45" required>
+								    <input type="text" class="form-control" id="jobIndustry" name="jobIndustry" placeholder="Company" maxlength="45" required>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 								    <label class="sr-only" for="jobLocation">Location</label>
-								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Location" maxlength="200" value="${job.location}" required>
+								    <input type="text" class="form-control" id="jobLocation" name="jobLocation" placeholder="Location" maxlength="200" required>
 								</div>
 							</div>
 						</div>
@@ -283,7 +280,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="jobDescription">Job description*</label>
-									<textarea class="form-control" rows="3" name="jobDescription" id="jobDescription" maxlength="10000" required>${job.description}</textarea>
+									<textarea class="form-control" rows="3" name="jobDescription" id="jobDescription" maxlength="10000" required></textarea>
 								</div>
 							</div>
 						</div>
@@ -303,7 +300,7 @@
 										</div>
 									</c:if>
 								    <label for="skills">What are some of the skills needed for this job? (Select up to 10)*</label>
-								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Skills..." maxlength="1000" required>${job.skills}</textarea>
+								    <textarea class="form-control" rows="2" name="skills" id="skills" placeholder="Skills..." maxlength="1000" required></textarea>
 								</div>
 							</div>
 						</div>
@@ -320,13 +317,13 @@
 							<div class="col-md-6">
 								<div class="form-group">	
 									<label for="fromYears">What range of relevant experience are you looking for? From*</label>
-									<input type="number" class="form-control" id="fromYears" name="fromYears" value="${job.experienceFrom}" min="0" max="50" required>
+									<input type="number" class="form-control" id="fromYears" name="fromYears" value="0" min="0" max="50" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">	
 									<label for="toYears">To*</label>
-									<input type="number" class="form-control" id="toYears" name="toYears" value="${job.experienceTo}" min="0" max="50" required>
+									<input type="number" class="form-control" id="toYears" name="toYears" value="3" min="0" max="50" required>
 								</div>
 							</div>
 						</div>
@@ -364,29 +361,22 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="dailyMoney">Daily budget in EUR*</label>
-									<input type="number" step=0.01 class="form-control" id="dailyMoney" name="dailyMoney" value="${job.dailySalary}" min="0" required>
+									<input type="number" step=0.01 class="form-control" id="dailyMoney" name="dailyMoney" value="7" min="0" required>
 								</div>
 							</div>
 						</div>
 					</div>
 					
 					<div class="pull-left" style="margin-left:10px;">
-						<button type="button" class="btn btn-danger" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/jobs.jsp'"><i class="glyphicon glyphicon-remove"></i> Cancel</button>
+						<button type="button" class="btn btn-danger" onclick="window.location.href='${pageContext.request.contextPath}/JobHandle?action=getJobs'"><i class="glyphicon glyphicon-remove"></i> Cancel</button>
 						<button type="reset" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Clear</button>
 					</div>
-					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Submit edit</button>
+					<button type="submit" class="btn btn-primary" style="float: right; margin-right:10px;"><i class="glyphicon glyphicon-ok"></i> Submit</button>
 				</form>
 			</div>
 		</div>
 		
 		<jsp:include page="Footer.jsp"/>
-		
-		<script type='text/javascript'>
-			setSelectedEducationLevel("${job.educationLevel}");
-			setSelectedJobFunctions("${job.jobFunction}");
-			setSelectedJobCompanyTypes("${job.jobCompanyType}");
-			setSelectedJobType("${job.jobType}");
-			setSelectedExperience("${job.experience}");
-		</script>
+
 	</body>
 </html>

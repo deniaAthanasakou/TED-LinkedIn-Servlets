@@ -25,8 +25,7 @@ public class PublicProfile extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//show profile of connected user
-		String displayPage="/jsp_files/publicProfile.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/publicProfile.jsp";
 		
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
 		User user=dao.getUserProfile(user_id);

@@ -52,10 +52,10 @@ public class EditProfile extends HttpServlet {
 		String displayPage = null;
 		int user_id = 0;
 		if(fromAdminId == null) {
-			displayPage="/jsp_files/edit_profile.jsp";
+			displayPage="/WEB-INF/jsp_files/edit_profile.jsp";
 			user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
 		}else {
-			displayPage="/jsp_files/edit_profile_admin.jsp";
+			displayPage="/WEB-INF/jsp_files/edit_profile_admin.jsp";
 			user_id=Integer.valueOf((String) fromAdminId);
 		}		
 				

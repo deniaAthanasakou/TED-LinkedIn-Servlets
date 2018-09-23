@@ -10,11 +10,6 @@
 	</head>
 	<body>
 	
-	
-	<c:if test="${requestScope.redirect == null}">
-		<jsp:forward page="/Settings?action=getCredentials" />
-	</c:if>
-	
 	<jsp:include page="Header.jsp" /> 
 	
 	<div class="main">

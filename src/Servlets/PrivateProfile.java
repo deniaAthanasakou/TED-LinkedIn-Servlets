@@ -29,8 +29,7 @@ public class PrivateProfile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//show profile of not-connected user
-		String displayPage="/jsp_files/privateProfile.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/privateProfile.jsp";
 
 		int user_id=Integer.valueOf((String) request.getParameter("id"));
 		String pending=(String) request.getParameter("pending");
@@ -53,11 +52,10 @@ public class PrivateProfile extends HttpServlet {
 		int otherUser=Integer.valueOf((String) request.getParameter("id"));		
 		
 		request.setAttribute("msg", "Your action was completed successfully.");
-		request.setAttribute("redirect", "null");	
 		
 		request.setAttribute("fromPrivateProfilePost", "notnull");
 		
-		String displayPage="/jsp_files/network.jsp";
+		String displayPage="/Network?action=getConnectedUsers";
 		
 		//accept or reject connection
 		if (request.getParameter("rejectButton") != null) {

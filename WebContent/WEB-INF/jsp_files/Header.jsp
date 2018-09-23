@@ -16,7 +16,7 @@
 	<body>
 	<div class="header">
 		<div class="logoContainer">
-			<a href="${pageContext.request.contextPath}/jsp_files/home.jsp" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
+			<a href="${pageContext.request.contextPath}/PostHandle?action=getPosts" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
 		</div>
 		
 		<jsp:include page="NavigationBar.jsp"/>

@@ -11,12 +11,6 @@
 		<title>Network</title>
 	</head>
 	<body>
-	
-		<c:if test="${requestScope.redirect == null || requestScope.redirect == 'null'}">
-			<jsp:forward page="/Network?action=getConnectedUsers" />
-		</c:if>
-	
-	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
@@ -62,7 +56,7 @@
 					</c:if>
 					
 					<c:if test="${requestScope.connectionCompleted != null}">
-						<h3 style="font-family:sansserif;">Connection was completed</h3>
+						<h3 style="font-family:sansserif;">Your request has been sent</h3>
 					</c:if>
 					
 					<c:choose>
@@ -95,7 +89,7 @@
 								</c:if>
 								
 								<!-- create column -->
-								<a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${user.id}">
+								<a href="${pageContext.request.contextPath}/PublicProfile?id=${user.id}">
 						    		<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" >
 									    <table class="myTable">
 									    	<tr>
@@ -137,20 +131,20 @@
 													<c:choose>
 														<c:when test="${user.isPending==1}">
 															<c:set var="pending" value="yes" />
-															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+															<a href="${pageContext.request.contextPath}/PrivateProfile?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
 														</c:when>
 														<c:otherwise>
 															<c:set var="pending" value="no" />
-															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+															<a href="${pageContext.request.contextPath}/PrivateProfile?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
 														</c:otherwise>
 													</c:choose>
 										    	</c:if>
 										    	<c:if test="${user.isConnected==1}">
-										    		<a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${user.id}" style="text-decoration:none;">
+										    		<a href="${pageContext.request.contextPath}/PublicProfile?id=${user.id}" style="text-decoration:none;">
 										    	</c:if>
 											</c:when>
 											<c:otherwise>
-												<a href="${pageContext.request.contextPath}/jsp_files/profile.jsp" style="text-decoration:none;">
+												<a href="${pageContext.request.contextPath}/Profile?action=getUser" style="text-decoration:none;">
 											</c:otherwise>
 										</c:choose>	
 									

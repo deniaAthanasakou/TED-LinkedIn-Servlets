@@ -18,12 +18,6 @@
 	
 		<jsp:include page="Header.jsp" /> 
 		
-		<c:if test="${requestScope.getSpecific == null}">
-			<c:if test="${requestScope.redirect == null}">
-				<jsp:forward page="/MessageHandler?action=getMessages&user1=${conversation.id.userId1}&user2=${conversation.id.userId2}" />
-			</c:if>
-		</c:if>
-		
 		<div class="main">
 			<div class="container">
 				<div class="myContainer">

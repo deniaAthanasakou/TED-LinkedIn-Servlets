@@ -40,7 +40,6 @@ public class JobHandle extends HttpServlet {
 		RequestDispatcher displayPage;
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
-				request.setAttribute("redirectJobs", "StopLoopJobs");
 				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
 				//get session's no of applied jobs
 				int noApplied = jobAppDao.countAppliedJobs(userId);
@@ -86,7 +85,7 @@ public class JobHandle extends HttpServlet {
 					}
 					request.setAttribute("skillJobs",  skillJobsList);
 				}
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("getJob")) {
@@ -98,7 +97,7 @@ public class JobHandle extends HttpServlet {
 				
 				//check if apply already done
 				request.setAttribute("applied", jobAppDao.checkApplied(id, Integer.valueOf((String) request.getSession().getAttribute("id"))));
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobItem.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -106,7 +105,7 @@ public class JobHandle extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
+		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 		
 		request.setCharacterEncoding("UTF-8");
 		
@@ -115,7 +114,7 @@ public class JobHandle extends HttpServlet {
 			int jobId = Integer.valueOf( (String) request.getParameter("edit"));
 			Job job = dao.findJob(jobId);
 			request.setAttribute("job", job);
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 			displayPage.forward(request, response);
 			return;
 		}else if(request.getParameter("apply") != null) {
@@ -124,7 +123,6 @@ public class JobHandle extends HttpServlet {
 		//action get
 		if(request.getParameter("action")!=null) {
 			if(request.getParameter("action").equals("getJobs")) {
-				request.setAttribute("redirectJobs", "StopLoopJobs");
 				
 				//get session's jobs
 				int userId = Integer.valueOf((String) request.getSession().getAttribute("id"));
@@ -168,7 +166,7 @@ public class JobHandle extends HttpServlet {
 					}
 					request.setAttribute("skillJobs",  skillJobsList);
 				}
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("getJob")) {
@@ -180,7 +178,7 @@ public class JobHandle extends HttpServlet {
 				
 				//check if apply already done
 				request.setAttribute("applied", jobAppDao.checkApplied(id, Integer.valueOf((String) request.getSession().getAttribute("id"))));
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobItem.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -200,11 +198,11 @@ public class JobHandle extends HttpServlet {
 					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
-					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 				}
 			}
 			else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/createJob.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 			}
 			displayPage.forward(request, response);
 			return;
@@ -220,11 +218,11 @@ public class JobHandle extends HttpServlet {
 					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
-					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 				}
 			}
 			else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/createJob.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 			}
 			displayPage.forward(request, response);
 			return;
@@ -241,11 +239,11 @@ public class JobHandle extends HttpServlet {
 					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
-					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 				}
 			}
 			else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/createJob.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 			}
 			displayPage.forward(request, response);
 			return;
@@ -259,11 +257,11 @@ public class JobHandle extends HttpServlet {
 					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
-					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 				}
 			}
 			else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/createJob.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 			}
 			displayPage.forward(request, response);
 			return;
@@ -278,11 +276,11 @@ public class JobHandle extends HttpServlet {
 					int id = Integer.valueOf((String) request.getParameter("jobId"));
 					Job getJob = dao.findJob(id);
 					request.setAttribute("job", getJob);
-					displayPage = getServletContext().getRequestDispatcher("/jsp_files/editJob.jsp");
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
 				}
 			}
 			else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/createJob.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 			}
 			displayPage.forward(request, response);
 			return;
@@ -321,7 +319,7 @@ public class JobHandle extends HttpServlet {
 				
 				//go to jobItem
 				request.setAttribute("job", jobUpdated);
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobItem.jsp");
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobItem.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -332,7 +330,7 @@ public class JobHandle extends HttpServlet {
 			//go to jobs
 			List<Job> jobs = dao.list();
 			request.setAttribute("jobs", jobs);
-			displayPage = getServletContext().getRequestDispatcher("/jsp_files/jobs.jsp");
+			displayPage = getServletContext().getRequestDispatcher("/JobHandle?action=getJobs");
 			displayPage.forward(request, response);
 		}
 	}

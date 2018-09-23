@@ -8,12 +8,7 @@
 		<script src="${pageContext.request.contextPath}/js_files/actionCheckboxes.js"></script>
 		<title>Admin Page</title>
 	</head>
-	<body>
-	
-		<c:if test="${requestScope.redirectList == null}">
-			<jsp:forward page="/ListUsers?action=getUsers" />
-		</c:if>
-		
+	<body>		
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">

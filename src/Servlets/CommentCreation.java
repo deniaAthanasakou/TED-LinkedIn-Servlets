@@ -34,7 +34,7 @@ public class CommentCreation extends HttpServlet {
 		
 		if(text == null) {
 			request.setAttribute("commentError", "Your comment is empty.");
-			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+			RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 			displayPage.forward(request, response);
 			return;
 		}
@@ -55,8 +55,7 @@ public class CommentCreation extends HttpServlet {
 		
 		dao.create(comment,userId,postId);
 		
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
-		displayPage.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/PostHandle?action=getPosts");
 	}
 
 }

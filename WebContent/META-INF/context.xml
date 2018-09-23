@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 
-<Context>
+<Context antiResourceLocking="true" path="/LinkedId">
     <Resource
-        name="jdbc/database" type="javax.sql.DataSource"
+        name="jdbc/database" type="javax.sql.DataSource" auth="Container"
         maxActive="100" maxIdle="30" maxWait="10000" 
         url="jdbc:mysql://localhost:3306/ted"
         driverClassName="com.mysql.jdbc.Driver"
         username="ted" password="ted"
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        removeAbandoned="true" removeAbandonedTimeout="60"
     />
 </Context>

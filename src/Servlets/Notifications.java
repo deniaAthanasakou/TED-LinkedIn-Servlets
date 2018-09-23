@@ -28,8 +28,7 @@ public class Notifications extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
-		String displayPage="/jsp_files/notifications.jsp";
-		request.setAttribute("redirect", "StopLoop");	
+		String displayPage="/WEB-INF/jsp_files/notifications.jsp";
 			
 		//get friend requests pending
 		int user_id=Integer.valueOf((String) request.getSession().getAttribute("id"));
@@ -58,7 +57,6 @@ public class Notifications extends HttpServlet {
 		int otherUser=Integer.valueOf((String) request.getParameter("id"));
 				
 		request.setAttribute("msg", "Your action was completed successfully.");
-		request.setAttribute("redirect", "null");	
 		
 		request.setAttribute("fromPrivateProfilePost", "notnull");
 	

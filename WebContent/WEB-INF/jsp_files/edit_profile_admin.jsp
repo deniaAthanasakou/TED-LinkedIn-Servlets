@@ -353,7 +353,7 @@
 					
 					 <div class="form-group row buttons">
 							<div class="col-xs-4 col-md-4 col-lg-4 col-sm-4">
-							 	<input type="reset" class="btn cancel" value="Go to Admin Page" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/admin_page.jsp';">
+							 	<input type="reset" class="btn cancel" value="Go to Admin Page" onclick="window.location.href='${pageContext.request.contextPath}/ListUsers?action=getUsers';">
 							</div>
 							
 							<div class="col-xs-4 col-md-4 col-lg-4 col-sm-4"></div>

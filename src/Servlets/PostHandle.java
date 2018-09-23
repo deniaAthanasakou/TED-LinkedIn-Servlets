@@ -68,7 +68,6 @@ public class PostHandle extends HttpServlet {
 				
 				//get right posts
 				request.setAttribute("posts",userPosts);
-				request.setAttribute("redirectPosts", "StopLoopPosts");
 				
 				//get & set comments & edit post
 				for(Post post: userPosts) {
@@ -80,7 +79,7 @@ public class PostHandle extends HttpServlet {
 				request.setAttribute("noConnections", noConnections);
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("insertLike")) {
@@ -88,7 +87,7 @@ public class PostHandle extends HttpServlet {
 				likeDao.insertLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("deleteLike")) {
@@ -96,7 +95,7 @@ public class PostHandle extends HttpServlet {
 				likeDao.deleteLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -112,7 +111,6 @@ public class PostHandle extends HttpServlet {
 				
 				//get right posts
 				request.setAttribute("posts",userPosts);
-				request.setAttribute("redirectPosts", "StopLoopPosts");
 				
 				//get & set comments & edit post
 				for(Post post: userPosts) {
@@ -124,7 +122,7 @@ public class PostHandle extends HttpServlet {
 				request.setAttribute("noConnections", noConnections);
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/home.jsp");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("insertLike")) {
@@ -132,7 +130,7 @@ public class PostHandle extends HttpServlet {
 				likeDao.insertLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 				displayPage.forward(request, response);
 				return;
 			}else if(request.getParameter("action").equals("deleteLike")) {
@@ -140,13 +138,13 @@ public class PostHandle extends HttpServlet {
 				likeDao.deleteLike(Integer.valueOf((String) request.getSession().getAttribute("id")),Integer.valueOf(request.getParameter("post_id")));
 				
 				//display page
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 				displayPage.forward(request, response);
 				return;
 			}
 		}
 		//display page
-		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+		RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/PostHandle?action=getPosts");
 		
 		ArrayList<FileItem> files = new ArrayList<FileItem>();
 		
@@ -277,7 +275,7 @@ public class PostHandle extends HttpServlet {
 			dao.create(newPost);
 		
 			//go home
-			displayPage.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/PostHandle?action=getPosts");
 		}
 	}
 

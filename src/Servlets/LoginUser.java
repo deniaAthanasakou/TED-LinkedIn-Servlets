@@ -66,13 +66,11 @@ public class LoginUser extends HttpServlet {
 			session.setAttribute("isAdmin",loggedInUser.getIsAdmin());
 			
 			//go to home or admin page
-			RequestDispatcher displayPage;
 			if(loggedInUser.getIsAdmin()==1) {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/admin_page.jsp");
+				response.sendRedirect(request.getContextPath() + "/ListUsers?action=getUsers");
 			}else {
-				displayPage = getServletContext().getRequestDispatcher("/jsp_files/home.jsp");
+				response.sendRedirect(request.getContextPath() + "/PostHandle?action=getPosts");
 			} 
-			displayPage.forward(request, response);
 		}
 		else {
 			request.setAttribute("loginError", "User doesn't exist.");

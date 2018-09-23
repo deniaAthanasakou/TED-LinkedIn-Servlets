@@ -16,14 +16,6 @@
 		<title>User's Network</title>
 	</head>
 	<body>
-	
-	
-		<c:set var="user_id" value="${param.id}" />
-		<c:if test="${requestScope.redirect == null}">
-			<jsp:forward page="/PublicNetwork">
-				<jsp:param name="id" value="${user_id}" ></jsp:param>
-			</jsp:forward>
-		</c:if>
 		
 	
 		<jsp:include page="Header.jsp" /> 
@@ -50,20 +42,20 @@
 										    		<c:choose>
 														<c:when test="${user.isPending==1}">
 															<c:set var="pending" value="yes" />
-															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+															<a href="${pageContext.request.contextPath}/PrivateProfile?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
 														</c:when>
 														<c:otherwise>
 															<c:set var="pending" value="no" />
-															<a href="${pageContext.request.contextPath}/jsp_files/privateProfile.jsp?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
+															<a href="${pageContext.request.contextPath}/PrivateProfile?id=${user.id}&pending=${pending}&sentRequest=${user.sentConnectionRequest}" style="text-decoration:none;">
 														</c:otherwise>
 													</c:choose>
 										    	</c:if>
 										    	<c:if test="${user.isConnected eq 1}">
-										    		<a href="${pageContext.request.contextPath}/jsp_files/publicProfile.jsp?id=${user.id}" style="text-decoration:none;">
+										    		<a href="${pageContext.request.contextPath}/PublicProfile?id=${user.id}" style="text-decoration:none;">
 										    	</c:if>
 											</c:when>
 											<c:otherwise>
-												<a href="${pageContext.request.contextPath}/jsp_files/profile.jsp" style="text-decoration:none;">
+												<a href="${pageContext.request.contextPath}/Profile?action=getUser" style="text-decoration:none;">
 											</c:otherwise>
 										</c:choose>	
 									

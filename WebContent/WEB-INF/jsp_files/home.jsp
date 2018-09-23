@@ -16,21 +16,18 @@
 	
 	</head>
 	<body>
-		<c:if test="${requestScope.redirectPosts == null}">
-			<jsp:forward page="/PostHandle?action=getPosts" />
-		</c:if>
 	
 		<jsp:include page="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="leftdiv">
-				<div class="item_profile" onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/profile.jsp'">
+				<div class="item_profile" onclick="window.location.href='${pageContext.request.contextPath}/Profile?action=getUser'">
 					<div>
 						<img class="image_circle" alt="thumbnail" src="<c:out value="${sessionScope.image}"/>" style="width:80px;height:80px">
 					</div>
 					<h4><c:out value="${sessionScope.name}"/> <c:out value="${sessionScope.surname}"/></h4>
 				</div>
-				<div class="item_network"  onclick="window.location.href='${pageContext.request.contextPath}/jsp_files/network.jsp'">
+				<div class="item_network"  onclick="window.location.href='${pageContext.request.contextPath}/Network?action=getConnectedUsers'">
 					<p id="connections_number">${requestScope.noConnections}</p>
 					<p>Connections</p>
 				</div>
