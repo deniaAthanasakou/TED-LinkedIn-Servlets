@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import JavaFiles.KNNImpl;
 import database.dao.job.JobDAO;
 import database.dao.job.JobDAOImpl;
 import database.dao.jobapplication.JobapplicationDAO;
@@ -45,6 +46,16 @@ public class JobHandle extends HttpServlet {
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				request.setAttribute("connJobs", connJobs);
 				
+				//get jobs depending on data
+				//get all jobs - testSet
+				List<Job> testSet = dao.getTestSet(userId);
+				//get applied jobs - trainingSet
+				List<Job> trainSet = dao.getTrainSet(userId);
+				//calculate KNN jobs
+				@SuppressWarnings("unchecked")
+				List<Job> dataJobs = (List<Job>)(List<?>) KNNImpl.getData(testSet,trainSet,(byte) 0);
+				request.setAttribute("dataJobs", dataJobs);
+				
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
@@ -58,6 +69,10 @@ public class JobHandle extends HttpServlet {
 				//check if apply already done
 				request.setAttribute("applied", jobAppDao.checkApplied(id, Integer.valueOf((String) request.getSession().getAttribute("id"))));
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobItem.jsp");
+				displayPage.forward(request, response);
+				return;
+			}else if(request.getParameter("action").equals("createJob")) {
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
 				displayPage.forward(request, response);
 				return;
 			}
@@ -92,6 +107,16 @@ public class JobHandle extends HttpServlet {
 				//get connections' jobs
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				request.setAttribute("connJobs", connJobs);
+				
+				//get jobs depending on data
+				//get all jobs - testSet
+				List<Job> testSet = dao.getTestSet(userId);
+				//get applied jobs - trainingSet
+				List<Job> trainSet = dao.getTrainSet(userId);
+				//calculate KNN jobs
+				@SuppressWarnings("unchecked")
+				List<Job> dataJobs = (List<Job>)(List<?>) KNNImpl.getData(testSet,trainSet,(byte) 0);
+				request.setAttribute("dataJobs", dataJobs);
 				
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);

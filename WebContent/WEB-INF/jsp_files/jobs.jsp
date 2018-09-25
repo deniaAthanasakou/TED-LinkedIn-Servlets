@@ -19,7 +19,7 @@
 				</div>
 				<div class="newJob">
 					<h4 style="color:#939393;">Looking for talent?</h4>
-					<a href="${pageContext.request.contextPath}/jsp_files/createJob.jsp"><button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Post a job</button></a>
+					<a href="${pageContext.request.contextPath}/JobHandle?action=createJob"><button class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Post a job</button></a>
 				</div>
 			</div>
 			
@@ -74,7 +74,7 @@
 				</div>
 				
 				<div class="jobsSection">
-					<c:forEach items="${jobs}" var="job">
+					<c:forEach items="${dataJobs}" var="job">
 						<div class="jobItem">
 							<form method="post" id="data${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
 								<div onclick="document.getElementById('data${job.id.jobId}').submit();">

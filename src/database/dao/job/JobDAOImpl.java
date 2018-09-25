@@ -22,7 +22,9 @@ public class JobDAOImpl implements JobDAO{
     private static final String SQL_UPDATE = "UPDATE Job SET title = ?, company = ?, location = ?, job_function = ?, job_type = ?, job_company_type = ?, experience = ?, description = ?, skills = ?, experience_from = ?, experience_to = ?, education_level = ?, daily_salary = ?, date_posted = ? WHERE job_id = ?";
     private static final String SQL_FIND_BY_USER_ID = "SELECT job_id, title, company, location, job_function, job_type, job_company_type, experience, description, skills, experience_from, experience_to, education_level, daily_salary, date_posted, user_id FROM Job WHERE user_id=? ORDER BY date_posted DESC";
     private static final String SQL_FIND_JOBS_CONN = "SELECT * FROM Job WHERE Job.user_id IN (SELECT user_id FROM Connection WHERE connectedUser_id = ? UNION SELECT connectedUser_id FROM Connection WHERE user_id = ?) ORDER BY date_posted DESC";
-
+    private static final String SQL_FIND_TESTSET = "SELECT * FROM Job WHERE user_id != ? AND job_id NOT IN (SELECT Job.job_id FROM Jobapplication,Job WHERE Jobapplication.user_id = ? AND Job.job_id = Jobapplication.job_id)";
+    private static final String SQL_FIND_TRAINSET = "SELECT * FROM Job WHERE job_id IN (SELECT Job.job_id FROM Jobapplication,Job WHERE Jobapplication.user_id = ? AND Job.job_id = Jobapplication.job_id)";
+    
     private ConnectionFactory factory;
     
     public JobDAOImpl(boolean pool)
@@ -256,6 +258,66 @@ public class JobDAOImpl implements JobDAO{
         return jobs;
 	}
 	
+	@Override
+	public List<Job> getTestSet(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Job> jobs = new ArrayList<>();
+
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection,SQL_FIND_TESTSET,false,userId,userId);
+        	
+            resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	jobs.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return jobs;
+	}
+
+	@Override
+	public List<Job> getTrainSet(int userId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Job> jobs = new ArrayList<>();
+
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection,SQL_FIND_TRAINSET,false,userId);
+        	
+            resultSet = statement.executeQuery();
+        
+            while (resultSet.next()) {
+            	jobs.add(map(resultSet));
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        return jobs;
+	}
+	
 	private static Job map(ResultSet resultSet) throws SQLException {
 		Job job = new Job();
 		JobPK jobPk = new JobPK();
@@ -284,4 +346,5 @@ public class JobDAOImpl implements JobDAO{
 		job.setJobFunctionStr(VariousFunctions.arrayStrToStr(job.getJobFunction()));
 	    return job;
 	}
+
 }

@@ -20,4 +20,8 @@ public interface JobDAO {
     
     public List<Job> getConnectionsJobs(int userId);
     
+    public List<Job> getTestSet(int userId);
+    
+    public List<Job> getTrainSet(int userId);
+    
 }
