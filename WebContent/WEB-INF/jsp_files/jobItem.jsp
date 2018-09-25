@@ -10,7 +10,7 @@
 	</head>
 	<body>
 	
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="mainInfoDesc">
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		
-		<jsp:include page="Footer.jsp" />
+		<c:import url="Footer.jsp" />
 
 	</body>
 </html>

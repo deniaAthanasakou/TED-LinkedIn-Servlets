@@ -9,7 +9,7 @@
 	</head>
 	<body>
 	
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<h2>Job Applications</h2>
@@ -50,7 +50,7 @@
 			</c:forEach>
 		</div>
 		
-		<jsp:include page="Footer.jsp" /> 
+		<c:import url="Footer.jsp" /> 
 
 	</body>
 </html>

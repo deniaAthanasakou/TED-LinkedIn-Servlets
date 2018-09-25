@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,7 +21,7 @@
 			<a href="${pageContext.request.contextPath}/PostHandle?action=getPosts" class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" class="logo"/></a>
 		</div>
 		
-		<jsp:include page="NavigationBar.jsp"/>
+		<c:import url="NavigationBar.jsp"/>
 	</div> 
 	</body>
 </html>

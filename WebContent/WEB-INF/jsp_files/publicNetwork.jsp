@@ -18,7 +18,7 @@
 	<body>
 		
 	
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="container">
@@ -211,7 +211,7 @@
 		</div>	<!-- main -->
 		
 		
-		<jsp:include page="Footer.jsp" /> 
+		<c:import url="Footer.jsp" /> 
 	
 	</body>
 </html>

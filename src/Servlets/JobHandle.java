@@ -1,12 +1,9 @@
 package Servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,13 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import JavaFiles.VariousFunctions;
 import database.dao.job.JobDAO;
 import database.dao.job.JobDAOImpl;
 import database.dao.jobapplication.JobapplicationDAO;
 import database.dao.jobapplication.JobapplicationDAOImpl;
-import database.dao.user.UserDAO;
-import database.dao.user.UserDAOImpl;
 import database.entities.Job;
 
 @WebServlet("/JobHandle")
@@ -29,7 +23,6 @@ public class JobHandle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private JobDAO dao = new JobDAOImpl(true);
-	private UserDAO userDao = new UserDAOImpl(true);
 	private JobapplicationDAO jobAppDao = new JobapplicationDAOImpl(true);
  
     public JobHandle() {
@@ -52,39 +45,6 @@ public class JobHandle extends HttpServlet {
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				request.setAttribute("connJobs", connJobs);
 				
-				//get jobs sorted by most skills
-				String skills = userDao.getUserSkills(userId);
-				List<Job> skillJobs = dao.list();
-				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
-				if(skills != null) {
-					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
-					for(Job job: skillJobs) {						
-						//compare lists and count differences
-						int differences = 0;
-						for (int i = 0; i < job.getSkillsArray().size(); i++) {
-							for(int j=0;j < skillsUser.size();j++) {
-							    if (!skillsUser.get(j).equalsIgnoreCase(job.getSkillsArray().get(i))) {
-							    	differences++;
-							    }else {
-							    	skillsUser.remove(j);
-							    }
-							}
-						}
-						jobsMap.put(job.getId().getJobId(),differences);
-					}
-					//sort map
-					jobsMap = VariousFunctions.sortMap(jobsMap);
-					List<Job> skillJobsList = new ArrayList<Job>();
-					List<Integer> mapKeys = new ArrayList<Integer>(jobsMap.keySet());
-					for(Job job: skillJobs) {
-						for(Integer key: mapKeys) {
-							if(key == job.getId().getJobId()) {
-								skillJobsList.add(job);
-							}
-						}
-					}
-					request.setAttribute("skillJobs",  skillJobsList);
-				}
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;
@@ -133,39 +93,6 @@ public class JobHandle extends HttpServlet {
 				List<Job> connJobs = dao.getConnectionsJobs(userId);
 				request.setAttribute("connJobs", connJobs);
 				
-				//get jobs sorted by most skills
-				String skills = userDao.getUserSkills(userId);
-				List<Job> skillJobs = dao.list();
-				Map<Integer,Integer> jobsMap = new HashMap<Integer,Integer>();
-				if(skills != null) {
-					List<String> skillsUser = new ArrayList<String>(VariousFunctions.strToArray(skills));
-					for(Job job: skillJobs) {
-						//compare lists and count differences
-						int differences = 0;
-						for (int i = 0; i < job.getSkillsArray().size(); i++) {
-							for(int j=0;j < skillsUser.size();j++) {
-							    if (!skillsUser.get(j).equalsIgnoreCase(job.getSkillsArray().get(i))) {
-							    	differences++;
-							    }else {
-							    	skillsUser.remove(j);
-							    }
-							}
-						}
-						jobsMap.put(job.getId().getJobId(),differences);
-					}
-					//sort map
-					jobsMap = VariousFunctions.sortMap(jobsMap);
-					List<Job> skillJobsList = new ArrayList<Job>();
-					List<Integer> mapKeys = new ArrayList<Integer>(jobsMap.keySet());
-					for(Job job: skillJobs) {
-						for(Integer key: mapKeys) {
-							if(key == job.getId().getJobId()) {
-								skillJobsList.add(job);
-							}
-						}
-					}
-					request.setAttribute("skillJobs",  skillJobsList);
-				}
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
 				displayPage.forward(request, response);
 				return;

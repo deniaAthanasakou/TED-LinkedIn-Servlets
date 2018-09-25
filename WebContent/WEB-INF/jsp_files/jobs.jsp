@@ -9,7 +9,7 @@
 		<title>Jobs</title>
 	</head>
 	<body>
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="createJob">
@@ -68,30 +68,7 @@
 					</c:forEach>
 				</div>
 				
-				<!-- from skills -->
-				<div class="jobsLabel">
-					<h4>Based on skills</h4>
-				</div>
-				
-				<div class="jobsSection">
-					<c:forEach items="${skillJobs}" var="job">
-						<c:if test="${job.id.userId != sessionScope.id }">
-							<div class="jobItem">
-								<form method="post" id="skills${job.id.jobId}" action="${pageContext.request.contextPath}/JobHandle?action=getJob&id=${job.id.jobId}">
-									<div onclick="document.getElementById('skills${job.id.jobId}').submit();">
-										<img src="${pageContext.request.contextPath}/images/company-name.png">
-										<h3><c:out value="${job.title}"/></h3>
-										<h4><c:out value="${job.company}"/></h4>
-										<h5><c:out value="${job.location}"/></h5>
-										<p>${job.dateInterval}</p>
-									</div>
-								</form>
-							</div>
-						</c:if>
-					</c:forEach>
-				</div>
-				
-				<!-- from network -->
+				<!-- from data -->
 				<div class="jobsLabel">
 					<h4>Based on data</h4>
 				</div>
@@ -115,6 +92,6 @@
 			</div>
 		</div>
 		
-		<jsp:include page="Footer.jsp"/>
+		<c:import url="Footer.jsp"/>
 	</body>
 </html>

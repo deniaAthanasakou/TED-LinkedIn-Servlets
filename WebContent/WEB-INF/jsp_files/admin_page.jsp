@@ -9,7 +9,7 @@
 		<title>Admin Page</title>
 	</head>
 	<body>		
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="list_users">
@@ -61,6 +61,6 @@
 			</div>
 		</div>	<!-- main -->
 		
-		<jsp:include page="Footer.jsp"/>
+		<c:import url="Footer.jsp"/>
 	</body>
 </html>

@@ -17,7 +17,7 @@
 	</head>
 	<body>
 	
-		<jsp:include page="Header.jsp" /> 
+		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
 			<div class="leftdiv">
@@ -84,7 +84,7 @@
 			</div>
 		</div>
 		
-		<jsp:include page="Footer.jsp"/>
+		 <c:import url="Footer.jsp"/>
 
 		<script src="${pageContext.request.contextPath}/js_files/displayUploadedFiles.js"></script>
 	</body>
