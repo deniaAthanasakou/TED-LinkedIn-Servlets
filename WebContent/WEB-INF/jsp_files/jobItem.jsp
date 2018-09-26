@@ -37,7 +37,7 @@
 										<button type="submit" class="btn btn-primary btn-lg" name="apply">Αίτηση</button>
 									</c:if>
 									<c:if test="${applied == 1}">
-										<button type="submit" class="btn btn-primary btn-lg disabled">Applied</button>
+										<button type="button" class="btn btn-primary btn-lg disabled">Applied</button>
 									</c:if>
 								</form>
 							</c:when>
