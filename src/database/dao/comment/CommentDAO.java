@@ -15,4 +15,6 @@ public interface CommentDAO {
     public List<Comment> findComments(int id);						//find comments of post
     
     public List<Comment> findCommentsOfUser(int id); 				//get list of comments of a user
+    
+    public int checkCommented(int userId,int postId);
 }

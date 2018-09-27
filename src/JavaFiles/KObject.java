@@ -24,5 +24,6 @@ public class KObject {
 
 	public void setDistance(float distance) {
 		this.distance = distance;
-	}	
+	}
+	
 }

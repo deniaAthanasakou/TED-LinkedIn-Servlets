@@ -52,8 +52,7 @@ public class JobHandle extends HttpServlet {
 				//get applied jobs - trainingSet
 				List<Job> trainSet = dao.getTrainSet(userId);
 				//calculate KNN jobs
-				@SuppressWarnings("unchecked")
-				List<Job> dataJobs = (List<Job>)(List<?>) KNNImpl.getData(testSet,trainSet,(byte) 0);
+				List<Job> dataJobs = KNNImpl.getDataJobs(testSet,trainSet);
 				request.setAttribute("dataJobs", dataJobs);
 				
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");
@@ -114,8 +113,7 @@ public class JobHandle extends HttpServlet {
 				//get applied jobs - trainingSet
 				List<Job> trainSet = dao.getTrainSet(userId);
 				//calculate KNN jobs
-				@SuppressWarnings("unchecked")
-				List<Job> dataJobs = (List<Job>)(List<?>) KNNImpl.getData(testSet,trainSet,(byte) 0);
+				List<Job> dataJobs = KNNImpl.getDataJobs(testSet,trainSet);
 				request.setAttribute("dataJobs", dataJobs);
 				
 				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobs.jsp");

@@ -22,7 +22,8 @@ public class CommentDAOImpl implements CommentDAO
 	private static final String SQL_COUNT = "SELECT COUNT(*) FROM Comment";
 	private static final String SQL_FIND_COMMENTS = "SELECT comment_id, text, date_posted, post_id, user_id FROM Comment WHERE post_id = ? ORDER BY date_posted DESC";
 	private static final String SQL_FIND_COMMENTS_OF_USER = "SELECT comment_id, text, date_posted, post_id, user_id FROM Comment WHERE user_id = ? ORDER BY date_posted";
-
+	private static final String SQL_CHECK_COMMENTED = "SELECT COUNT(*) FROM Comment WHERE user_id = ? AND post_id = ?";
+	
     private ConnectionFactory factory;
     
     public CommentDAOImpl(boolean pool)
@@ -191,6 +192,38 @@ public class CommentDAOImpl implements CommentDAO
         }
 
         return comments;
+	}
+	
+	@Override
+	public int checkCommented(int userId, int postId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		int size = 0;
+        try
+        {
+            connection = factory.getConnection();
+            statement = DAOUtil.prepareStatement(connection,SQL_CHECK_COMMENTED,false,userId,postId);
+            resultSet = statement.executeQuery();
+        
+            if (resultSet.next()) {
+            	size = resultSet.getInt("COUNT(*)");
+            }
+        } 
+        catch (SQLException e) {
+        	System.err.println(e.getMessage());
+        }
+        finally {
+            VariousFunctions.closeConnection(connection);
+            VariousFunctions.closeStmt(statement);
+            VariousFunctions.closeResultSet(resultSet);
+        }
+
+        if(size > 0) {
+        	return 1;
+        }
+        return 0;
 	}
 	
 	

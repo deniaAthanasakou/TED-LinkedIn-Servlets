@@ -23,6 +23,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
 import JavaFiles.AESCrypt;
+import JavaFiles.KNNImpl;
 import database.dao.connection.ConnectionDAO;
 import database.dao.connection.ConnectionDAOImpl;
 import database.dao.like.LikeDAO;
@@ -67,7 +68,9 @@ public class PostHandle extends HttpServlet {
 				List<Post> userPosts = dao.findPosts(userId);
 				
 				//get right posts
-				request.setAttribute("posts",userPosts);
+				//knn for posts
+				List<Post> posts = KNNImpl.getDataPosts(userPosts);
+				request.setAttribute("posts",posts);
 				
 				//get & set comments & edit post
 				for(Post post: userPosts) {
@@ -110,7 +113,9 @@ public class PostHandle extends HttpServlet {
 				List<Post> userPosts = dao.findPosts(userId);
 				
 				//get right posts
-				request.setAttribute("posts",userPosts);
+				//knn for posts
+				List<Post> posts = KNNImpl.getDataPosts(userPosts);
+				request.setAttribute("posts",posts);
 				
 				//get & set comments & edit post
 				for(Post post: userPosts) {
