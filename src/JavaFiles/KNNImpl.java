@@ -131,7 +131,6 @@ public class KNNImpl {
 			int sumCommentsUser = commentDao.findCommentsOfUser(currentUser.getId()).size();
 			double distance = ((sumLikesUser + sumCommentsUser) * 0.7) + (1*0.3);
 			usersWithLikesComm.add(new KObject(currentUser,(float) distance));
-			System.out.println("User: " + currentUser.getId() + " has: " + sumLikesUser + " likes and: " + sumCommentsUser + " comments");
 		}
 		//sort KObjects based on likes+comments DESC
 		Collections.sort(usersWithLikesComm, new Comparator<KObject>(){
@@ -141,11 +140,6 @@ public class KNNImpl {
 		         return o1.getDistance() > o2.getDistance() ? -1 : 1;
 		     }
 		});
-		
-		for(int i=0;i<usersWithLikesComm.size();i++) {
-			System.out.println("KOBJECT: " + ((User)usersWithLikesComm.get(i).getObject()).getId() + " sum:" + usersWithLikesComm.get(i).getDistance());
-		}
-			
 		//get K Objects
 		int kNearest = determineK(usersWithLikesComm.size());
 		return usersWithLikesComm.subList(0,kNearest);
@@ -170,7 +164,7 @@ public class KNNImpl {
 					sum++;
 				}
 			}
-			distances.add(new KObject(post,(float)sum));
+			distances.add(new KObject(post,(float)Math.abs(Math.sqrt(sum))));
 		}
 		//sort KObjects
 		Collections.sort(distances, new Comparator<KObject>(){
@@ -180,10 +174,6 @@ public class KNNImpl {
 		         return o1.getDistance() < o2.getDistance() ? -1 : 1;
 		     }
 		});
-		
-		for(int i=0;i<distances.size();i++) {
-			System.out.println("KOBJECT POST: " + distances.get(i).getDistance());
-		}
 		
 		List<Post> postsSorted = new ArrayList<Post>();
 		for(int i=0;i<distances.size();i++) {
