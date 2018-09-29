@@ -39,7 +39,7 @@ public class UserDAOImpl implements UserDAO
 	private static final String SQL_GET_LIKES_AND_COMMENTS = "SELECT user.id, post.id AS postId, name, surname, photoURL, date_liked AS concatDate, '0' isComment from User, Post, ted.like WHERE (post.user_id=? AND User.id=ted.like.user_id AND User.id!=post.user_id AND ted.like.post_id=post.id AND date_liked >=?) "
 			+ " UNION SELECT user.id, post.id AS postId, name, surname, photoURL, comment.date_posted AS concatDate, '1' isComment from User, post, comment WHERE (post.user_id=? AND User.id=comment.user_id AND User.id!=post.user_id AND comment.post_id=post.id AND comment.date_posted >=?)"
 			+ " ORDER BY concatDate DESC";
-	private static final String SQL_GET_APPLICANTS = "SELECT id, name, surname, photoURL FROM User WHERE id IN (SELECT Jobapplication.user_id FROM Jobapplication WHERE job_id = ?)";
+	private static final String SQL_GET_APPLICANTS = "SELECT id, name, surname, photoURL, approved FROM User,Jobapplication WHERE id IN (SELECT Jobapplication.user_id FROM Jobapplication WHERE job_id = ?) AND id = user_id";
 	private static final String SQL_GET_SKILLS = "SELECT skills FROM User WHERE id = ?";
 	
     private ConnectionFactory factory;
@@ -520,6 +520,7 @@ public class UserDAOImpl implements UserDAO
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
         user.setPhotoURL(resultSet.getString("photoURL"));
+        user.setApproved(resultSet.getInt("approved"));
         return user;
     }
 	

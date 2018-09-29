@@ -88,6 +88,8 @@ audio{
 .commenterImage img {
     width:100%;
     border-radius:50%;
+    width:30px;
+    height: 30px;
 }
 
 .commentText p {

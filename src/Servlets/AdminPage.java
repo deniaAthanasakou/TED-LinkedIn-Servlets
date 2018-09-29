@@ -53,7 +53,7 @@ public class AdminPage extends HttpServlet {
 				out.close();
 			}else {
 				request.setAttribute("noUsersSelected", "You didn't select any users for download.");
-				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/admin_page.jsp");
+				RequestDispatcher displayPage = getServletContext().getRequestDispatcher("/ListUsers?action=getUsers");
 				displayPage.forward(request, response);
 			}
 			return;

@@ -53,7 +53,7 @@
 	    		<c:otherwise>
 	    			<div class="chat">
 						<form action="${pageContext.request.contextPath}/Network" method="POST">
-		    				<input type="hidden" name="userId" value="${user_id}" />
+		    				<input type="hidden" name="userId" value="${user.id}" />
 						    <input class="btn btn-primary btn-lg chat-button" type="submit" name="connect" value="Connect" />
 						</form>
 					</div>

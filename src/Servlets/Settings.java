@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,6 +59,26 @@ public class Settings extends HttpServlet {
 			request.setAttribute("inputError", "Different passwords were given as input.");
 			doGet(request, response);
 			return;
+		}
+		
+		//check user exists
+		if(!email.equals(request.getSession().getAttribute("email"))) {
+			List<User> ulist = dao.list();
+			int flagUserExists=0;
+			if (ulist != null) {
+				for (User user: ulist) {		
+					if(user.getEmail().equals(email)) {
+						flagUserExists=1;
+						break;
+					}		
+				}
+			}
+			
+			if(flagUserExists==1) {
+				request.setAttribute("inputError", "User already exists.");
+				doGet(request, response);
+				return;
+			}
 		}
 		
 		//must update database

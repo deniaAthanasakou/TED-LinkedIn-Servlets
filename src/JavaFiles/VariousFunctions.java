@@ -3,7 +3,7 @@ package JavaFiles;
 import java.io.File;
 
 import java.io.IOException;
-import java.time.YearMonth;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class VariousFunctions {
 	
@@ -50,6 +51,7 @@ public class VariousFunctions {
 		Date d2 = new Date();
 
 		String finalDate = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			//in milliseconds
 			long diff = d2.getTime() - initDate.getTime();
@@ -62,9 +64,9 @@ public class VariousFunctions {
 					if(days >= 7) {
 						long weeks = days / 7;
 						if(weeks >= 4) {
-							YearMonth m1 = YearMonth.from(initDate.toInstant());
-						    YearMonth m2 = YearMonth.from(initDate.toInstant());
-						    long months = m1.until(m2, ChronoUnit.MONTHS) + 1;
+							long months = ChronoUnit.MONTHS.between(
+							        LocalDate.parse(format.format(initDate)).withDayOfMonth(1),
+							        LocalDate.parse(format.format(d2)).withDayOfMonth(1));
 						    finalDate = String.valueOf(months) + "mo";
 						}else {
 							finalDate = String.valueOf(weeks) + "w";

@@ -3,7 +3,9 @@ package JavaFiles;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import database.dao.comment.CommentDAO;
 import database.dao.comment.CommentDAOImpl;
@@ -74,51 +76,54 @@ public class KNNImpl {
 	
 	//get knn neighbors, 0 for jobs, 1 for posts
 	public static List<Job> getDataJobs(List<Job> testSet, List<Job> trainSet){
-		int kNearest = determineK(testSet.size());
-		List<KObject> finalList = new ArrayList<KObject>();
-		for(Job testItem: testSet) {
-			//get all distances for trainSet for specific test item
-			List<KObject> distances = new ArrayList<KObject>();
-			for (int index = 0; index < trainSet.size(); index++) {
-			    KObject distance = getDistanceBetween(testItem, trainSet.get(index));
-			    distances.add(distance);
+		if(trainSet.size() > 0) {
+			int kNearest = determineK(testSet.size());
+			List<KObject> finalList = new ArrayList<KObject>();
+			for(Job testItem: testSet) {
+				//get all distances for trainSet for specific test item
+				List<KObject> distances = new ArrayList<KObject>();
+				for (int index = 0; index < trainSet.size(); index++) {
+				    KObject distance = getDistanceBetween(testItem, trainSet.get(index));
+				    distances.add(distance);
+				}
+				
+				//sort distances
+				Collections.sort(distances, new Comparator<KObject>(){
+				     public int compare(KObject o1, KObject o2){
+				         if(o1.getDistance() == o2.getDistance())
+				             return 0;
+				         return o1.getDistance() < o2.getDistance() ? -1 : 1;
+				     }
+				});
+							
+				//get K shortest distances
+				List<KObject> KDistances = distances.subList(0,kNearest);
+				
+				//get sum of k distances
+				float sum = 0;
+				for(int i=0;i<KDistances.size();i++) {
+					sum += KDistances.get(i).getDistance();
+				}			
+				finalList.add(new KObject(testItem,sum));
 			}
 			
-			//sort distances
-			Collections.sort(distances, new Comparator<KObject>(){
+			
+			//sort finalList
+			Collections.sort(finalList, new Comparator<KObject>(){
 			     public int compare(KObject o1, KObject o2){
 			         if(o1.getDistance() == o2.getDistance())
 			             return 0;
 			         return o1.getDistance() < o2.getDistance() ? -1 : 1;
 			     }
 			});
-						
-			//get K shortest distances
-			List<KObject> KDistances = distances.subList(0,kNearest);
 			
-			//get sum of k distances
-			float sum = 0;
-			for(int i=0;i<KDistances.size();i++) {
-				sum += KDistances.get(i).getDistance();
-			}			
-			finalList.add(new KObject(testItem,sum));
+			List<Job> jobs = new ArrayList<Job>();
+			for(int i=0;i<finalList.size();i++) {
+				jobs.add((Job) finalList.get(i).getObject());
+			}
+			return jobs;
 		}
-		
-		
-		//sort finalList
-		Collections.sort(finalList, new Comparator<KObject>(){
-		     public int compare(KObject o1, KObject o2){
-		         if(o1.getDistance() == o2.getDistance())
-		             return 0;
-		         return o1.getDistance() < o2.getDistance() ? -1 : 1;
-		     }
-		});
-		
-		List<Job> jobs = new ArrayList<Job>();
-		for(int i=0;i<finalList.size();i++) {
-			jobs.add((Job) finalList.get(i).getObject());
-		}
-		return jobs;
+		return testSet;
 	}
 	
 	private static List<KObject> getKNNListUsers(List<Post> posts){
@@ -129,7 +134,7 @@ public class KNNImpl {
 			User currentUser = post.getUser();
 			int sumLikesUser = likeDao.getLikes(currentUser.getId()).size();
 			int sumCommentsUser = commentDao.findCommentsOfUser(currentUser.getId()).size();
-			double distance = ((sumLikesUser + sumCommentsUser) * 0.7) + (1*0.3);
+			double distance = ((sumLikesUser + sumCommentsUser) * 0.7);
 			usersWithLikesComm.add(new KObject(currentUser,(float) distance));
 		}
 		//sort KObjects based on likes+comments DESC
@@ -168,7 +173,14 @@ public class KNNImpl {
 						sum++;
 					}
 				}
-				distances.add(new KObject(post,(float)Math.abs(Math.sqrt(sum))));
+				//get days apart
+				Date d2 = new Date();
+				Date initDate = post.getDatePosted();
+				long days = TimeUnit.DAYS.convert((d2.getTime() - initDate.getTime()), TimeUnit.MILLISECONDS);
+				double dateWeight = (days*0.3);
+				dateWeight = Math.pow(dateWeight,2);
+				float distance = (float) Math.abs(Math.sqrt(sum + dateWeight));
+				distances.add(new KObject(post,distance));
 			}
 			//sort KObjects
 			Collections.sort(distances, new Comparator<KObject>(){

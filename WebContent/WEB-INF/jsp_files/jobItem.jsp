@@ -66,7 +66,7 @@
 				<div class="row" id="switchContent">
 					<div class="col-md-9">
 						<h3>Job description</h3>
-						<p><c:out value="${job.description}"/></p>
+						<p style="word-wrap:break-word;"><c:out value="${job.description}"/></p>
 					</div>
 					<div class="col-md-3">
 						<h4 style="padding-bottom:5px;">How you match</h4>

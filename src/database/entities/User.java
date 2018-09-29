@@ -676,5 +676,17 @@ public class User implements Serializable {
 	public void setIsComment(int isComment) {
 		this.isComment = isComment;
 	}	
+	
+	@JsonIgnore
+	@Transient
+	private int approved;
+
+	public int getApproved() {
+		return approved;
+	}
+
+	public void setApproved(int approved) {
+		this.approved = approved;
+	}	
 
 }

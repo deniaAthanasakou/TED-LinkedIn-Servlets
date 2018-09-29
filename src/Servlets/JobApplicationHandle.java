@@ -79,7 +79,6 @@ public class JobApplicationHandle extends HttpServlet {
 			dao.updateJobApplication(jobId, userId, approved);
 			request.setAttribute("applicants", userDao.getJobApplicants(jobId));
 			request.setAttribute("jobId", jobId);
-			request.setAttribute("approved", 1);
 			displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/jobApplicants.jsp");
 			displayPage.forward(request,response);
 			return;

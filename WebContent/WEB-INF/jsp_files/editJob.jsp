@@ -360,6 +360,11 @@
 					</div>
 					
 					<div class="jobInfoSection">
+						<c:if test="${requestScope.dailyMoneyError != null }">
+							<div class="alert alert-danger">
+								<strong>Error!</strong> ${requestScope.dailyMoneyError}
+							</div>
+						</c:if>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

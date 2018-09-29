@@ -29,7 +29,7 @@
 								<input type="hidden" name="jobId" value="${jobId}">
 								<div class="btn-group btn-group-justified">
 									<c:choose>
-										<c:when test="${approved == 1}">
+										<c:when test="${applicant.approved == 1}">
 											<button type="button" class="btn btn-success disabled"><i class="glyphicon glyphicon-ok-circle"></i> Accepted</button>
 								    	</c:when>
 								    	<c:otherwise>

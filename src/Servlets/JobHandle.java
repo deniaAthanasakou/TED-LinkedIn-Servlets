@@ -235,7 +235,28 @@ public class JobHandle extends HttpServlet {
 			displayPage.forward(request, response);
 			return;
 		}
-		Double dailySalary =  Double.valueOf(request.getParameter("dailyMoney"));
+		
+		Double dailySalary = 0.0;
+		try{
+		  Double.parseDouble(request.getParameter("dailyMoney"));
+		  dailySalary =  Double.valueOf(request.getParameter("dailyMoney"));
+		}
+		catch(NumberFormatException e){
+			request.setAttribute("dailyMoneyError", "Budget was not a number.");
+			if(request.getParameter("action") != null) {
+				if(request.getParameter("action").equals("editJob")) {
+					int id = Integer.valueOf((String) request.getParameter("jobId"));
+					Job getJob = dao.findJob(id);
+					request.setAttribute("job", getJob);
+					displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/editJob.jsp");
+				}
+			}
+			else {
+				displayPage = getServletContext().getRequestDispatcher("/WEB-INF/jsp_files/createJob.jsp");
+			}
+			displayPage.forward(request, response);
+			return;
+		}
 		
 		//get current time
 		Date dNow = new Date();

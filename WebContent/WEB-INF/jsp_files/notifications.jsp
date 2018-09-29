@@ -50,8 +50,8 @@
 													<form action="${pageContext.request.contextPath}/Notifications" method="POST">
 														<input type="hidden" name="id" value="${user.id}">
 														<input type="hidden" name="pending" value="${user.isPending}">
-													    <input type="submit" name="rejectButton" value="Απόρριψη αιτήματος" class="btn btn-primary btn-sm reject-button"/>
-													    <input type="submit" name="acceptButton" value="Αποδοχή αιτήματος"  class="btn btn-primary btn-sm accept-button"/>
+													    <input type="submit" name="rejectButton" value="Reject request" class="btn btn-primary btn-sm reject-button"/>
+													    <input type="submit" name="acceptButton" value="Accept request"  class="btn btn-primary btn-sm accept-button"/>
 													</form>
 												</div>
 								    		</td>

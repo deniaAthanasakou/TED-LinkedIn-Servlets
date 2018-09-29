@@ -13,7 +13,7 @@
 		
 	</head>
 	<body>
-		<div class="post">
+		<div class="post" style="margin-top:100px">
 			<div class="info_post" id="info_post">
 				<img class="image_circle_view" alt="thumbnail" src="<c:out value="${post.user.photoURL}" />">
 				<h5><b>${post.user.name} ${post.user.surname}</b></h5>

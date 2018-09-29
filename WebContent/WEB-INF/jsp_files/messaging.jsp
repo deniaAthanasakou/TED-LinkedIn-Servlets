@@ -114,7 +114,7 @@
 						              <input type="text" name="message" placeholder="Message..." class="form-control" maxlength="3000" disabled/>
 						            </div>
 						            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-						              <button class="btn btn-info btn-block disabled" type="submit">Send</button>
+						              <button class="btn btn-info btn-block disabled" type="button">Send</button>
 						            </div>
 					            </form>
 					          </div>
