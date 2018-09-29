@@ -90,7 +90,7 @@ public class Network extends HttpServlet {
 		else if(splitStr.length==2) { //name and surname were given
 						
 			List<User> users1= dao.searchByNameAndSurname(splitStr[0], splitStr[1],Integer.valueOf((String) request.getSession().getAttribute("id")));
-			List<User> users2= dao.searchByNameAndSurname(splitStr[1], splitStr[0],Integer.valueOf((String) request.getSession().getAttribute("id"))); 	//oposite order
+			List<User> users2= dao.searchByNameAndSurname(splitStr[1], splitStr[0],Integer.valueOf((String) request.getSession().getAttribute("id"))); 	//opposite order
 			users = new ArrayList<>();
 			users.addAll(users1);
 			users.addAll(users2);

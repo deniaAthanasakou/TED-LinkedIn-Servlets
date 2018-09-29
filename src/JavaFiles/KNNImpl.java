@@ -141,7 +141,10 @@ public class KNNImpl {
 		     }
 		});
 		//get K Objects
-		int kNearest = determineK(usersWithLikesComm.size());
+		int kNearest = 0;
+		if(usersWithLikesComm.size()>0) {
+			kNearest = determineK(usersWithLikesComm.size());
+		}
 		return usersWithLikesComm.subList(0,kNearest);
 	}
 	
@@ -150,35 +153,38 @@ public class KNNImpl {
 		CommentDAO commentDao = new CommentDAOImpl(true);
 		List<KObject> listUsers = getKNNListUsers(posts);
 		List<KObject> distances = new ArrayList<KObject>();
-		for(Post post: posts) {
-			int sum = 0;
-			for(KObject object: listUsers) {
-				User user = (User) object.getObject();
-				//find like or comment of user to specific post
-				//check liked
-				int liked = likeDao.checkLiked(user.getId(), post.getId());
-				int commented = commentDao.checkCommented(user.getId(), post.getId());
-				if(liked==1 || commented==1) {
-					sum += 0;
-				}else {
-					sum++;
+		if(listUsers.size() > 0) {
+			for(Post post: posts) {
+				int sum = 0;
+				for(KObject object: listUsers) {
+					User user = (User) object.getObject();
+					//find like or comment of user to specific post
+					//check liked
+					int liked = likeDao.checkLiked(user.getId(), post.getId());
+					int commented = commentDao.checkCommented(user.getId(), post.getId());
+					if(liked==1 || commented==1) {
+						sum += 0;
+					}else {
+						sum++;
+					}
 				}
+				distances.add(new KObject(post,(float)Math.abs(Math.sqrt(sum))));
 			}
-			distances.add(new KObject(post,(float)Math.abs(Math.sqrt(sum))));
+			//sort KObjects
+			Collections.sort(distances, new Comparator<KObject>(){
+			     public int compare(KObject o1, KObject o2){
+			         if(o1.getDistance() == o2.getDistance())
+			             return 0;
+			         return o1.getDistance() < o2.getDistance() ? -1 : 1;
+			     }
+			});
+			
+			List<Post> postsSorted = new ArrayList<Post>();
+			for(int i=0;i<distances.size();i++) {
+				postsSorted.add((Post) distances.get(i).getObject());
+			}
+			return postsSorted;
 		}
-		//sort KObjects
-		Collections.sort(distances, new Comparator<KObject>(){
-		     public int compare(KObject o1, KObject o2){
-		         if(o1.getDistance() == o2.getDistance())
-		             return 0;
-		         return o1.getDistance() < o2.getDistance() ? -1 : 1;
-		     }
-		});
-		
-		List<Post> postsSorted = new ArrayList<Post>();
-		for(int i=0;i<distances.size();i++) {
-			postsSorted.add((Post) distances.get(i).getObject());
-		}
-		return postsSorted;
+		return posts;
 	}
 }
