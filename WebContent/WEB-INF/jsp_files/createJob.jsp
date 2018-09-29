@@ -79,7 +79,7 @@
 									    <option value="Purchasing">Purchasing</option>
 									    <option value="Quality Assurance">Quality Assurance</option>
 									    <option value="Real Estate">Real Estate</option>
-									    <option value="Rersearch">Rersearch</option>
+									    <option value="Research">Research</option>
 									    <option value="Sales">Sales</option>
 									    <option value="Support">Support</option>
 							    	</select>

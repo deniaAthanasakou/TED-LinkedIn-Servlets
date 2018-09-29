@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `ted`.`user` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `ted`.`user` AUTO_INCREMENT = 1;
 
 /*table ted.connection*/
 
@@ -91,6 +92,7 @@ CREATE TABLE IF NOT EXISTS `ted`.`post` (
     ON UPDATE NO ACTION)
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `ted`.`post` AUTO_INCREMENT = 1;
 
 /*table ted.comment*/
 
@@ -114,6 +116,8 @@ CREATE TABLE IF NOT EXISTS `ted`.`comment` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+ALTER TABLE `ted`.`comment` AUTO_INCREMENT = 1;    
+    
 /*table ted.like*/
 
 CREATE TABLE IF NOT EXISTS `ted`.`like` (
@@ -163,6 +167,8 @@ CREATE TABLE IF NOT EXISTS `ted`.`job` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+ALTER TABLE `ted`.`job` AUTO_INCREMENT = 1;       
+    
 /*table ted.jobApplication*/
 
 CREATE TABLE IF NOT EXISTS `ted`.`jobApplication` (
@@ -221,6 +227,8 @@ CREATE TABLE IF NOT EXISTS `ted`.`message` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+ALTER TABLE `ted`.`message` AUTO_INCREMENT = 1;         
+    
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

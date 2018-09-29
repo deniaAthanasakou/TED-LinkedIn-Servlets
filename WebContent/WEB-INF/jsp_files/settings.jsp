@@ -60,16 +60,13 @@
 							<div class="col-xs-4 col-md-4 col-lg-4 col-sm-4">
 							 	<button type="submit" class="btn btn-primary submit">Submit</button>
 							</div>
-							
-						</div>
-						
+						</div>	
 					</form>
 				</div>		
 			</div>	
 		</div>
 	
 	<c:import url="Footer.jsp" /> 
-	
 	
 	</body>
 </html>

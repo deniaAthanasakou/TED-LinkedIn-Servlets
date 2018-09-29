@@ -4,13 +4,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/notifications.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_network.css" type="text/css">			
-
 		<title>Notifications</title>
-		
-		
+	
 	</head>
 	<body>
 		<c:import url="Header.jsp" /> 

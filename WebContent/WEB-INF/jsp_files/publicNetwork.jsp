@@ -4,20 +4,13 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<!-- custom -->
-		<!--<link rel="stylesheet" href="../css_files/main_css.css" type="text/css">
-		<link rel="stylesheet" href="../css_files/user_network.css" type="text/css">-->
-		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_network.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/networkNavBar.css" type="text/css">
-		
-		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>User's Network</title>
 	</head>
 	<body>
-		
-	
+
 		<c:import url="Header.jsp" /> 
 		
 		<div class="main">
@@ -121,8 +114,6 @@
 														<td></td>
 													</c:otherwise>
 												</c:choose>	
-									    		
-									    		
 										    </tr>
 										     <c:choose>
 													<c:when test="${user.id!=sessionScope.id}">
@@ -171,7 +162,6 @@
 															    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 															    	</c:choose>
 																</td>
-														    	
 														    </tr>
 													    </c:if>
 													</c:when>
@@ -191,26 +181,19 @@
 															    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 															    	</c:choose>
 																</td>
-														    	
 														    </tr>
 													</c:otherwise>
 												</c:choose>	
-									
 									    </table> 
 									</a>
-								
 								</div>
 							</div>
 							
-						  </c:forEach>
-	
-				
+						  </c:forEach>	
 				</div> <!-- myContainer -->
-				
 		    </div> <!-- container -->
 		</div>	<!-- main -->
-		
-		
+
 		<c:import url="Footer.jsp" /> 
 	
 	</body>

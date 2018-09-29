@@ -19,7 +19,6 @@
 				
 				<c:set var="post" value="${post}" scope="request"/>
 				<c:import url="PostItemForNotifications.jsp"/>
-			
 			</div>
 		</div>
 		

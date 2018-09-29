@@ -135,10 +135,8 @@
 						<button id="makeComment" type="button" class="btn btn-default" onclick="enableCommentsSection(1)"><i class="glyphicon glyphicon-comment"></i> Comment</button>
 					</form>
 				</c:if>
-				
 			</div>
 			
-		
 			<div class="commentsBox" id="commentsBox" style="display:none;">
 				<c:if test="${requestScope.commentError != null}">
 					<div class="alert alert-danger">
@@ -166,10 +164,7 @@
 		            	</li>
 					</c:forEach>
         		</ul>
-
-    		</div>
-			
-			
+    		</div>	
 		</div>
 	</body>
 </html>

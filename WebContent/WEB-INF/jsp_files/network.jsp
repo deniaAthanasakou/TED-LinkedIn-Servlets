@@ -35,20 +35,12 @@
 						          </button>
 						        </div>
 						      </div>
-						      
-						      
-						    </div>
-						    
-						   <div class="col-xs-3 col-md-3 col-lg-3 col-sm-3"></div> <!-- for alignment purposes -->
-					    
+						    </div>					    
+						   <div class="col-xs-3 col-md-3 col-lg-3 col-sm-3"></div> <!-- for alignment purposes -->				    
 					  </div>
-					</form>
-					
+					</form>	
 				</div>
-				
 				<div class="myContainer">
-				
-
 					<c:if test="${requestScope.msg != null}">
 						<div class="alert alert-success">
 							${requestScope.msg}
@@ -71,11 +63,8 @@
 						</c:when>
 						<c:when test="${requestScope.getUsers == 'usersFromSearch'}">
 							<h2 style="font-family:sansserif;font-weight: bold;">Search Results</h2>
-						</c:when>
-						
+						</c:when>	
 					</c:choose>
-				
-				
 					<c:choose>
 						<c:when test="${requestScope['getUsers'] != 'usersFromSearch'}">
 							<c:set var="count" value="0"/>
@@ -147,10 +136,6 @@
 												<a href="${pageContext.request.contextPath}/Profile?action=getUser" style="text-decoration:none;">
 											</c:otherwise>
 										</c:choose>	
-									
-									
-									
-										
 											<table class="myTable">
 										    	<tr>
 										    		<td rowspan="3"><img  class="img-circle profileImage" src="<c:out value="${user.photoURL}" />"></td>
@@ -209,8 +194,6 @@
 															<td></td>
 														</c:otherwise>
 													</c:choose>	
-										    		
-										    		
 											    </tr>
 											    
 											    <c:choose>
@@ -280,32 +263,20 @@
 															    		<c:otherwise>Employment institution: <c:out value="${user.institution}" /></c:otherwise>
 															    	</c:choose>
 																</td>
-														    	
 														    </tr>
 													</c:otherwise>
 												</c:choose>	
-									
-											    
-											 
 										    </table> 
 										</a>
-									
 									</div>
 								</div>
-								
 							  </c:forEach>
-						    
-						    
 					    </c:otherwise>
-						
 					</c:choose>
-					
-				
 				</div> <!-- myContainer -->
 				
 		    </div> <!-- container -->
 		</div>	<!-- main -->
-		
 		
 		<c:import url="Footer.jsp" /> 
 	

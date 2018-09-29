@@ -4,16 +4,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/main_css.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/user_home.css" type="text/css">
-		
 		<script src="${pageContext.request.contextPath}/js_files/chooseInputs.js"></script>
 		<script src="${pageContext.request.contextPath}/js_files/enableLoading.js"></script>
-		
 		<title>Home</title>
-		
-	
 	</head>
 	<body>
 	

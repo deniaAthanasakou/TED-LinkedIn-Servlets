@@ -6,16 +6,12 @@
 		<meta charset="utf-8">
 		<!-- custom -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profile.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">
-			
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css_files/profileNavBar.css" type="text/css">	
 		<link href="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.css" rel="stylesheet" />
 		<script src="${pageContext.request.contextPath}/bootstrap-formhelpers/bootstrap-formhelpers.min.js"></script>				
-
 		<script src="${pageContext.request.contextPath}/js_files/handleImage.js"></script>
-
 		<title>Profile</title>
-		
-		
+
 	</head>
 	<body>
 		<c:import url="Header.jsp" /> 
